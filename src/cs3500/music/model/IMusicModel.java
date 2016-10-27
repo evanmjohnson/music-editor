@@ -59,4 +59,10 @@ public interface IMusicModel {
    * @param sheet1 the other piece of music to combine with.
    */
   void combineConsecutively(MusicModel sheet1);
+
+  /**
+   * Gets the length of this piece of music.
+   * @return The length of this model
+   */
+  int length();
 }
