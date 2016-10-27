@@ -60,7 +60,11 @@ public class MusicModel implements IMusicModel {
 
   @Override
   public void combineSimultaneously(MusicModel sheet1) {
-
+    for(Map.Entry<Integer,TreeSet<Note>> entry : notes.entrySet()) {
+      for (Note n : entry.getValue()) {
+        sheet1.add(n);
+      }
+    }
   }
 
   @Override
