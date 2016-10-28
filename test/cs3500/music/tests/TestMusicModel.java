@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class TestMusicModel {
 
   IMusicModel model = new MusicModel();
+  IMusicModel model2 = new MusicModel();
   Note middleC = new Note(PitchType.C, 0, 2, 4);
   Note a440 = new Note(PitchType.A, 3, 2, 4);
   Note e5 = new Note(PitchType.E,  3, 1, 5);
@@ -93,5 +94,51 @@ public class TestMusicModel {
   public void testRemoveNotThere() {
     model.add(middleC);
     model.remove(a4);
+  }
+
+  @Test
+  public void testPlayConsecutively() {
+    model.add(middleC);
+    model.add(b3);
+    model2.add(middleC);
+    model2.add(a4);
+    model.playConsecutively(model2);
+    String expected = "   B3   C4   C#4  D4   D#4  E4   F4   F#4  G4   G#4  A4  \n" +
+        " 0  X    X                                               \n" +
+        " 1  |    |                                               \n" +
+        " 2  |                                                    \n" +
+        " 3  |                                                    \n" +
+        " 4       X                                               \n" +
+        " 5       |                                               \n" +
+        " 6                                                    X  \n" +
+        " 7                                                    |  \n" +
+        " 8                                                    |  \n" +
+        " 9                                                    |  \n";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testPlayConsecutivelyFirstEmpty() {
+    model2.add(middleC);
+    model.playConsecutively(model2);
+    String expected = "  C4  \n" +
+        "0  X  \n" +
+        "1  |  ";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testPlayConsecutivelySecondEmpty() {
+    model.add(middleC);
+    model.playConsecutively(model2);
+    String expected = "  C4  \n" +
+        "0  X  \n" +
+        "1  |  ";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testPlayConsecutivelyBothEmpty() {
+
   }
 }
