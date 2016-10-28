@@ -1,9 +1,10 @@
 package cs3500.music.model;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Represents a piece of music that can be manipulated.
@@ -12,11 +13,19 @@ import java.util.TreeSet;
 public class MusicModel implements IMusicModel {
 
   private TreeMap<Integer, TreeSet<Note>> notes;
+  private List<Note> lowestToHighest;
 
   public MusicModel() {
     this.notes = new TreeMap<>();
+    this.lowestToHighest = new ArrayList<Note>();
   }
 
+  /**
+   * Adds the given Note to this model. If there is already a Note sustained at the same Pitch and
+   * octave at the starting beat of the given Note, override that Note for the duration of the
+   * given Note.
+   * @param n The Note to add
+   */
   @Override
   public void add(Note n) {
     for (int i = n.getStartBeat(); i < n.getStartBeat() + n.getDuration(); i++) {
@@ -50,7 +59,37 @@ public class MusicModel implements IMusicModel {
   @Override
   public String getState() {
     StringBuilder sb = new StringBuilder();
-    sb.append(this.printFirstRow());
+    int totalDigits = new Integer(this.length()).toString().length();
+    sb.append(this.printFirstRow() + "\n");
+    for (int i = 0; i <= notes.lastKey(); i++) {
+      int digits = new Integer(i).toString().length();
+      for (int j = digits; j <= totalDigits - digits; j++) {
+        sb.append(" ");
+      }
+      sb.append(i);
+      TreeSet<Note> set;
+      try {
+        set = notes.get(i);
+      }
+      catch (NullPointerException e) {
+        set = new TreeSet<>();
+      }
+      for (Note n : lowestToHighest) {
+        if (this.containsNote(set, n.getPitch(), n.getOctave())) {
+          Note note = set.pollFirst();
+          if (note.getStartBeat() == i) {
+            sb.append("  X  ");
+          }
+          else {
+            sb.append("  |  ");
+          }
+        }
+        else {
+          sb.append("     ");
+        }
+      }
+      sb.append("\n");
+    }
     return sb.toString();
   }
 
@@ -72,6 +111,7 @@ public class MusicModel implements IMusicModel {
         if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder() &&
             pitch.getToneOrder() <= highest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + lowest.getOctave()));
+          this.lowestToHighest.add(new Note(pitch, 0, 0, lowest.getOctave()));
         }
       }
     }
@@ -79,20 +119,43 @@ public class MusicModel implements IMusicModel {
       for (PitchType pitch : PitchType.values()) {
         if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + lowest.getOctave()));
+          this.lowestToHighest.add(new Note(pitch, 0, 0, lowest.getOctave()));
         }
       }
       for (int i = lowest.getOctave() + 1; i < highest.getOctave(); i++) {
         for (PitchType pitch : PitchType.values()) {
           sb.append(this.center(pitch.getToneValue()) + "" + i);
+          this.lowestToHighest.add(new Note(pitch, 0, 0, i));
         }
       }
       for (PitchType pitch : PitchType.values()) {
         if (pitch.getToneOrder() <= highest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + highest.getOctave()));
+          this.lowestToHighest.add(new Note(pitch, 0, 0, highest.getOctave()));
         }
       }
     }
     return sb.toString();
+  }
+
+  /**
+   * Determine whether or not if the given {@code TreeSet<Note>} has a Note with the given Pitch
+   * and octave.
+   * @param set The {@code TreeSet<Note>} to check
+   * @param pitch The Pitch to check against the TreeSet
+   * @param octave The octave to check against the TreeSet
+   * @return If the given TreeSet has a Note with the given Pitch and octave
+   */
+  private boolean containsNote(TreeSet<Note> set, PitchType pitch, int octave) {
+    if (set == null || set.isEmpty()) {
+      return false;
+    }
+    for (Note n : set) {
+      if (n.getPitch() == pitch) {
+        return n.getOctave() == octave;
+      }
+    }
+    return false;
   }
 
   /**
