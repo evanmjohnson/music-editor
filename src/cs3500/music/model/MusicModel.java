@@ -52,8 +52,10 @@ public class MusicModel implements IMusicModel {
       TreeSet<Note> set = entry.getValue();
       if (set.contains(n)) {
         set.remove(n);
+        return;
       }
     }
+    throw new IllegalArgumentException("That Note isn't in this model");
   }
 
   @Override
@@ -124,7 +126,7 @@ public class MusicModel implements IMusicModel {
       }
       for (int i = lowest.getOctave() + 1; i < highest.getOctave(); i++) {
         for (PitchType pitch : PitchType.values()) {
-          sb.append(this.center(pitch.getToneValue()) + "" + i);
+          sb.append(this.center(pitch.getToneValue() + "" + i));
           this.lowestToHighest.add(new Note(pitch, 0, 0, i));
         }
       }
@@ -165,7 +167,9 @@ public class MusicModel implements IMusicModel {
   private Note lowestNote() {
     TreeSet<Note> resultSet = new TreeSet<>();
     for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
-      resultSet.add(entry.getValue().first());
+      if (!entry.getValue().isEmpty()) {
+        resultSet.add(entry.getValue().first());
+      }
     }
     return resultSet.first();
   }
@@ -177,7 +181,9 @@ public class MusicModel implements IMusicModel {
   private Note highestNote() {
     TreeSet<Note> resultSet = new TreeSet<>();
     for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
-      resultSet.add(entry.getValue().last());
+      if (!entry.getValue().isEmpty()) {
+        resultSet.add(entry.getValue().last());
+      }
     }
     return resultSet.last();
   }
