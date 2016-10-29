@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import java.util.List;
+
 /**
  * Represents the model interface of a music editor.
  */
@@ -65,4 +67,20 @@ public interface IMusicModel {
    * @return The length of this model
    */
   int length();
+
+  /**
+   * Return a {@code List<Integer>} of the indicies of the Notes that start at this beat in the
+   * range of Notes in this piece.
+   * @param beat The beat to analyze
+   * @return The List of indicies of Notes that start at the given beat
+   */
+  List<Integer> notesStartAtThisBeat(int beat);
+
+  /**
+   * Return a {@code List<Integer>} of the indicies of the Notes that continue at this beat in the
+   * range of Notes in this piece.
+   * @param beat The beat to analyze
+   * @return The List of indicies of Notes that continue at the given beat
+   */
+  List<Integer> notesContinueAtThisBeat(int beat);
 }
