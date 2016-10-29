@@ -48,18 +48,25 @@ public class MusicModel implements IMusicModel {
 
   @Override
   public void remove(Note n) throws IllegalArgumentException {
+    boolean removed = false;
     for(Map.Entry<Integer,TreeSet<Note>> entry : notes.entrySet()) {
       TreeSet<Note> set = entry.getValue();
       if (set.contains(n)) {
         set.remove(n);
-        return;
+        removed = true;
       }
     }
-    throw new IllegalArgumentException("That Note isn't in this model");
+    if (!removed) {
+      throw new IllegalArgumentException("That Note isn't in this model");
+
+    }
   }
 
   @Override
   public String getState() {
+    if (this.notes.isEmpty()) {
+      return "";
+    }
     StringBuilder sb = new StringBuilder();
     int totalDigits = new Integer(this.length()).toString().length();
     sb.append(this.printFirstRow() + "\n");
@@ -245,6 +252,9 @@ public class MusicModel implements IMusicModel {
 
   @Override
   public int length() {
+    if (notes.isEmpty()) {
+      return 0;
+    }
     return notes.lastKey() + 1;
   }
 }
