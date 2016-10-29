@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import cs3500.music.model.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -235,4 +238,29 @@ public class TestMusicModel {
     model.add(middleC);
     model.replace(a4, a440);
   }
+
+  @Test
+  public void testStartAtThisBeat() {
+    model.add(middleC);
+    model.add(a4);
+    model.add(e5);
+    List<Integer> zeroBeat = new ArrayList<>();
+    zeroBeat.add(0);
+    zeroBeat.add(9);
+    assertEquals(zeroBeat, model.notesStartAtThisBeat(0));
+    assertEquals(new ArrayList<Integer>(), model.notesStartAtThisBeat(1));
+  }
+
+  @Test
+  public void testContinueAtThisBeat() {
+    model.add(middleC);
+    model.add(a4);
+    model.add(e5);
+    List<Integer> oneBeat = new ArrayList<>();
+    oneBeat.add(0);
+    oneBeat.add(9);
+    assertEquals(oneBeat, model.notesContinueAtThisBeat(1));
+    assertEquals(new ArrayList<Integer>(), model.notesContinueAtThisBeat(0));
+  }
+
 }

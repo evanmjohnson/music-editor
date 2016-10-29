@@ -257,4 +257,46 @@ public class MusicModel implements IMusicModel {
     }
     return notes.lastKey() + 1;
   }
+
+  @Override
+  public List<Integer> notesStartAtThisBeat(int beat) {
+    List<Integer> result = new ArrayList<>();
+    TreeSet<Note> set = this.notes.get(beat);
+    if (set.isEmpty()) {
+      return new ArrayList<>();
+    }
+    // this initializes the lowestToHighest List, so we call this method and do nothing with the
+    // result.
+    String dontUse = printFirstRow();
+    for (Note n : lowestToHighest) {
+      for (Note s : set) {
+        if (n.getOctave() == s.getOctave() && n.getPitch() == s.getPitch() &&
+            s.getStartBeat() == beat) {
+          result.add(lowestToHighest.indexOf(n));
+        }
+      }
+    }
+    return result;
+  }
+
+  @Override
+  public List<Integer> notesContinueAtThisBeat(int beat) {
+    List<Integer> result = new ArrayList<>();
+    TreeSet<Note> set = this.notes.get(beat);
+    // this initializes the lowestToHighest List, so we call this method and do nothing with the
+    // result.
+    String dontUse = printFirstRow();
+    if (set.isEmpty()) {
+      return new ArrayList<>();
+    }
+    for (Note n : lowestToHighest) {
+      for (Note s : set) {
+        if (n.getOctave() == s.getOctave() && n.getPitch() == s.getPitch() &&
+            s.getStartBeat() != beat) {
+          result.add(lowestToHighest.indexOf(n));
+        }
+      }
+    }
+    return result;
+  }
 }
