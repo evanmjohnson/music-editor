@@ -90,6 +90,7 @@ public class TestMusicModel {
     assertEquals(expected, model.getState());
   }
 
+  // this test should throw an exception beause you cannot remove a Note that's not in the piece.
   @Test(expected = IllegalArgumentException.class)
   public void testRemoveNotThere() {
     model.add(middleC);
@@ -123,7 +124,7 @@ public class TestMusicModel {
     model.playConsecutively(model2);
     String expected = "  C4  \n" +
         "0  X  \n" +
-        "1  |  ";
+        "1  |  \n";
     assertEquals(expected, model.getState());
   }
 
@@ -133,12 +134,105 @@ public class TestMusicModel {
     model.playConsecutively(model2);
     String expected = "  C4  \n" +
         "0  X  \n" +
-        "1  |  ";
+        "1  |  \n";
     assertEquals(expected, model.getState());
   }
 
   @Test
   public void testPlayConsecutivelyBothEmpty() {
+    model.playConsecutively(model2);
+    assertEquals("", model.getState());
+  }
 
+  @Test
+  public void testPlaySimultaneously() {
+    model.add(middleC);
+    model2.add(middleC);
+    model.playSimultaneously(model2);
+    String expected = "  C4  \n" +
+        "0  X  \n" +
+        "1  |  \n";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testSimultanesouslyNotSameNote() {
+    model.add(middleC);
+    model2.add(a4);
+    model.playConsecutively(model2);
+    String expected = "  C4   C#4  D4   D#4  E4   F4   F#4  G4   G#4  A4  \n" +
+        "0  X                                               \n" +
+        "1  |                                               \n" +
+        "2                                               X  \n" +
+        "3                                               |  \n" +
+        "4                                               |  \n" +
+        "5                                               |  \n";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testPlaySimultaneouslyFirstEmpty() {
+    model2.add(middleC);
+    model.playSimultaneously(model2);
+    String expected = "  C4  \n" +
+        "0  X  \n" +
+        "1  |  \n";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testPlaySimultaneouslySecondEmpty() {
+    model.add(middleC);
+    model.playSimultaneously(model2);
+    String expected = "  C4  \n" +
+        "0  X  \n" +
+        "1  |  \n";
+    assertEquals(expected, model.getState());
+  }
+
+  @Test
+  public void testPlaySimultaneouslyBothEmpty() {
+    model.playSimultaneously(model2);
+    assertEquals("", model.getState());
+  }
+
+  @Test
+  public void testLength() {
+    model.add(middleC);
+    assertEquals(2, model.length());
+    model.add(a4);
+    assertEquals(4, model.length());
+  }
+
+  @Test
+  public void testLengthDuplicateNotes() {
+    model.add(middleC);
+    assertEquals(2, model.length());
+    model.add(middleC);
+    assertEquals(2, model.length());
+  }
+
+  @Test
+  public void testLengthEmpty() {
+    assertEquals(0, model.length());
+  }
+
+  @Test
+  public void testReplace() {
+    model.add(middleC);
+    model.replace(middleC, a4);
+    assertEquals("  A4  \n" +
+        "0  X  \n" +
+        "1  |  \n" +
+        "2  |  \n" +
+        "3  |  \n", model.getState());
+  }
+
+  // this test should throw an exception because it tries to replace a Note that's not in the
+  // piece.
+  @Test(expected = IllegalArgumentException.class)
+  public void testReplaceNotThere() {
+    model.add(middleC);
+    model.replace(a4, a440);
   }
 }
