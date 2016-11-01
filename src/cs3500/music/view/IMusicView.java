@@ -1,17 +1,16 @@
 package cs3500.music.view;
 
+import cs3500.music.model.Note;
+
+import java.util.List;
+
 /**
  * Represents the view interface for the music editor.
  */
 public interface IMusicView {
   /**
-   * Display this view.
+   * Draws the model represented by the given state
+   * @param state The String state of a model to draw
    */
-  void show();
-
-  /**
-   * Sets the measure length of this piece.
-   * @param length The new measure length of this piece
-   */
-  void setMeasureLength(int length);
+  void draw(String state);
 }

@@ -3,25 +3,25 @@ package cs3500.music.view;
 import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicModel;
 
+import java.io.IOException;
+
 /**
  * Represents the view for the music editor outputted to the console.
  * Implements the {@link IMusicView}
  */
 public class ConsoleView implements IMusicView {
+  private final Appendable ap;
 
   public ConsoleView(Appendable ap) {
-    this.ap = ap;
-
-  }
-
-
-  @Override
-  public void show() {
-
+    this.ap = System.out;
   }
 
   @Override
-  public void setMeasureLength(int length) {
-
+  public void draw(String state) {
+    try {
+      ap.append(state);
+    } catch (IOException e) {
+      return;
+    }
   }
 }
