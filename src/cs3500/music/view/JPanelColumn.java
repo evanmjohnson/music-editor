@@ -6,5 +6,9 @@ import javax.swing.*;
  * Represents column panels of every beat in the visual music editor GUI.
  */
 public class JPanelColumn extends JPanel {
+  int beat;
 
+  public JPanelColumn(int beat) {
+    this.beat = beat;
+  }
 }

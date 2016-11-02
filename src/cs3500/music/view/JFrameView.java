@@ -23,9 +23,14 @@ public class JFrameView extends JFrame implements IMusicView {
     setSize(500, 300);
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    JPanel newPanel = new JPanelColumn(model.notesStartAtThisBeat(),
-        model.notesContinueAtThisBeat());
-    this.setLayout(new BoxLayout(newPanel, BoxLayout.X_AXIS));
+//    JPanel newPanel = new JPanelColumn(model.notesStartAtThisBeat(),
+//        model.notesContinueAtThisBeat());
+    JPanel panel = new JPanel();
+    this.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
     this.numBeats = model.getNumBeats();
+    for(int i=0; i <= numBeats; i++) {
+      panel.add(new JPanelColumn(i));
+    }
+    this.add(panel);
   }
 }
