@@ -2,12 +2,13 @@ package cs3500.music.view;
 
 import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicModel;
+import cs3500.music.model.MusicViewModel;
 
 import java.io.IOException;
 
 /**
  * Represents the view for the music editor outputted to the console.
- * Implements the {@link IMusicView}
+ * Implements the {@link IMusicView} interface
  */
 public class ConsoleView implements IMusicView {
   private final Appendable ap;
@@ -17,9 +18,9 @@ public class ConsoleView implements IMusicView {
   }
 
   @Override
-  public void draw(String state) {
+  public void draw(MusicViewModel model) {
     try {
-      ap.append(state);
+      ap.append(model.getState());
     } catch (IOException e) {
       return;
     }

@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
  */
 public interface IMusicView {
   /**
-   * Draws the model represented by the given state
-   * @param state The String state of a model to draw
+   * Draws the state of the given read-only model.
+   * @param model The model to draw
    */
-  void draw(String state);
+  void draw(MusicViewModel model);
 }
