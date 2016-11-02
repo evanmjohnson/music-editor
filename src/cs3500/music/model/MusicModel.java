@@ -299,4 +299,16 @@ public class MusicModel implements IMusicModel {
     }
     return result;
   }
+
+  @Override
+  public int getNumBeats() {
+    int result = 0;
+    ArrayList<Integer> keys = new ArrayList<Integer>(notes.keySet());
+    for(int i = keys.size()-1; i >= 0; i--){
+      if (!notes.get(i).isEmpty()) {
+        return i;
+      }
+    }
+    return result;
+  }
 }
