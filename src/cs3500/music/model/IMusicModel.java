@@ -83,4 +83,10 @@ public interface IMusicModel {
    * @return The List of indicies of Notes that continue at the given beat
    */
   List<Integer> notesContinueAtThisBeat(int beat);
+
+  /**
+   * Get the number of beats in this piece.
+   * @return The number of beats in this piece
+   */
+  int getNumBeats();
 }
