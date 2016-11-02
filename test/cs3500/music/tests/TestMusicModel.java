@@ -263,4 +263,14 @@ public class TestMusicModel {
     assertEquals(new ArrayList<Integer>(), model.notesContinueAtThisBeat(0));
   }
 
+  @Test
+  public void testGetNumBeats() {
+    model.add(middleC);
+    model.add(a4);
+    model.add(e5);
+    assertEquals(3, model.getNumBeats());
+    model.remove(e5);
+    model.remove(a4);
+    assertEquals(1, model.getNumBeats());
+  }
 }
