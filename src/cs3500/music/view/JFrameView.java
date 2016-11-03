@@ -28,23 +28,33 @@ public class JFrameView extends JFrame implements IMusicView {
 //    JPanel newPanel = new JPanelColumn(model.notesStartAtThisBeat(),
 //        model.notesContinueAtThisBeat());
     JPanel notePanel = new JPanel();
-
+    JPanel beatPanel = new JPanel();
     this.setLayout(new BorderLayout());
     notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
     for (Note n : model.getNoteRange()) {
-      notePanel.add(new JLabel(n.toString()));
+      JLabel label = new JLabel(n.toString());
+      label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
+      notePanel.add(label);
       this.add(notePanel, BorderLayout.WEST);
     }
 
+    beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
     this.numBeats = model.getNumBeats();
     for (int i = 0; i <= numBeats; i++) {
-      if (numBeats % 16 == 0) {
-        this.add(new JLabel(Integer.toString(i)), BorderLayout.NORTH);
+      if (i % 16 == 0) {
+        if(i == 0) {
+          beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+
+        }
+        JLabel label = new JLabel(Integer.toString(i));
+        label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
+        beatPanel.add(label);
       } else {
-        this.add(new JLabel(" "), BorderLayout.NORTH);
+        beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
       }
       this.add(new JPanelColumn(i), BorderLayout.CENTER);
     }
+    this.add(beatPanel, BorderLayout.NORTH);
     this.add(notePanel);
     pack();
     this.showMusic();
