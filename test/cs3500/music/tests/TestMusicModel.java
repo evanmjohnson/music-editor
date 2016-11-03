@@ -273,4 +273,11 @@ public class TestMusicModel {
     model.remove(a4);
     assertEquals(1, model.getNumBeats());
   }
+
+  @Test
+  public void testGetNumBeatsBlankBeat() {
+    model.add(middleC);
+    model.add(e5);
+    assertEquals(3, model.getNumBeats());
+  }
 }

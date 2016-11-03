@@ -303,10 +303,10 @@ public class MusicModel implements IMusicModel {
   @Override
   public int getNumBeats() {
     int result = 0;
-    ArrayList<Integer> keys = new ArrayList<Integer>(notes.keySet());
-    for(int i = keys.size()-1; i >= 0; i--){
+    ArrayList<Integer> keys = new ArrayList<>(notes.keySet());
+    for(int i : keys) {
       if (!notes.get(i).isEmpty()) {
-        return i;
+        result = i;
       }
     }
     return result;
