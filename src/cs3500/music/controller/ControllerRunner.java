@@ -14,8 +14,10 @@ public class ControllerRunner {
   public static void main(String[] args) {
     MusicController controller = new MusicController();
     IMusicModel model = new MusicModel();
-    Note middleC = new Note(PitchType.C, 0, 2, 4);
+    Note middleC = new Note(PitchType.C, 0, 17, 4);
     model.add(middleC);
+    Note e5 = new Note(PitchType.E,  3, 1, 5);
+    model.add(e5);
     controller.start(model, "visual");
   }
 }
