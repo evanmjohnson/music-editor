@@ -89,4 +89,10 @@ public interface IMusicModel {
    * @return The number of beats in this piece
    */
   int getNumBeats();
+
+  /**
+   * Returns all the notes within the range for this music composition.
+   * @return Ranges of notes.
+   */
+  List<Note> getNoteRange();
 }

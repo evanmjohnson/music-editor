@@ -311,4 +311,10 @@ public class MusicModel implements IMusicModel {
     }
     return result;
   }
+
+  @Override
+  public List<Note> getNoteRange() {
+    String dontUse = this.printFirstRow();
+    return this.lowestToHighest;
+  }
 }
