@@ -16,6 +16,6 @@ public class ControllerRunner {
     IMusicModel model = new MusicModel();
     Note middleC = new Note(PitchType.C, 0, 2, 4);
     model.add(middleC);
-    controller.start(model, "console");
+    controller.start(model, "visual");
   }
 }

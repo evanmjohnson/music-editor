@@ -1,6 +1,7 @@
 package cs3500.music.controller;
 
 import cs3500.music.model.IMusicModel;
+import cs3500.music.model.MusicViewModel;
 import cs3500.music.view.IMusicView;
 
 /**
@@ -14,7 +15,8 @@ public class MusicController implements IMusicController {
   public void start(IMusicModel model, String viewType) {
     this.view = MusicCreator.create(viewType);
     this.model = model;
-    view.draw(model.getState());
+    MusicViewModel viewModel = new MusicViewModel(model);
+    view.draw(viewModel);
   }
 
 }
