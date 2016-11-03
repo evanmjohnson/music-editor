@@ -1,8 +1,10 @@
 package cs3500.music.view;
 
 import cs3500.music.model.MusicViewModel;
+import cs3500.music.model.Note;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 /**
@@ -14,7 +16,7 @@ public class JFrameView extends JFrame implements IMusicView {
   private int numBeats;
   private JLabel display;
 
-  public void show() {
+  public void showMusic() {
     setVisible(true);
   }
 
@@ -25,12 +27,27 @@ public class JFrameView extends JFrame implements IMusicView {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //    JPanel newPanel = new JPanelColumn(model.notesStartAtThisBeat(),
 //        model.notesContinueAtThisBeat());
-    JPanel panel = new JPanel();
-    this.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-    this.numBeats = model.getNumBeats();
-    for(int i=0; i <= numBeats; i++) {
-      panel.add(new JPanelColumn(i));
+    JPanel notePanel = new JPanel();
+
+    this.setLayout(new BorderLayout());
+    notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
+    for (Note n : model.getNoteRange()) {
+      notePanel.add(new JLabel(n.toString()));
+      this.add(notePanel, BorderLayout.WEST);
     }
-    this.add(panel);
+
+    this.numBeats = model.getNumBeats();
+    for (int i = 0; i <= numBeats; i++) {
+      if (numBeats % 16 == 0) {
+        this.add(new JLabel(Integer.toString(i)), BorderLayout.NORTH);
+      } else {
+        this.add(new JLabel(" "), BorderLayout.NORTH);
+      }
+      this.add(new JPanelColumn(i), BorderLayout.CENTER);
+    }
+    this.add(notePanel);
+    pack();
+    this.showMusic();
   }
+
 }
