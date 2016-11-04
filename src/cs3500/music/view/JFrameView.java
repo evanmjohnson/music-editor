@@ -40,12 +40,13 @@ public class JFrameView extends JFrame implements IMusicView {
     }
 
     beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
+    JPanel noteGrid = new JPanel();
+    noteGrid.setLayout(new GridLayout());
     this.numBeats = model.getNumBeats();
     for (int i = 0; i <= numBeats; i++) {
       if (i % 16 == 0) {
         if(i == 0) {
           beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
-
         }
         JLabel label = new JLabel(Integer.toString(i));
         label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
@@ -55,10 +56,13 @@ public class JFrameView extends JFrame implements IMusicView {
       }
       List<Integer> cont = model.notesContinueAtThisBeat(i);
       List<Integer> start = model.notesStartAtThisBeat(i);
-      this.add(new JPanelColumn(i, start, cont), BorderLayout.CENTER);
+      JPanelColumn column = new JPanelColumn(i, start, cont);
+      column.draw(model);
+      noteGrid.add(column);
     }
+    JLabel test = new JLabel("test");
     this.add(beatPanel, BorderLayout.NORTH);
-    this.add(notePanel);
+    this.add(noteGrid, BorderLayout.CENTER);
     pack();
     this.showMusic();
   }

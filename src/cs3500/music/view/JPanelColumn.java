@@ -23,7 +23,10 @@ public class JPanelColumn extends JPanel {
 
 
   public void draw(MusicViewModel model) {
-    for (int i = 0; i < model.getNoteRange().size(); i++) {
+    System.out.println(model.getNoteRange().size());
+    int size = model.getNoteRange().size();
+    System.out.println(size);
+    for (int i = 0; i < size; i++) {
       boolean left = false;
       boolean right = false;
       boolean top = false;
@@ -42,7 +45,7 @@ public class JPanelColumn extends JPanel {
         top = true;
       }
       JPanelNoteInstance note = new JPanelNoteInstance(left, right, top, bottom, beat, i);
-      if(start.contains(i)) {
+      if (start.contains(i)) {
         note.setColor("start");
       }
       else if (cont.contains(i)) {
