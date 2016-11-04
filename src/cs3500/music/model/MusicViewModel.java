@@ -77,5 +77,4 @@ public final class MusicViewModel implements IMusicModel {
   public List<Note> getNoteRange() {
     return model.getNoteRange();
   }
-
 }

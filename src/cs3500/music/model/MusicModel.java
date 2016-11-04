@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class MusicModel implements IMusicModel {
 
   private TreeMap<Integer, TreeSet<Note>> notes;
-  private List<Note> lowestToHighest;
+  private List<Note> noteRange;
 
   public MusicModel() {
     this.notes = new TreeMap<>();
-    this.lowestToHighest = new ArrayList<Note>();
+    this.noteRange = new ArrayList<>();
   }
 
   /**
@@ -58,7 +58,6 @@ public class MusicModel implements IMusicModel {
     }
     if (!removed) {
       throw new IllegalArgumentException("That Note isn't in this model");
-
     }
   }
 
@@ -83,7 +82,7 @@ public class MusicModel implements IMusicModel {
       catch (NullPointerException e) {
         set = new TreeSet<>();
       }
-      for (Note n : lowestToHighest) {
+      for (Note n : noteRange) {
         if (this.containsNote(set, n.getPitch(), n.getOctave())) {
           Note note = set.pollFirst();
           if (note.getStartBeat() == i) {
@@ -120,7 +119,9 @@ public class MusicModel implements IMusicModel {
         if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder() &&
             pitch.getToneOrder() <= highest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + lowest.getOctave()));
-          this.lowestToHighest.add(new Note(pitch, 0, 0, lowest.getOctave()));
+          if (this.noteRange.size() < this.getNoteRangeSize()) {
+            this.noteRange.add(new Note(pitch, 0, 0, lowest.getOctave()));
+          }
         }
       }
     }
@@ -128,19 +129,25 @@ public class MusicModel implements IMusicModel {
       for (PitchType pitch : PitchType.values()) {
         if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + lowest.getOctave()));
-          this.lowestToHighest.add(new Note(pitch, 0, 0, lowest.getOctave()));
+          if (this.noteRange.size() < this.getNoteRangeSize()) {
+            this.noteRange.add(new Note(pitch, 0, 0, lowest.getOctave()));
+          }
         }
       }
       for (int i = lowest.getOctave() + 1; i < highest.getOctave(); i++) {
         for (PitchType pitch : PitchType.values()) {
           sb.append(this.center(pitch.getToneValue() + "" + i));
-          this.lowestToHighest.add(new Note(pitch, 0, 0, i));
+          if (this.noteRange.size() < this.getNoteRangeSize()) {
+            this.noteRange.add(new Note(pitch, 0, 0, i));
+          }
         }
       }
       for (PitchType pitch : PitchType.values()) {
         if (pitch.getToneOrder() <= highest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + highest.getOctave()));
-          this.lowestToHighest.add(new Note(pitch, 0, 0, highest.getOctave()));
+        }
+        if (this.noteRange.size() < this.getNoteRangeSize()) {
+          this.noteRange.add(new Note(pitch, 0, 0, highest.getOctave()));
         }
       }
     }
@@ -160,8 +167,8 @@ public class MusicModel implements IMusicModel {
       return false;
     }
     for (Note n : set) {
-      if (n.getPitch() == pitch) {
-        return n.getOctave() == octave;
+      if (n.getPitch() == pitch && n.getOctave() == octave) {
+        return true;
       }
     }
     return false;
@@ -173,6 +180,7 @@ public class MusicModel implements IMusicModel {
    */
   private Note lowestNote() {
     TreeSet<Note> resultSet = new TreeSet<>();
+    System.out.println(notes.toString());
     for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
       if (!entry.getValue().isEmpty()) {
         resultSet.add(entry.getValue().first());
@@ -265,14 +273,11 @@ public class MusicModel implements IMusicModel {
     if (set.isEmpty()) {
       return new ArrayList<>();
     }
-    // this initializes the lowestToHighest List, so we call this method and do nothing with the
-    // result.
-    String dontUse = printFirstRow();
-    for (Note n : lowestToHighest) {
+    for (Note n : this.noteRange) {
       for (Note s : set) {
         if (n.getOctave() == s.getOctave() && n.getPitch() == s.getPitch() &&
             s.getStartBeat() == beat) {
-          result.add(lowestToHighest.indexOf(n));
+          result.add(noteRange.indexOf(n));
         }
       }
     }
@@ -283,17 +288,14 @@ public class MusicModel implements IMusicModel {
   public List<Integer> notesContinueAtThisBeat(int beat) {
     List<Integer> result = new ArrayList<>();
     TreeSet<Note> set = this.notes.get(beat);
-    // this initializes the lowestToHighest List, so we call this method and do nothing with the
-    // result.
-    String dontUse = printFirstRow();
     if (set.isEmpty()) {
       return new ArrayList<>();
     }
-    for (Note n : lowestToHighest) {
+    for (Note n : noteRange) {
       for (Note s : set) {
         if (n.getOctave() == s.getOctave() && n.getPitch() == s.getPitch() &&
             s.getStartBeat() != beat) {
-          result.add(lowestToHighest.indexOf(n));
+          result.add(noteRange.indexOf(n));
         }
       }
     }
@@ -312,9 +314,51 @@ public class MusicModel implements IMusicModel {
     return result;
   }
 
+  /**
+   * Gets the amount of notes in the range of this piece.
+   * @return The int value of the size of the Note range of this piece
+   */
+  private int getNoteRangeSize() {
+    int result = 0;
+    Note lowest = this.lowestNote();
+    Note highest = this.highestNote();
+    List<Note> lowestToHighest = new ArrayList<>();
+    if (lowest.getOctave() == highest.getOctave()) {
+      for (PitchType pitch : PitchType.values()) {
+        if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder() &&
+            pitch.getToneOrder() <= highest.getPitch().getToneOrder()) {
+          result++;
+        }
+      }
+    }
+    else {
+      for (PitchType pitch : PitchType.values()) {
+        if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder()) {
+          result++;
+        }
+      }
+      for (int i = lowest.getOctave() + 1; i < highest.getOctave(); i++) {
+        for (PitchType pitch : PitchType.values()) {
+          result++;
+        }
+      }
+      for (PitchType pitch : PitchType.values()) {
+        if (pitch.getToneOrder() <= highest.getPitch().getToneOrder()) {
+          result++;
+        }
+      }
+    }
+    return result;
+  }
+
   @Override
   public List<Note> getNoteRange() {
-    String dontUse = this.printFirstRow();
-    return this.lowestToHighest;
+    if (this.noteRange.size() == this.getNoteRangeSize()) {
+      return this.noteRange;
+    }
+    else {
+      String dontuse = this.printFirstRow();
+      return this.noteRange;
+    }
   }
 }
