@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -52,7 +53,9 @@ public class JFrameView extends JFrame implements IMusicView {
       } else {
         beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
       }
-      this.add(new JPanelColumn(i), BorderLayout.CENTER);
+      List<Integer> cont = model.notesContinueAtThisBeat(i);
+      List<Integer> start = model.notesStartAtThisBeat(i);
+      this.add(new JPanelColumn(i, start, cont), BorderLayout.CENTER);
     }
     this.add(beatPanel, BorderLayout.NORTH);
     this.add(notePanel);
