@@ -10,6 +10,7 @@ public class Note implements Comparable<Note> {
   private int startBeat;
   private int duration;
   private int octave;
+  private int instrument;
 
   /**
    *
@@ -33,6 +34,7 @@ public class Note implements Comparable<Note> {
     this.startBeat = startBeat;
     this.duration = duration;
     this.octave = octave;
+    this.instrument = 0;
   }
 
   @Override
@@ -95,5 +97,13 @@ public class Note implements Comparable<Note> {
     Note that = (Note) o;
     return that.pitch == this.pitch && this.octave == that.octave &&
         this.startBeat == that.startBeat && this.duration == that.duration;
+  }
+
+  /**
+   * Gets the instrument of this Note.
+   * @return The instrument type of this Note
+   */
+  public int getInstrument() {
+    return this.instrument;
   }
 }
