@@ -8,6 +8,7 @@ import java.util.List;
  */
 public final class MusicViewModel implements IMusicModel {
   IMusicModel model;
+  IllegalArgumentException cantMutate = new IllegalArgumentException("Cannot mutate in viewmodel");
 
   public MusicViewModel(IMusicModel model) {
     this.model = model;
@@ -15,17 +16,17 @@ public final class MusicViewModel implements IMusicModel {
 
   @Override
   public void add(Note n) {
-    return;
+    throw cantMutate;
   }
 
   @Override
   public void replace(Note from, Note to) {
-    return;
+    throw cantMutate;
   }
 
   @Override
   public void remove(Note n) throws IllegalArgumentException {
-    return;
+    throw cantMutate;
   }
 
   @Override
@@ -35,22 +36,22 @@ public final class MusicViewModel implements IMusicModel {
 
   @Override
   public void playSimultaneously(IMusicModel model2) {
-    return;
+    throw cantMutate;
   }
 
   @Override
   public void playConsecutively(IMusicModel model2) {
-    return;
+    throw cantMutate;
   }
 
   @Override
   public void combineSimultaneously(MusicModel sheet1) {
-    return;
+    throw cantMutate;
   }
 
   @Override
   public void combineConsecutively(MusicModel sheet1) {
-    return;
+    throw cantMutate;
   }
 
   @Override
