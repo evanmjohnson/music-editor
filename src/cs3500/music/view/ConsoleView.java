@@ -25,4 +25,9 @@ public class ConsoleView implements IMusicView {
       return;
     }
   }
+
+  @Override
+  public void makeVisible() {
+    return;
+  }
 }

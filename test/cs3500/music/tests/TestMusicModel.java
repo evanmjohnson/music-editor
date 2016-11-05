@@ -244,6 +244,7 @@ public class TestMusicModel {
     model.add(middleC);
     model.add(a4);
     model.add(e5);
+    //System.out.print(model.getState());
     List<Integer> zeroBeat = new ArrayList<>();
     zeroBeat.add(0);
     zeroBeat.add(9);

@@ -11,7 +11,7 @@ import java.awt.geom.Line2D;
  */
 public class JPanelNoteInstance extends JPanel {
   private final int SIDE_LENGTH = 50;
-  private Color color = Color.white;
+  private Color color = Color.pink;
   private boolean left;
   private boolean right;
   private boolean top;
@@ -19,6 +19,7 @@ public class JPanelNoteInstance extends JPanel {
   private int x;
   private int y;
   JPanelNoteInstance(boolean left, boolean right, boolean top, boolean bottom, int x, int y) {
+    super();
     this.left = left;
     this.right = right;
     this.top = top;
@@ -29,6 +30,11 @@ public class JPanelNoteInstance extends JPanel {
     setSize(50, 50);
   }
 
+  public JPanelNoteInstance() {
+    super();
+    setOpaque(true);
+    setSize(50, 50);
+  }
   /**
    * Set the color of this box dependent on the note it represents
    *
@@ -38,7 +44,7 @@ public class JPanelNoteInstance extends JPanel {
   void setColor(String status) {
     switch (status) {
       case "start":
-        color = Color.black;
+        color = Color.orange;
         break;
       case "continue":
         color = Color.blue;
@@ -54,13 +60,18 @@ public class JPanelNoteInstance extends JPanel {
 //
 //  }
 
+  int count = 0;
+  @Override
   protected void paintComponent(Graphics g) {
+    count++;
+    System.out.println("PAINT" + count);
     //never forget to call super.paintComponent!
     super.paintComponent(g);
 
+
     Graphics2D g2d = (Graphics2D) g;
 
-    g2d.setColor(Color.BLACK);
+    //g2d.setColor(Color.BLACK);
 
     /*
     the origin of the panel is top left. In order
@@ -72,13 +83,13 @@ public class JPanelNoteInstance extends JPanel {
     translating by height.
      */
 
-    AffineTransform originalTransform = g2d.getTransform();
+   // AffineTransform originalTransform = g2d.getTransform();
 
     //the order of transforms is bottom-to-top
     //so as a result of the two lines below,
     //each y will first be scaled, and then translated
-    g2d.translate(0, this.getPreferredSize().getHeight());
-    g2d.scale(1, -1);
+    //g2d.translate(0, this.getPreferredSize().getHeight());
+   // g2d.scale(1, -1);
 
 //    for (Line l : lines) {
 //      Position2D start = l.start;
@@ -93,12 +104,14 @@ public class JPanelNoteInstance extends JPanel {
     //rotate it by heading and translating it to
     //its actual position
     g2d.setColor(color);
+    System.out.println("X:" + x);
+    System.out.println("Y:" + y);
     g2d.fillRect(50 * x, 50 * y, 50, 50);
 
 
-
     //reset the transform to what it was!
-    g2d.setTransform(originalTransform);
+   // g2d.setTransform(originalTransform);
+
   }
 
 }

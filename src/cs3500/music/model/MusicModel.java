@@ -180,7 +180,6 @@ public class MusicModel implements IMusicModel {
    */
   private Note lowestNote() {
     TreeSet<Note> resultSet = new TreeSet<>();
-    System.out.println(notes.toString());
     for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
       if (!entry.getValue().isEmpty()) {
         resultSet.add(entry.getValue().first());
@@ -270,10 +269,14 @@ public class MusicModel implements IMusicModel {
   public List<Integer> notesStartAtThisBeat(int beat) {
     List<Integer> result = new ArrayList<>();
     TreeSet<Note> set = this.notes.get(beat);
+    noteRange = this.getNoteRange();
+    System.out.print(set);
     if (set.isEmpty()) {
       return new ArrayList<>();
     }
+    System.out.println(noteRange);
     for (Note n : this.noteRange) {
+
       for (Note s : set) {
         if (n.getOctave() == s.getOctave() && n.getPitch() == s.getPitch() &&
             s.getStartBeat() == beat) {
@@ -288,6 +291,8 @@ public class MusicModel implements IMusicModel {
   public List<Integer> notesContinueAtThisBeat(int beat) {
     List<Integer> result = new ArrayList<>();
     TreeSet<Note> set = this.notes.get(beat);
+    //problematic?
+    noteRange = this.getNoteRange();
     if (set.isEmpty()) {
       return new ArrayList<>();
     }

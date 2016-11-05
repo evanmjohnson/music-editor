@@ -14,4 +14,11 @@ public interface IMusicView {
    * @param model The model to draw
    */
   void draw(MusicViewModel model);
+
+  /**
+   * Make the view visible. This is usually called
+   * after the view is constructed
+   */
+  void makeVisible();
+
 }

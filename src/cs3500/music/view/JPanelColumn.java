@@ -14,18 +14,24 @@ public class JPanelColumn extends JPanel {
   int beat;
   List<Integer> start;
   List<Integer> cont;
-
+  private JPanelNoteInstance noteInstance;
+  private JPanel panel = new JPanel();
   public JPanelColumn(int beat, List<Integer> start, List<Integer> cont) {
+    super();
     this.beat = beat;
     this.start = start;
     this.cont = cont;
+    this.setLayout(new GridLayout());
+           // BoxLayout(this, BoxLayout.Y_AXIS));
   }
 
 
   public void draw(MusicViewModel model) {
-    System.out.println(model.getNoteRange().size());
+   // System.out.println(model.getNoteRange().size());
+
     int size = model.getNoteRange().size();
-    System.out.println(size);
+   //System.out.println("Size" + size);
+
     for (int i = 0; i < size; i++) {
       boolean left = false;
       boolean right = false;
@@ -44,17 +50,30 @@ public class JPanelColumn extends JPanel {
       if (i == 0) {
         top = true;
       }
-      JPanelNoteInstance note = new JPanelNoteInstance(left, right, top, bottom, beat, i);
-      if (start.contains(i)) {
-        note.setColor("start");
-      }
-      else if (cont.contains(i)) {
-        note.setColor("continue");
-      }
-      else {
-        note.setColor("none");
-      }
+//      System.out.println("Beat:" + beat);
+      noteInstance = new JPanelNoteInstance(left, right, top, bottom, beat, i);
+//      System.out.println(noteInstance.toString());
+
+      //this.add(noteInstance);
+      //this.add(noteInstance);
+
+
+//      if (start.contains(i)) {
+//        System.out.println("START");
+//        noteInstance.setColor("start");
+//        this.add(noteInstance);
+//      }
+//      else if (cont.contains(i)) {
+//        System.out.println("CONTINUE");
+//        noteInstance.setColor("continue");
+//        this.add(noteInstance);
+//      }
+//      else {
+//        noteInstance.setColor("none");
+//        this.add(noteInstance);
+//      }
     }
+
     this.setVisible(true);
   }
 
