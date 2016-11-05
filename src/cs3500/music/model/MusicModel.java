@@ -28,6 +28,9 @@ public class MusicModel implements IMusicModel {
    */
   @Override
   public void add(Note n) {
+    if (n.getDuration() == 0) {
+      throw new IllegalArgumentException("Cannot add a note with a duration of 0");
+    }
     for (int i = n.getStartBeat(); i < n.getStartBeat() + n.getDuration(); i++) {
       if (!notes.containsKey(i)) {
         TreeSet<Note> toAdd = new TreeSet<>();
@@ -270,11 +273,9 @@ public class MusicModel implements IMusicModel {
     List<Integer> result = new ArrayList<>();
     TreeSet<Note> set = this.notes.get(beat);
     noteRange = this.getNoteRange();
-    System.out.print(set);
-    if (set.isEmpty()) {
+    if (set == null || set.isEmpty()) {
       return new ArrayList<>();
     }
-    System.out.println(noteRange);
     for (Note n : this.noteRange) {
 
       for (Note s : set) {
@@ -293,7 +294,7 @@ public class MusicModel implements IMusicModel {
     TreeSet<Note> set = this.notes.get(beat);
     //problematic?
     noteRange = this.getNoteRange();
-    if (set.isEmpty()) {
+    if (set == null || set.isEmpty()) {
       return new ArrayList<>();
     }
     for (Note n : noteRange) {
