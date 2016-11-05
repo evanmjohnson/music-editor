@@ -11,14 +11,15 @@ import java.awt.geom.Line2D;
  */
 public class JPanelNoteInstance extends JPanel {
   private final int SIDE_LENGTH = 50;
-  private Color color = Color.pink;
+  private Color color = Color.white;
   private boolean left;
   private boolean right;
   private boolean top;
   private boolean bottom;
   private int x;
   private int y;
-  JPanelNoteInstance(boolean left, boolean right, boolean top, boolean bottom, int x, int y) {
+
+  public JPanelNoteInstance(boolean left, boolean right, boolean top, boolean bottom, int x, int y) {
     super();
     this.left = left;
     this.right = right;
@@ -35,6 +36,7 @@ public class JPanelNoteInstance extends JPanel {
     setOpaque(true);
     setSize(50, 50);
   }
+
   /**
    * Set the color of this box dependent on the note it represents
    *
@@ -60,14 +62,10 @@ public class JPanelNoteInstance extends JPanel {
 //
 //  }
 
-  int count = 0;
   @Override
   protected void paintComponent(Graphics g) {
-    count++;
-    System.out.println("PAINT" + count);
     //never forget to call super.paintComponent!
     super.paintComponent(g);
-
 
     Graphics2D g2d = (Graphics2D) g;
 
@@ -103,10 +101,15 @@ public class JPanelNoteInstance extends JPanel {
     //to draw it in its default position, and then
     //rotate it by heading and translating it to
     //its actual position
+
     g2d.setColor(color);
-    System.out.println("X:" + x);
-    System.out.println("Y:" + y);
-    g2d.fillRect(50 * x, 50 * y, 50, 50);
+    g2d.fillRect(0, 0, 50, 50);
+    int width = 30;
+    BasicStroke stroke = new BasicStroke(width);
+    g2d.setStroke(stroke);
+    if (this.left) {
+      g2d.drawLine(0, 0, 0, 50);
+    }
 
 
     //reset the transform to what it was!

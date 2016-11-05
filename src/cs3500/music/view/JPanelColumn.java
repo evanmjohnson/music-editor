@@ -14,23 +14,19 @@ public class JPanelColumn extends JPanel {
   int beat;
   List<Integer> start;
   List<Integer> cont;
-  private JPanelNoteInstance noteInstance;
   private JPanel panel = new JPanel();
+
   public JPanelColumn(int beat, List<Integer> start, List<Integer> cont) {
     super();
     this.beat = beat;
     this.start = start;
     this.cont = cont;
-    this.setLayout(new GridLayout());
-           // BoxLayout(this, BoxLayout.Y_AXIS));
   }
 
 
   public void draw(MusicViewModel model) {
-   // System.out.println(model.getNoteRange().size());
-
     int size = model.getNoteRange().size();
-   //System.out.println("Size" + size);
+    this.setLayout(new GridLayout(size, 1));
 
     for (int i = 0; i < size; i++) {
       boolean left = false;
@@ -50,28 +46,24 @@ public class JPanelColumn extends JPanel {
       if (i == 0) {
         top = true;
       }
-//      System.out.println("Beat:" + beat);
-      noteInstance = new JPanelNoteInstance(left, right, top, bottom, beat, i);
-//      System.out.println(noteInstance.toString());
-
-      //this.add(noteInstance);
-      //this.add(noteInstance);
+      JPanelNoteInstance noteInstance;
+      //noteInstance = new JPanelNoteInstance(left, right, top, bottom, beat, i);
+      noteInstance = new JPanelNoteInstance();
+      //System.out.println(noteInstance.toString());
 
 
-//      if (start.contains(i)) {
-//        System.out.println("START");
-//        noteInstance.setColor("start");
-//        this.add(noteInstance);
-//      }
-//      else if (cont.contains(i)) {
-//        System.out.println("CONTINUE");
-//        noteInstance.setColor("continue");
-//        this.add(noteInstance);
-//      }
-//      else {
-//        noteInstance.setColor("none");
-//        this.add(noteInstance);
-//      }
+      if (start.contains(i)) {
+        noteInstance.setColor("start");
+        this.add(noteInstance);
+      }
+      else if (cont.contains(i)) {
+        noteInstance.setColor("continue");
+        this.add(noteInstance);
+      }
+      else {
+        noteInstance.setColor("none");
+        this.add(noteInstance);
+      }
     }
 
     this.setVisible(true);

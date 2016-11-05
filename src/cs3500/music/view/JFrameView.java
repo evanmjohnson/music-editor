@@ -36,13 +36,11 @@ public class JFrameView extends JFrame implements IMusicView {
 
   @Override
   public void draw(MusicViewModel model) {
-
-//    JPanel newPanel = new JPanelColumn(model.notesStartAtThisBeat(),
-//        model.notesContinueAtThisBeat());
     JPanel notePanel = new JPanel();
     JPanel beatPanel = new JPanel();
     notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
 
+    // write the range of notes on the left side
     for (Note n : model.getNoteRange()) {
       JLabel label = new JLabel(n.toString());
       label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
@@ -50,14 +48,12 @@ public class JFrameView extends JFrame implements IMusicView {
       this.add(notePanel, BorderLayout.WEST);
     }
 
+    // draw each of the beats on the top
     beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
-    JPanel noteGrid = new JPanel();
-    noteGrid.setLayout(new BoxLayout(noteGrid, BoxLayout.Y_AXIS));
-            //GridLayout());
     this.numBeats = model.getNumBeats();
     for (int i = 0; i <= numBeats; i++) {
       if (i % 16 == 0) {
-        if(i == 0) {
+        if (i == 0) {
           beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
         }
         JLabel label = new JLabel(Integer.toString(i));
@@ -66,22 +62,27 @@ public class JFrameView extends JFrame implements IMusicView {
       } else {
         beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
       }
+    }
+
+    // draw all of the notes in the middle
+    JPanel noteGrid = new JPanel();
+    noteGrid.setLayout(new GridLayout(1, this.numBeats));
+    for (int i = 0; i <= numBeats; i++) {
       List<Integer> cont = model.notesContinueAtThisBeat(i);
       List<Integer> start = model.notesStartAtThisBeat(i);
       col = new JPanelColumn(i, start, cont);
       col.draw(model);
-      this.add(col, BorderLayout.CENTER);
+      //this.add(col, BorderLayout.CENTER);
       noteGrid.add(col);
-
     }
-    JLabel test = new JLabel("test");
-    JLabel test2 = new JLabel("test2");
-    noteGrid.add(test);
-    noteGrid.add(new JLabel("test2"));
-    noteGrid.add(new JLabel("test3"));
-    noteGrid.add(new JLabel("test4"));
-    noteGrid.add(new JLabel("test5"));
-    noteGrid.add(new JLabel("test2"));
+//    JLabel test = new JLabel("test");
+//    JLabel test2 = new JLabel("test2");
+//    noteGrid.add(test);
+//    noteGrid.add(new JLabel("test2"));
+//    noteGrid.add(new JLabel("test3"));
+//    noteGrid.add(new JLabel("test4"));
+//    noteGrid.add(new JLabel("test5"));
+//    noteGrid.add(new JLabel("test2"));
 
     this.add(beatPanel, BorderLayout.NORTH);
     this.add(noteGrid, BorderLayout.CENTER);
