@@ -11,13 +11,14 @@ public class Note implements Comparable<Note> {
   private int duration;
   private int octave;
   private int instrument;
+  private int volume;
 
   /**
-   *
-   * @param pitch
-   * @param startBeat
-   * @param duration
-   * @param octave
+   * Creates a new Note with default values for instrument and volume.
+   * @param pitch The PitchType of this Note
+   * @param startBeat The beat at which this Note starts
+   * @param duration How many beats this Note is sustained, including the starting beat
+   * @param octave The octave of this Note
    */
   public Note(PitchType pitch, int startBeat, int duration, int octave) {
     if (duration < 0) {
@@ -35,6 +36,35 @@ public class Note implements Comparable<Note> {
     this.duration = duration;
     this.octave = octave;
     this.instrument = 0;
+  }
+
+  /**
+   * Creates a new Note with all given paramaters.
+   * @param pitch The PitchType
+   * @param startBeat The beat at which this Note starts
+   * @param duration How many beats this Note is sustained, including the starting beat
+   * @param octave The ocatve of this Note
+   * @param instrument The instrument that plays this Note
+   * @param volume The volume of this Note
+   */
+  public Note(PitchType pitch, int startBeat, int duration, int octave,
+              int instrument, int volume) {
+    if (duration < 0) {
+      throw new IllegalArgumentException("Duration cannot be negative");
+    }
+    if (startBeat < 0) {
+      throw new IllegalArgumentException("Start beat must be positive");
+    }
+    if (octave < 0) {
+      throw new IllegalArgumentException("Octave cannot be negative");
+    }
+    Objects.requireNonNull(pitch);
+    this.pitch = pitch;
+    this.startBeat = startBeat;
+    this.duration = duration;
+    this.octave = octave;
+    this.instrument = instrument;
+    this.volume = volume;
   }
 
   @Override
