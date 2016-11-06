@@ -3,6 +3,7 @@ package cs3500.music.controller;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.IMusicView;
 import cs3500.music.view.JFrameView;
+import cs3500.music.view.MidiView;
 
 /**
  * Factory class for the music editor.
@@ -15,9 +16,9 @@ public class MusicCreator {
     else if (viewType.equals("visual")) {
       return new JFrameView();
     }
-//    else if (viewType.equals("midi")){
-//      //midi
-//    }
+    else if (viewType.equals("midi")){
+      return new MidiView();
+    }
     else {
       throw new IllegalArgumentException("Must be one of console, visual, or midi.");
     }
