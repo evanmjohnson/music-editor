@@ -7,6 +7,7 @@ import cs3500.music.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -26,6 +27,8 @@ public class TestMusicModel {
   Note g4 = new Note(PitchType.G, 6, 1, 4);
   Note a4 = new Note(PitchType.A, 0, 4, 4);
 
+  Note instrument1 = new Note(PitchType.A, 0, 3, 4, 1, 2);
+  Note instrument2 = new Note(PitchType.C, 3, 2, 1, 2, 1);
   @Test
   public void testAdd() {
     model.add(middleC);
@@ -280,5 +283,24 @@ public class TestMusicModel {
     model.add(middleC);
     model.add(e5);
     assertEquals(3, model.getNumBeats());
+  }
+
+  @Test
+  public void testGetInstruments() {
+    model.add(instrument1);
+    model.add(instrument2);
+    ArrayList<Integer> exp = new ArrayList<>();
+    exp.add(1);
+    exp.add(2);
+    assertEquals(exp, model.getInstruments());
+  }
+
+  @Test
+  public void testGetInstrumentsEmpty() {
+    model.add(middleC);
+    model.add(e5);
+    List<Integer> exp = new ArrayList<>();
+    exp.add(0);
+    assertEquals(exp, model.getInstruments());
   }
 }

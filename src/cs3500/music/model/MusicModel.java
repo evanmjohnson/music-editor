@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import sun.misc.Contended;
+
 import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -366,5 +368,18 @@ public class MusicModel implements IMusicModel {
       String dontuse = this.printFirstRow();
       return this.noteRange;
     }
+  }
+
+  @Override
+  public List<Integer> getInstruments() {
+    List<Integer> result = new ArrayList<>();
+    for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
+      for (Note n : entry.getValue()) {
+        if (!result.contains(n.getInstrument())) {
+          result.add(n.getInstrument());
+        }
+      }
+    }
+    return result;
   }
 }

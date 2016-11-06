@@ -79,4 +79,7 @@ public final class MusicViewModel implements IMusicModel {
   public List<Note> getNoteRange() {
     return model.getNoteRange();
   }
+
+  @Override
+  public List<Integer> getInstruments() { return model.getInstruments(); }
 }

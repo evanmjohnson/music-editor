@@ -95,4 +95,10 @@ public interface IMusicModel {
    * @return Ranges of notes.
    */
   List<Note> getNoteRange();
+
+  /**
+   * Gets all of the instruments in this piece.
+   * @return The {@code List<Integer>} of instruments in this piece
+   */
+  List<Integer> getInstruments();
 }
