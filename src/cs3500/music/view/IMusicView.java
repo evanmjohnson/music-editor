@@ -11,9 +11,9 @@ import java.util.List;
 public interface IMusicView {
   /**
    * Draws the state of the given read-only model.
-   * @param model The model to draw
+   * @param model The model to create
    */
-  void draw(MusicViewModel model);
+  void create(MusicViewModel model);
 
   /**
    * Make the view visible. This is usually called
