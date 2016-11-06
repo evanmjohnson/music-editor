@@ -101,4 +101,12 @@ public interface IMusicModel {
    * @return The {@code List<Integer>} of instruments in this piece
    */
   List<Integer> getInstruments();
+
+  /**
+   * Gets all of the Notes in this piece that were playing the beat before the given beat,
+   * but are not longer playing.
+   * @param beat The beat at which Notes stop
+   * @return The List of indicies of Notes that stop before the given beat
+   */
+  List<Integer> notesStopAtThisBeat(int beat);
 }

@@ -382,4 +382,26 @@ public class MusicModel implements IMusicModel {
     }
     return result;
   }
+
+  @Override
+  public List<Integer> notesStopAtThisBeat(int beat) {
+    List<Integer> result = new ArrayList<>();
+    if (beat == 0) {
+      return result;
+    }
+    List<Integer> startPrev = this.notesStartAtThisBeat(beat - 1);
+    List<Integer> contPrev = this.notesContinueAtThisBeat(beat - 1);
+    List<Integer> contNow = this.notesContinueAtThisBeat(beat);
+    for (Integer i : startPrev) {
+      if (!contNow.contains(i) && !result.contains(i)) {
+        result.add(i);
+      }
+    }
+    for (Integer i : contPrev) {
+      if (!contNow.contains(i) && !result.contains(i)) {
+        result.add(i);
+      }
+    }
+    return result;
+  }
 }

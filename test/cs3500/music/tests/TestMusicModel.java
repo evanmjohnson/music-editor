@@ -303,4 +303,29 @@ public class TestMusicModel {
     exp.add(0);
     assertEquals(exp, model.getInstruments());
   }
+
+  @Test
+  public void testNotesStopAtThisBeat() {
+    model.add(middleC);
+    List<Integer> exp = new ArrayList<>();
+    exp.add(0);
+    assertEquals(exp, model.notesStopAtThisBeat(2));
+  }
+
+  @Test
+  public void testNotesStopAtThisBeatEmpty() {
+    model.add(middleC);
+    List<Integer> exp = new ArrayList<>();
+    assertEquals(exp, model.notesStopAtThisBeat(1));
+  }
+
+  @Test
+  public void testNotesStopAtThisBeatMultiple() {
+    model.add(b3);
+    model.add(a4);
+    List<Integer> exp = new ArrayList<>();
+    exp.add(0);
+    exp.add(10);
+    assertEquals(exp, model.notesStopAtThisBeat(4));
+  }
 }
