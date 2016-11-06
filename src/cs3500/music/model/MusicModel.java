@@ -404,4 +404,16 @@ public class MusicModel implements IMusicModel {
     }
     return result;
   }
+
+  @Override
+  public Note getNote(int index, int beat) throws IllegalArgumentException {
+    List<Note> range = this.getNoteRange();
+    for (Note n : this.notes.get(beat)) {
+      if (n.getPitch().getToneOrder() == range.get(index).getPitch().getToneOrder() &&
+          n.getOctave() == range.get(index).getOctave()) {
+        return n;
+      }
+    }
+    throw new IllegalArgumentException("Cannot find note");
+  }
 }

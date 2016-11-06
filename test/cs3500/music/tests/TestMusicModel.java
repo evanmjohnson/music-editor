@@ -328,4 +328,19 @@ public class TestMusicModel {
     exp.add(10);
     assertEquals(exp, model.notesStopAtThisBeat(4));
   }
+
+  @Test
+  public void testGetNote() {
+    model.add(middleC);
+    model.add(a4);
+    assertEquals(middleC, model.getNote(0, 0));
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testGetNoteNotThere() {
+    model.add(middleC);
+    model.add(e5);
+    model.getNote(2, 3);
+  }
+
 }

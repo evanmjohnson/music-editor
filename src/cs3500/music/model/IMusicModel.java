@@ -109,4 +109,13 @@ public interface IMusicModel {
    * @return The List of indicies of Notes that stop before the given beat
    */
   List<Integer> notesStopAtThisBeat(int beat);
+
+  /**
+   * Gets the Note at the given beat and the given index in the range of Notes.
+   * @param index The index of the Note in the range of this piece
+   * @param beat The beat at which this Note plays
+   * @return The Note that fits the criteria
+   * @throws IllegalArgumentException If the Note cannot be found
+   */
+  Note getNote(int index, int beat) throws IllegalArgumentException;
 }

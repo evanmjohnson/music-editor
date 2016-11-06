@@ -89,4 +89,9 @@ public final class MusicViewModel implements IMusicModel {
   public List<Integer> notesStopAtThisBeat(int beat) {
     return model.notesStopAtThisBeat(beat);
   }
+
+  @Override
+  public Note getNote(int index, int beat) {
+    return model.getNote(index, beat);
+  }
 }
