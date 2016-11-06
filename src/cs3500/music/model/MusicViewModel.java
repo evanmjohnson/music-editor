@@ -8,7 +8,8 @@ import java.util.List;
  */
 public final class MusicViewModel implements IMusicModel {
   IMusicModel model;
-  IllegalArgumentException cantMutate = new IllegalArgumentException("Cannot mutate in viewmodel");
+  UnsupportedOperationException cantMutate =
+      new UnsupportedOperationException("Cannot mutate in viewmodel");
 
   public MusicViewModel(IMusicModel model) {
     this.model = model;
