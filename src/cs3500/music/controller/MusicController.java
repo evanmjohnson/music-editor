@@ -16,7 +16,7 @@ public class MusicController implements IMusicController {
     this.view = MusicCreator.create(viewType);
     this.model = model;
     MusicViewModel viewModel = new MusicViewModel(model);
-    view.draw(viewModel);
+    view.create(viewModel);
     view.makeVisible();
   }
 

@@ -18,7 +18,7 @@ public class ConsoleView implements IMusicView {
   }
 
   @Override
-  public void draw(MusicViewModel model) {
+  public void create(MusicViewModel model) {
     try {
       ap.append(model.getState());
     } catch (IOException e) {
