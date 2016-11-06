@@ -94,4 +94,14 @@ public final class MusicViewModel implements IMusicModel {
   public Note getNote(int index, int beat) {
     return model.getNote(index, beat);
   }
+
+  @Override
+  public void setTempo(int tempo) {
+    throw cantMutate;
+  }
+
+  @Override
+  public int getTempo() throws IllegalStateException {
+    return model.getTempo();
+  }
 }

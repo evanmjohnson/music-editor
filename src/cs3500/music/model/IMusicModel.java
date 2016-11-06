@@ -118,4 +118,17 @@ public interface IMusicModel {
    * @throws IllegalArgumentException If the Note cannot be found
    */
   Note getNote(int index, int beat) throws IllegalArgumentException;
+
+  /**
+   * Set the tempo of this piece to the given tempo.
+   * @param tempo The tempo to set
+   */
+  void setTempo(int tempo);
+
+  /**
+   * Get the tempo of this piece.
+   * @return The tempo of this piece
+   * @throws IllegalStateException If the tempo of this piece has not been set
+   */
+  int getTempo() throws IllegalStateException;
 }

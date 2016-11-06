@@ -1,12 +1,6 @@
 package cs3500.music.model;
 
-import sun.misc.Contended;
-
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Represents a piece of music that can be manipulated.
@@ -16,6 +10,7 @@ public class MusicModel implements IMusicModel {
 
   private TreeMap<Integer, TreeSet<Note>> notes;
   private List<Note> noteRange;
+  private int tempo;
 
   public MusicModel() {
     this.notes = new TreeMap<>();
@@ -415,5 +410,20 @@ public class MusicModel implements IMusicModel {
       }
     }
     throw new IllegalArgumentException("Cannot find note");
+  }
+
+  @Override
+  public void setTempo(int tempo) {
+    this.tempo = tempo;
+  }
+
+  @Override
+  public int getTempo() throws IllegalStateException {
+    if (tempo != 0) {
+      return this.tempo;
+    }
+    else {
+      throw new IllegalStateException("Tempo has not been set yet.");
+    }
   }
 }
