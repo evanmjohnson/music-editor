@@ -35,7 +35,7 @@ public class JFrameView extends JFrame implements IMusicView {
   }
 
   @Override
-  public void draw(MusicViewModel model) {
+  public void create(MusicViewModel model) {
     JPanel notePanel = new JPanel();
     JPanel beatPanel = new JPanel();
     notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
@@ -48,7 +48,7 @@ public class JFrameView extends JFrame implements IMusicView {
       this.add(notePanel, BorderLayout.WEST);
     }
 
-    // draw each of the beats on the top
+    // create each of the beats on the top
     beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
     this.numBeats = model.getNumBeats();
     for (int i = 0; i <= numBeats; i++) {
@@ -64,7 +64,7 @@ public class JFrameView extends JFrame implements IMusicView {
       }
     }
 
-    // draw all of the notes in the middle
+    // create all of the notes in the middle
     JPanel noteGrid = new JPanel();
     noteGrid.setLayout(new GridLayout(1, this.numBeats));
     for (int i = 0; i <= numBeats; i++) {
@@ -75,14 +75,6 @@ public class JFrameView extends JFrame implements IMusicView {
       //this.add(col, BorderLayout.CENTER);
       noteGrid.add(col);
     }
-//    JLabel test = new JLabel("test");
-//    JLabel test2 = new JLabel("test2");
-//    noteGrid.add(test);
-//    noteGrid.add(new JLabel("test2"));
-//    noteGrid.add(new JLabel("test3"));
-//    noteGrid.add(new JLabel("test4"));
-//    noteGrid.add(new JLabel("test5"));
-//    noteGrid.add(new JLabel("test2"));
 
     this.add(beatPanel, BorderLayout.NORTH);
     this.add(noteGrid, BorderLayout.CENTER);
