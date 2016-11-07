@@ -82,6 +82,34 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
+  public List<Note> noteListStartAt(int beat) {
+    List<Note> result = new ArrayList<>();
+    if (this.notes.get(beat) == null || this.notes.get(beat).isEmpty()) {
+      return result;
+    }
+    for (Note n : this.notes.get(beat)) {
+      if (n.getStartBeat() == beat) {
+        result.add(n);
+      }
+    }
+    return result;
+  }
+
+  @Override
+  public List<Note> noteListContinueAt(int beat) {
+    List<Note> result = new ArrayList<>();
+    if (this.notes.get(beat) == null || this.notes.get(beat).isEmpty()) {
+      return result;
+    }
+    for (Note n : this.notes.get(beat)) {
+      if (n.getStartBeat() != beat) {
+        result.add(n);
+      }
+    }
+    return result;
+  }
+
+  @Override
   public void playSimultaneously(IMusicModel model2) {
     model2.combineSimultaneously(this);
   }
@@ -272,4 +300,5 @@ public class MusicModel implements IMusicModel {
       throw new IllegalStateException("Tempo has not been set yet.");
     }
   }
+
 }

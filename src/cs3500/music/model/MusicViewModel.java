@@ -109,4 +109,14 @@ public final class MusicViewModel implements IMusicModel {
   public Note highestNote() {
     return model.highestNote();
   }
+
+  @Override
+  public List<Note> noteListStartAt(int beat) {
+    return model.noteListStartAt(beat);
+  }
+
+  @Override
+  public List<Note> noteListContinueAt(int beat) {
+    return model.noteListContinueAt(beat);
+  }
 }

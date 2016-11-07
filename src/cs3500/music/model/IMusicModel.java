@@ -137,4 +137,18 @@ public interface IMusicModel {
    * @return The highest Note in this piece
    */
   Note highestNote();
+
+  /**
+   * Gets the List of Notes that start at the given beat.
+   * @param beat The beat at which to check
+   * @return A {@code List<Note>} of the Notes that start at the given beat
+   */
+  List<Note> noteListStartAt(int beat);
+
+  /**
+   * Gets the List of Notes that continue at the given beat.
+   * @param beat The beat at which to check
+   * @return A {@code List<Note>} of the Notes that continue at the given beat
+   */
+  List<Note> noteListContinueAt(int beat);
 }

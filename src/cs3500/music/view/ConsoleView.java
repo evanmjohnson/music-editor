@@ -33,6 +33,7 @@ public class ConsoleView implements IMusicView {
    * @return The String state of the view model
    */
   private String getState() {
+    List<Integer> list = model.notesStartAtThisBeat(5);
     StringBuilder sb = new StringBuilder();
     int totalDigits = new Integer(model.length()).toString().length();
     sb.append(this.printFirstRow() + "\n");
@@ -51,18 +52,16 @@ public class ConsoleView implements IMusicView {
         notesAtThisBeat = new ArrayList<>();
       }
       for (Note n : model.getNoteRange()) {
-        if (this.containsNote(notesAtThisBeat, n.getPitch(), n.getOctave())) {
-          if (n.getStartBeat() == i) {
-            sb.append("  X  ");
-          }
-          else {
-            sb.append("  |  ");
-          }
+        List<Note> start = model.noteListStartAt(i);
+        List<Note> cont = model.noteListContinueAt(i);
+        if (this.containsNote(start, n.getPitch(), n.getOctave())) {
+          sb.append("  X  ");
+        } else if (this.containsNote(cont, n.getPitch(), n.getOctave())) {
+          sb.append("  |  ");
         }
         else {
           sb.append("     ");
         }
-        notesAtThisBeat.remove(0);
       }
       sb.append("\n");
     }
@@ -70,20 +69,19 @@ public class ConsoleView implements IMusicView {
   }
 
   /**
-   * Determine whether or not if the given {@code ArrayList<Integer>} representing indicies of
-   * Notes in the range of Notes in this piece has a Note with the given Pitch and octave.
-   * @param notes The {@code ArrayList<Integer>} to check
+   * Determine whether or not if the given {@code ArrayList<Note>} contains a Note that has
+   * the given PitchType and octave.
+   * @param notes The {@code ArrayList<Note>} to check
    * @param pitch The Pitch to check against the ArrayList
    * @param octave The octave to check against the ArrayList
-   * @return If the given ArrayList has an index of a Note with the given Pitch and octave
+   * @return If the given ArrayList has a Note with the given Pitch and octave
    */
-  private boolean containsNote(ArrayList<Integer> notes, PitchType pitch, int octave) {
+  private boolean containsNote(List<Note> notes, PitchType pitch, int octave) {
     if (notes == null || notes.isEmpty()) {
       return false;
     }
-    for (Integer i : notes) {
-      if (model.getNoteRange().get(i).getPitch() == pitch &&
-          model.getNoteRange().get(i).getOctave() == octave) {
+    for (Note n : notes) {
+      if (n.getPitch() == pitch && n.getOctave() == octave) {
         return true;
       }
     }
