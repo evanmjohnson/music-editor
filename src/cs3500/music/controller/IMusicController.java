@@ -1,7 +1,6 @@
 package cs3500.music.controller;
 
 import cs3500.music.model.IMusicModel;
-import cs3500.music.view.IMusicView;
 
 /**
  * This is the interface for the controller of the music editor.

@@ -7,8 +7,8 @@ import java.util.List;
  * Implements the IMusicModel interface.
  */
 public final class MusicViewModel implements IMusicModel {
-  IMusicModel model;
-  UnsupportedOperationException cantMutate =
+  private IMusicModel model;
+  private UnsupportedOperationException cantMutate =
       new UnsupportedOperationException("Cannot mutate in viewmodel");
 
   public MusicViewModel(IMusicModel model) {
