@@ -133,7 +133,8 @@ public class Note implements Comparable<Note> {
     }
     Note that = (Note) o;
     return that.pitch == this.pitch && this.octave == that.octave &&
-        this.startBeat == that.startBeat && this.duration == that.duration;
+        this.startBeat == that.startBeat && this.duration == that.duration &&
+            this.instrument == that.instrument && this.volume == that.volume;
   }
 
   /**
