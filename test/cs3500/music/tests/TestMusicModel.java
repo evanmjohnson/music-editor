@@ -285,6 +285,7 @@ public class TestMusicModel {
     model.remove(e5);
     model.remove(a4);
     assertEquals(1, model.getNumBeats());
+    console.create(new MusicViewModel(model));
   }
 
   @Test
@@ -318,13 +319,14 @@ public class TestMusicModel {
     model.add(middleC);
     List<Integer> exp = new ArrayList<>();
     exp.add(0);
-    assertEquals(exp, model.notesStopAtThisBeat(2));
+    assertEquals(exp, model.notesStopAtThisBeat(1));
   }
 
   @Test
   public void testNotesStopAtThisBeatEmpty() {
     model.add(middleC);
     List<Integer> exp = new ArrayList<>();
+    exp.add(0);
     assertEquals(exp, model.notesStopAtThisBeat(1));
   }
 
@@ -335,7 +337,7 @@ public class TestMusicModel {
     List<Integer> exp = new ArrayList<>();
     exp.add(0);
     exp.add(10);
-    assertEquals(exp, model.notesStopAtThisBeat(4));
+    assertEquals(exp, model.notesStopAtThisBeat(3));
   }
 
   @Test
