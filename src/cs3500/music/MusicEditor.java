@@ -15,7 +15,10 @@ import javax.sound.midi.InvalidMidiDataException;
 public class MusicEditor {
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     IMusicModel viewModel;
-    viewModel = MusicReader.parseFile(new FileReader(args[0]), new MusicBuilder());
+    args = new String[2];
+    args[0] = "midi";
+    args[1] = "/Users/evan/Downloads/code 4/mary-little-lamb.txt";
+    viewModel = MusicReader.parseFile(new FileReader(args[1]), new MusicBuilder());
     MusicController controller = new MusicController();
     controller.start(viewModel, args);
   }
