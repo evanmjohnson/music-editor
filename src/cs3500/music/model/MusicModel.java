@@ -255,19 +255,21 @@ public class MusicModel implements IMusicModel {
   @Override
   public List<Integer> notesStopAtThisBeat(int beat) {
     List<Integer> result = new ArrayList<>();
-    if (beat == 0) {
-      return result;
+    if (beat == this.getNumBeats()) {
+      result.addAll(this.notesContinueAtThisBeat(beat));
+      result.addAll(this.notesStartAtThisBeat(beat));
     }
-    List<Integer> startPrev = this.notesStartAtThisBeat(beat - 1);
-    List<Integer> contPrev = this.notesContinueAtThisBeat(beat - 1);
     List<Integer> contNow = this.notesContinueAtThisBeat(beat);
-    for (Integer i : startPrev) {
-      if (!contNow.contains(i) && !result.contains(i)) {
+    List<Integer> startNow = this.notesStartAtThisBeat(beat);
+    List<Integer> contNext = this.notesContinueAtThisBeat(beat + 1);
+    for (Integer i : contNext) {
+      if (!contNow.contains(i) && !result.contains(i) &&
+          !startNow.contains(i)) {
         result.add(i);
       }
     }
-    for (Integer i : contPrev) {
-      if (!contNow.contains(i) && !result.contains(i)) {
+    for (Integer i : startNow) {
+      if (!contNext.contains(i) && !result.contains(i)) {
         result.add(i);
       }
     }
@@ -277,6 +279,10 @@ public class MusicModel implements IMusicModel {
   @Override
   public Note getNote(int index, int beat) throws IllegalArgumentException {
     List<Note> range = this.getNoteRange();
+    Note result;
+    if (this.notes.get(beat) == null) {
+      throw new IllegalArgumentException("Cannot find note");
+    }
     for (Note n : this.notes.get(beat)) {
       if (n.getPitch().getToneOrder() == range.get(index).getPitch().getToneOrder() &&
           n.getOctave() == range.get(index).getOctave()) {
