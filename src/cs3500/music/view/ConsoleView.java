@@ -11,11 +11,11 @@ import java.util.List;
  * Implements the {@link IMusicView} interface
  */
 public class ConsoleView implements IMusicView {
-  private final Appendable ap = System.out;
+  private final Appendable ap;
   private MusicViewModel model;
 
   public ConsoleView(Appendable ap) {
-    //this.ap = System.out;
+    this.ap = ap;
   }
 
   @Override
