@@ -36,7 +36,7 @@ public class Note implements Comparable<Note> {
     this.duration = duration;
     this.octave = octave;
     this.instrument = 0;
-    this.volume = 0;
+    this.volume = 127;
   }
 
   /**
