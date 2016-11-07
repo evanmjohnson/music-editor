@@ -1,17 +1,20 @@
 package cs3500.music.view;
 
 import cs3500.music.model.MusicViewModel;
+import cs3500.music.model.Note;
 
 import javax.sound.midi.*;
+import java.util.*;
 
 /**
  * A skeleton for MIDI playback
  */
-public class MidiView implements IMusicView {
-  private final Synthesizer synth;
-  private final Receiver receiver;
 
-  public MidiViewImpl() {
+public class MidiView implements IMusicView {
+  private Synthesizer synth;
+  private Receiver receiver;
+
+  public MidiView() {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
@@ -55,13 +58,74 @@ public class MidiView implements IMusicView {
     MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, 60, 64);
     MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, 60, 64);
     this.receiver.send(start, -1);
+    try {
+      Thread.sleep(2000);
+    }
+    catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
-    this.receiver.close(); // Only call this once you're done playing *all* notes
+    this.receiver.close();
   }
 
   @Override
-  public void draw(MusicViewModel model) {
+  public void create(MusicViewModel model) {
+    // set up channels
+    MidiChannel[] channels = synth.getChannels();
+    TreeMap<Integer, Integer> instrumentToChannel = new TreeMap<>();
+    List<Integer> instruments = model.getInstruments();
+    for (int i = 0; i < model.getInstruments().size(); i++) {
+      if (channels[i] != null) {
+        if (!Arrays.asList(channels).contains(instruments.get(i))) {
+          channels[i].programChange(instruments.get(i));
+          instrumentToChannel.put(instruments.get(i), i);
+        }
+      }
+    }
 
+    for (int i = 0; i <= model.getNumBeats(); i++) {
+      // start each note
+      List<Integer> startList = model.notesStartAtThisBeat(i);
+      if (startList != null) {
+        for (Integer start : startList) {
+          Note toAdd = model.getNote(start, i);
+          int channelOf = instrumentToChannel.get(toAdd.getInstrument());
+          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
+          try {
+            MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
+                pitch, toAdd.getVolume());
+            this.receiver.send(message, -1);
+          } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      // stop each note
+      List<Integer> stopList = model.notesStopAtThisBeat(i);
+      if (stopList != null) {
+        for (Integer stop : stopList) {
+          Note toAdd = model.getNote(stop, i);
+          int channelOf = instrumentToChannel.get(toAdd.getInstrument());
+          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
+          try {
+            MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
+                pitch, toAdd.getVolume());
+            // REPLACE WITH MODEL.GET TEMPO
+            this.receiver.send(message, model.getTempo());
+          } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    }
+    // change this to model.get tempo
+    try {
+      Thread.sleep(model.getTempo() * model.getNumBeats());
+    }
+    catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
   @Override
