@@ -26,9 +26,10 @@ public class JPanelColumn extends JPanel {
 
   public void draw(MusicViewModel model) {
     int size = model.getNoteRange().size();
-    this.setLayout(new GridLayout(size, 1));
+    //this.setLayout(new GridLayout(size, 1));
 
     for (int i = 0; i < size; i++) {
+      /*
       boolean left = false;
       boolean right = false;
       boolean top = false;
@@ -46,12 +47,12 @@ public class JPanelColumn extends JPanel {
       if (i == 0) {
         top = true;
       }
-      JPanelNoteInstance noteInstance;
+      */
+
       //noteInstance = new JPanelNoteInstance(left, right, top, bottom, beat, i);
-      noteInstance = new JPanelNoteInstance();
+
       //System.out.println(noteInstance.toString());
-
-
+      JPanelNoteInstance noteInstance = new JPanelNoteInstance(beat * 50, i * 50);
       if (start.contains(i)) {
         noteInstance.setColor("start");
         this.add(noteInstance);
@@ -61,11 +62,9 @@ public class JPanelColumn extends JPanel {
         this.add(noteInstance);
       }
       else {
-        noteInstance.setColor("none");
-        this.add(noteInstance);
+        //this.add(new JPanelNoteInstance().setColor("none"));
       }
     }
-
     this.setVisible(true);
   }
 
