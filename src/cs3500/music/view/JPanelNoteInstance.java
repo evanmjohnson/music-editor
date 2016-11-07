@@ -11,7 +11,7 @@ import java.awt.geom.Line2D;
  */
 public class JPanelNoteInstance extends JPanel {
   private final int SIDE_LENGTH = 50;
-  private Color color = Color.white;
+  private Color color = Color.LIGHT_GRAY;
   private boolean left;
   private boolean right;
   private boolean top;

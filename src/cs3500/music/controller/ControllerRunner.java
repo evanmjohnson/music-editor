@@ -18,9 +18,9 @@ public class ControllerRunner {
     IMusicModel model = new MusicModel();
     Note middleC = new Note(PitchType.C, 0, 5, 4);
     model.add(middleC);
-//    Note e5 = new Note(PitchType.E,  5, 1, 5);
-//    model.add(e5);
-    Note d4 = new Note(PitchType.D,  5, 1, 4);
+    Note e5 = new Note(PitchType.E,  5, 10, 5);
+    model.add(e5);
+    Note d4 = new Note(PitchType.D,  30, 7, 4);
     model.add(d4);
 
 
@@ -28,6 +28,6 @@ public class ControllerRunner {
 //    MusicViewModel view = new MusicViewModel(model);
 //    frame.draw(view);
 
-    controller.start(model, "visual");
+    controller.start(model, args);
   }
 }
