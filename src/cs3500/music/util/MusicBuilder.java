@@ -6,8 +6,8 @@ import cs3500.music.model.*;
  * Represents a MusicBuilder. Implements the CompositionBuilder interface paramaterized over
  * the {@link MusicViewModel} class.
  */
-public class MusicBuilder implements CompositionBuilder<MusicViewModel> {
-  private MusicModel model;
+public class MusicBuilder implements CompositionBuilder<IMusicModel> {
+  private MusicModel model = new MusicModel();
 
   @Override
   public MusicViewModel build() {
@@ -15,13 +15,13 @@ public class MusicBuilder implements CompositionBuilder<MusicViewModel> {
   }
 
   @Override
-  public CompositionBuilder<MusicViewModel> setTempo(int tempo) {
-    model.setTempo(tempo);
+  public CompositionBuilder<IMusicModel> setTempo(int tempo) {
+    this.model.setTempo(tempo);
     return this;
   }
 
   @Override
-  public CompositionBuilder<MusicViewModel> addNote(int start, int end, int instrument,
+  public CompositionBuilder<IMusicModel> addNote(int start, int end, int instrument,
                                           int pitch, int volume) {
     model = new MusicModel();
     PitchType pitchType = PitchType.A;
