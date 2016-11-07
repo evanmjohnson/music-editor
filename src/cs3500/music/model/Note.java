@@ -36,6 +36,7 @@ public class Note implements Comparable<Note> {
     this.duration = duration;
     this.octave = octave;
     this.instrument = 0;
+    this.volume = 0;
   }
 
   /**
@@ -63,7 +64,13 @@ public class Note implements Comparable<Note> {
     this.startBeat = startBeat;
     this.duration = duration;
     this.octave = octave;
+    if (instrument > 127 || volume < 0) {
+      throw new IllegalArgumentException("Instrument must be between 0 and 127.");
+    }
     this.instrument = instrument;
+    if (volume > 127 || volume < 0) {
+      throw new IllegalArgumentException("Volume must be between 0 and 127.");
+    }
     this.volume = volume;
   }
 
@@ -135,5 +142,13 @@ public class Note implements Comparable<Note> {
    */
   public int getInstrument() {
     return this.instrument;
+  }
+
+  /**
+   * Gets the volume of this Note.
+   * @return The volume of this Note
+   */
+  public int getVolume() {
+    return this.volume;
   }
 }
