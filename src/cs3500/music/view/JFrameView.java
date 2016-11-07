@@ -21,24 +21,27 @@ public class JFrameView extends JFrame implements IMusicView {
 
   public JFrameView() {
     super();
-    setSize(500, 300);
+    setPreferredSize(new Dimension(1500, 300));
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     this.setLayout(new BorderLayout());
+    this.setResizable(false);
   }
 
   @Override
   public void makeVisible() {
-
     this.setVisible(true);
   }
 
   @Override
   public void create(MusicViewModel model) {
+    int cols = model.getNumBeats();
+    int rows = model.getNoteRange().size();
+    this.setPreferredSize(new Dimension(cols * 50, rows * 25));
     JPanel notePanel = new JPanel();
     JPanel beatPanel = new JPanel();
     notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
+    notePanel.setBackground(new Color(238, 238, 238));
 
     // write the range of notes on the left side
     for (Note n : model.getNoteRange()) {
@@ -49,6 +52,7 @@ public class JFrameView extends JFrame implements IMusicView {
     }
 
     // create each of the beats on the top
+    beatPanel.setBackground(new Color(238, 238, 238));
     beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
     this.numBeats = model.getNumBeats();
     for (int i = 0; i <= numBeats; i++) {
@@ -72,7 +76,6 @@ public class JFrameView extends JFrame implements IMusicView {
       List<Integer> start = model.notesStartAtThisBeat(i);
       col = new JPanelColumn(i, start, cont);
       col.draw(model);
-      //this.add(col, BorderLayout.CENTER);
       noteGrid.add(col);
     }
 
