@@ -9,7 +9,7 @@ import cs3500.music.view.IMusicView;
 public interface IMusicController {
   /**
    * Start the music editor with the given view.
-   * @param viewType The type of view to start the editor with
+   * @param args The command line arguments, including which view to use for this editor
    */
-  void start(IMusicModel model, String viewType);
+  void start(IMusicModel model, String[] args);
 }
