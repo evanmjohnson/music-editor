@@ -31,11 +31,6 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
-  public String getState() {
-    return model.getState();
-  }
-
-  @Override
   public void playSimultaneously(IMusicModel model2) {
     throw cantMutate;
   }
@@ -103,5 +98,15 @@ public final class MusicViewModel implements IMusicModel {
   @Override
   public int getTempo() throws IllegalStateException {
     return model.getTempo();
+  }
+
+  @Override
+  public Note lowestNote() {
+    return model.lowestNote();
+  }
+
+  @Override
+  public Note highestNote() {
+    return model.highestNote();
   }
 }

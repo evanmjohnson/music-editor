@@ -28,12 +28,6 @@ public interface IMusicModel {
   void remove(Note n) throws IllegalArgumentException;
 
   /**
-   * Returns the console version of the view for this model.
-   * @return The String of the console view for the model
-   */
-  String getState();
-
-  /**
    * Combines a MusicEditor with another MusicEditor such that they play simultaneously.
    *
    * @param model2 the other editor to combine with.
@@ -131,4 +125,16 @@ public interface IMusicModel {
    * @throws IllegalStateException If the tempo of this piece has not been set
    */
   int getTempo() throws IllegalStateException;
+
+  /**
+   * Gets the lowest Note in this piece.
+   * @return The lowest Note in this piece
+   */
+  Note lowestNote();
+
+  /**
+   * Gets the highest Note in this piece.
+   * @return The highest Note in this piece
+   */
+  Note highestNote();
 }
