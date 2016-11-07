@@ -100,6 +100,12 @@ public class MidiView implements IMusicView {
           }
         }
       }
+      try {
+        Thread.sleep(model.getTempo() / 1000);
+      }
+      catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       // stop each note
       List<Integer> stopList = model.notesStopAtThisBeat(i);
       if (stopList != null) {
@@ -111,7 +117,7 @@ public class MidiView implements IMusicView {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
                 pitch, toAdd.getVolume());
             // REPLACE WITH MODEL.GET TEMPO
-            this.receiver.send(message, model.getTempo());
+            this.receiver.send(message, this.synth.getMicrosecondPosition() + model.getTempo());
           } catch (InvalidMidiDataException e) {
             e.printStackTrace();
           }
