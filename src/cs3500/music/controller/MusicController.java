@@ -12,12 +12,11 @@ public class MusicController implements IMusicController {
   private IMusicModel model;
 
   @Override
-  public void start(IMusicModel model, String viewType) {
-    this.view = MusicCreator.create(viewType);
+  public void start(IMusicModel model, String[] args) {
+    this.view = MusicCreator.create(args);
     this.model = model;
     MusicViewModel viewModel = new MusicViewModel(model);
     view.create(viewModel);
     view.makeVisible();
   }
-
 }

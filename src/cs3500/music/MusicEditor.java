@@ -1,10 +1,11 @@
 package cs3500.music;
 
+import cs3500.music.controller.MusicController;
 import cs3500.music.model.IMusicModel;
-import cs3500.music.model.MusicModel;
-import cs3500.music.view.JFrameView;
-import cs3500.music.view.MidiView;
+import cs3500.music.util.MusicBuilder;
+import cs3500.music.util.MusicReader;
 
+import java.io.FileReader;
 import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -13,9 +14,9 @@ import javax.sound.midi.InvalidMidiDataException;
  */
 public class MusicEditor {
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
-    JFrameView view = new JFrameView();
-    MidiView midiView = new MidiView();
-    IMusicModel model = new MusicModel();
-
+    IMusicModel viewModel;
+    viewModel = MusicReader.parseFile(new FileReader(args[0]), new MusicBuilder());
+    MusicController controller = new MusicController();
+    controller.start(viewModel, args);
   }
 }
