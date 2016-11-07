@@ -24,7 +24,7 @@ public class MusicBuilder implements CompositionBuilder<MusicViewModel> {
   public CompositionBuilder<MusicViewModel> addNote(int start, int end, int instrument,
                                           int pitch, int volume) {
     model = new MusicModel();
-    PitchType pitchType = new PitchType;
+    PitchType pitchType = PitchType.A;
     for (PitchType type : PitchType.values()) {
       if (type.getToneOrder() == pitch % 12) {
         pitchType = type;
