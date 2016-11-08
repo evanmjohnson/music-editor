@@ -55,17 +55,23 @@ public class JFrameView extends JFrame implements IMusicView {
     for (int i = 0; i <= numBeats; i++) {
       if (i % 16 == 0) {
         if (i == 0) {
-          beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+          beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
+        }
+        else {
+          beatPanel.add(Box.createRigidArea(new Dimension(12 - (i / 16), 0)));
         }
         JLabel label = new JLabel(Integer.toString(i));
         label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
         beatPanel.add(label);
       } else {
-        beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
       }
     }
     this.add(beatPanel, BorderLayout.NORTH);
     notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
+    for (int i = 0; i < numBeats; i++) {
+      notesPanel.setNotes(model.notesStartAtThisBeat(i), model.notesContinueAtThisBeat(i), i);
+    }
     pack();
   }
 

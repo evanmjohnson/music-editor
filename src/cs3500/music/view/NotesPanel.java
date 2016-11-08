@@ -10,21 +10,41 @@ import javax.swing.*;
  * Created by Shravali on 11/8/2016.
  */
 public class NotesPanel extends JPanel {
-  private java.util.List<Line> lines;
+  private List<Line> lines;
+  private List<Rectangle> rects;
+  private int numNotes;
+  private int numBeats;
+  private final int RECTANGLE_WIDTH = 30;
+  private final int RECTANGLE_HEIGHT = 24;
 
   public NotesPanel() {
-    lines = new ArrayList<Line>();
+    lines = new ArrayList<>();
+    rects = new ArrayList<>();
   }
 
   public void setLines(int numBeats, int numNotes) {
-    this.lines = new ArrayList<Line>();
+    this.numBeats = numBeats;
+    this.numNotes = numNotes;
     // draws vertical lines
-    for(int i=0; i<=numBeats; i+=4) {
-      //for(int j=0; j<=numNotes; j++) {
-        lines.add(new Line(i, numBeats));
+    for(int i= 0; i<=numBeats; i+=4) {
+        lines.add(new Line(i, 0, i, numNotes));
+    }
+    // draw horizontal lines
+    for (int j = 0; j <= numNotes; j++) {
+      lines.add(new Line(0, j, numBeats, j));
+    }
+  }
+
+  public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
+    for (int i = 0; i <= numNotes; i++) {
+      if (start.contains(i)) {
+        rects.add(new Rectangle(beat, i, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));
+      }
+      else if (cont.contains(i)) {
+        rects.add(new Rectangle(beat, i, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.green));
       }
     }
-
+  }
 
 
   @Override
@@ -38,7 +58,12 @@ public class NotesPanel extends JPanel {
     //g2d.setColor(Color.BLACK);
 
     for (Line l : lines) {
-      g2d.drawLine( l.start, 0, l.start, l.end + 500);
+      g2d.drawLine( l.x0 * 30, l.y0 * 22, l.x1 * 30, l.y1 * 22);
+    }
+
+    for (Rectangle r : rects) {
+      g2d.setColor(r.color);
+      g2d.fillRect(r.x * 30, r.y * 22, r.width, r.height - 3);
     }
   }
 
