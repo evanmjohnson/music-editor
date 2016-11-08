@@ -209,6 +209,9 @@ public class MusicModel implements IMusicModel {
   @Override
   public List<Note> getNoteRange() {
     List<Note> noteRange = new ArrayList<>();
+    if (this.notes.isEmpty()) {
+      return noteRange;
+    }
     Note lowest = this.lowestNote();
     Note highest = this.highestNote();
     if (lowest.getOctave() == highest.getOctave()) {
@@ -262,8 +265,8 @@ public class MusicModel implements IMusicModel {
     List<Integer> contNow = this.notesContinueAtThisBeat(beat);
     List<Integer> startNow = this.notesStartAtThisBeat(beat);
     List<Integer> contNext = this.notesContinueAtThisBeat(beat + 1);
-    for (Integer i : contNext) {
-      if (!contNow.contains(i) && !result.contains(i) &&
+    for (Integer i : contNow) {
+      if (!contNext.contains(i) && !result.contains(i) &&
           !startNow.contains(i)) {
         result.add(i);
       }
