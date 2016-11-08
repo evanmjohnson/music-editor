@@ -119,4 +119,29 @@ public class TestMidi {
     assertEquals(exp, midi.messageString.toString());
   }
 
+  @Test
+  public void testMidiNoNotes() {
+    model.setTempo(2);
+    MusicViewModel vm = new MusicViewModel(model);
+    midi.create(vm);
+    assertEquals("", midi.messageString.toString());
+  }
+
+  @Test
+  public void testMidiTwoNotes() {
+    model.setTempo(2);
+    Note a4 = new Note(PitchType.A, 0, 2, 4, 1, 120);
+    Note e5 = new Note(PitchType.E, 3, 4, 5, 6, 12);
+    model.add(a4);
+    model.add(e5);
+    MusicViewModel vm = new MusicViewModel(model);
+    midi.create(vm);
+    String exp = "start 0 57 120\n" +
+        "stop 0 57 120\n" +
+        "start 0 64 12\n" +
+        "stop 0 64 12\n";
+    assertEquals(exp, midi.messageString.toString());
+  }
+
+
 }
