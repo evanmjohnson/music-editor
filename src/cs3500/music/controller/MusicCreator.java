@@ -14,6 +14,7 @@ import java.io.IOException;
 public class MusicCreator {
   /**
    * Creates an IMusicView based on the specified args.
+   *
    * @param args The type of view that is to be created.
    * @return An IMusicView of the specified type.
    */
@@ -39,7 +40,7 @@ public class MusicCreator {
     } else if (viewType.equals("visual")) {
       return new JFrameView();
     } else if (viewType.equals("midi")) {
-      return new MidiView("");
+      return new MidiView();
     } else {
       throw new IllegalArgumentException("Must be one of console, visual, or midi.");
     }
