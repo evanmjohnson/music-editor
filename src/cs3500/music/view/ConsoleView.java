@@ -30,6 +30,7 @@ public class ConsoleView implements IMusicView {
 
   /**
    * Gets the formatted text state of the model.
+   *
    * @return The String state of the view model
    */
   private String getState() {
@@ -47,8 +48,7 @@ public class ConsoleView implements IMusicView {
       try {
         notesAtThisBeat.addAll(model.notesStartAtThisBeat(i));
         notesAtThisBeat.addAll(model.notesContinueAtThisBeat(i));
-      }
-      catch (NullPointerException e) {
+      } catch (NullPointerException e) {
         notesAtThisBeat = new ArrayList<>();
       }
       for (Note n : model.getNoteRange()) {
@@ -58,8 +58,7 @@ public class ConsoleView implements IMusicView {
           sb.append("  X  ");
         } else if (this.containsNote(cont, n.getPitch(), n.getOctave())) {
           sb.append("  |  ");
-        }
-        else {
+        } else {
           sb.append("     ");
         }
       }
@@ -71,8 +70,9 @@ public class ConsoleView implements IMusicView {
   /**
    * Determine whether or not if the given {@code ArrayList<Note>} contains a Note that has
    * the given PitchType and octave.
-   * @param notes The {@code ArrayList<Note>} to check
-   * @param pitch The Pitch to check against the ArrayList
+   *
+   * @param notes  The {@code ArrayList<Note>} to check
+   * @param pitch  The Pitch to check against the ArrayList
    * @param octave The octave to check against the ArrayList
    * @return If the given ArrayList has a Note with the given Pitch and octave
    */
@@ -90,6 +90,7 @@ public class ConsoleView implements IMusicView {
 
   /**
    * Gets the first row of the console output.
+   *
    * @return String respresentation of all of the notes between the lowest and highest notes
    * in this piece.
    */
@@ -109,8 +110,7 @@ public class ConsoleView implements IMusicView {
           sb.append(this.center(pitch.getToneValue() + "" + lowest.getOctave()));
         }
       }
-    }
-    else {
+    } else {
       for (PitchType pitch : PitchType.values()) {
         if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder()) {
           sb.append(this.center(pitch.getToneValue() + "" + lowest.getOctave()));
@@ -132,6 +132,7 @@ public class ConsoleView implements IMusicView {
 
   /**
    * Centers the given String in the middle of a length 5 String.
+   *
    * @param s The String to center
    * @return The centered String
    */
