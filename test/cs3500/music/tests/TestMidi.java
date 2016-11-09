@@ -6,6 +6,7 @@ import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicBuilder;
 
 import cs3500.music.view.MidiView;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -29,10 +30,10 @@ public class TestMidi {
 
   @Test
   public void testAddNotes() {
-    Note c2 = new Note(PitchType.C, 1, 2, 2, 12, 15);
+    Note c0 = new Note(PitchType.C, 1, 2, 0, 12, 15);
     compBuild.addNote(1, 3, 12, 12, 15);
     List<Note> exp = new ArrayList<>();
-    exp.add(c2);
+    exp.add(c0);
     assertEquals(exp, compBuild.build().noteListStartAt(1));
   }
 
@@ -56,29 +57,29 @@ public class TestMidi {
 
   @Test
   public void testAddNote4() {
-    Note f1 = new Note(PitchType.F, 1, 2, 1, 5, 5);
-    Note c2 = new Note(PitchType.C, 1, 2, 2, 12, 15);
-    compBuild.addNote(1, 3, 12, 12, 15);
-    compBuild.addNote(1, 3, 5, 5, 5);
+    Note c4 = new Note(PitchType.C, 1, 3, 4, 15, 15);
+    Note c0 = new Note(PitchType.C, 1, 2, 0, 12, 12);
+    compBuild.addNote(1, 3, 12, 12, 12);
+    compBuild.addNote(1, 4, 15, 60, 15);
     List<Note> exp = new ArrayList<>();
-    exp.add(f1);
-    exp.add(c2);
+    exp.add(c0);
+    exp.add(c4);
     assertEquals(exp, compBuild.build().noteListContinueAt(2));
   }
 
   @Test
   public void testAddNote5() {
-    Note c2 = new Note(PitchType.C, 1, 2, 2);
+    Note c0 = new Note(PitchType.C, 1, 2, 0);
     compBuild.addNote(1, 3, 0, 12, 127);
     List<Note> exp = new ArrayList<>();
-    exp.add(c2);
+    exp.add(c0);
     assertEquals(exp, compBuild.build().noteListStartAt(1));
   }
 
   /**
    * Cannot add a note with a volume greater than 127.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddNoteException() {
     compBuild.addNote(1, 3, 0, 12, 128);
   }
@@ -86,7 +87,7 @@ public class TestMidi {
   /**
    * Cannot add a note with a volume less than 0.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddNoteException2() {
     compBuild.addNote(1, 3, 0, 12, -1);
   }
@@ -94,17 +95,35 @@ public class TestMidi {
   /**
    * Cannot add a note with a pitch less than 0.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddNoteException3() {
     compBuild.addNote(1, 3, 0, -1, 127);
   }
 
+
   /**
    * Cannot add a note with a pitch greater than 127.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testAddNoteException4() {
     compBuild.addNote(1, 3, 0, 130, 12);
+  }
+
+  /**
+   * Cannot add a note with an instrument greater than 127.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddNoteException5() {
+    compBuild.addNote(1, 3, 130, 0, 12);
+  }
+
+  /**
+   * Cannot add a note with an instrument less than 0.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddNoteException6() {
+
+    compBuild.addNote(1, 3, -1, 15, 127);
   }
 
   @Test
@@ -115,7 +134,7 @@ public class TestMidi {
     MusicViewModel vm = new MusicViewModel(model);
     midi.create(vm);
     String exp = "start 0 24 127\n" +
-        "stop 0 24 127\n";
+            "stop 0 24 127\n";
     assertEquals(exp, midi.messageString.toString());
   }
 
@@ -137,9 +156,9 @@ public class TestMidi {
     MusicViewModel vm = new MusicViewModel(model);
     midi.create(vm);
     String exp = "start 0 57 120\n" +
-        "stop 0 57 120\n" +
-        "start 0 64 12\n" +
-        "stop 0 64 12\n";
+            "stop 0 57 120\n" +
+            "start 0 64 12\n" +
+            "stop 0 64 12\n";
     assertEquals(exp, midi.messageString.toString());
   }
 
