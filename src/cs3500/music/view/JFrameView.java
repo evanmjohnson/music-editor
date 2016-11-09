@@ -19,12 +19,11 @@ import java.awt.Font;
  * Displays a java Swing BoxLayout view for the music editor.
  */
 public class JFrameView extends JFrame implements IMusicView {
+  private NotesPanel notesPanel;
+
   /**
    * Constructs a JFrameView with a border layout which has a NotesPanel inside of it.
    */
-  private NotesPanel notesPanel;
-
-
   public JFrameView() {
     super();
     setSize(new Dimension(500, 500));
@@ -34,7 +33,6 @@ public class JFrameView extends JFrame implements IMusicView {
     //this.setResizable(false);
     this.notesPanel = new NotesPanel();
     //change dimension to reflect notes and beats
-    ;
     //scrollPane.setPreferredSize(new Dimension(200, 200));
 
     //this.add(notesPanel, BorderLayout.CENTER);
@@ -84,10 +82,9 @@ public class JFrameView extends JFrame implements IMusicView {
       notesPanel.setNotes(model.notesStartAtThisBeat(i), model.notesContinueAtThisBeat(i), i);
     }
     JScrollPane scrollPane = new JScrollPane(notesPanel,
-        ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     this.add(scrollPane, BorderLayout.CENTER);
-//    pack();
   }
 
 
