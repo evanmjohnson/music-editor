@@ -17,13 +17,14 @@ public class MusicEditor {
     IMusicModel viewModel;
     args = new String[2];
     args[0] = "midi";
-    //args[1] = "/Users/evan/Downloads/code 4/mary-little-lamb.txt";
-    //args[1] = "/Users/evan/Downloads/code 4/lnl.txt";
-    args[1] = "/Users/Shravali/Desktop/OOD/starteractual/mary-little-lamb.txt";
+    args[1] = "/Users/evan/Downloads/code/mary-little-lamb.txt";
+    //args[1] = "/Users/evan/Downloads/code/lnl.txt";
+    //args[1] = "/Users/Shravali/Desktop/OOD/starteractual/mary-little-lamb.txt";
     viewModel = MusicReader.parseFile(new FileReader(args[1]), new MusicBuilder());
+    System.out.println(viewModel.getNumBeats());
     MusicController controller = new MusicController();
     //controller.start(viewModel, args);
-    args[0] = "visual";
+    args[0] = "console";
     MusicController controller1 = new MusicController();
     controller1.start(viewModel, args);
   }

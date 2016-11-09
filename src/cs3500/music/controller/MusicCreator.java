@@ -18,7 +18,7 @@ public class MusicCreator {
     if (viewType.equals("console")) {
       Appendable ap;
       // if no file is specified, use System.out as the Appendable
-      if (args.length == 1) {
+      if (args.length != 3) {
         ap = System.out;
       }
       // if a file is specified, use it as the Appendable
