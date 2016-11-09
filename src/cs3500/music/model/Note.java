@@ -64,7 +64,7 @@ public class Note implements Comparable<Note> {
     this.startBeat = startBeat;
     this.duration = duration;
     this.octave = octave;
-    if (instrument > 127 || volume < 0) {
+    if (instrument > 127 || instrument < 0) {
       throw new IllegalArgumentException("Instrument must be between 0 and 127.");
     }
     this.instrument = instrument;

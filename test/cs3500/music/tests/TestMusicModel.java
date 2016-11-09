@@ -35,6 +35,31 @@ public class TestMusicModel {
   StringBuffer out = new StringBuffer();
   ConsoleView console = new ConsoleView(out);
 
+  /**
+   * Start beat cannot be negative.
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testNote1() {
+    Note f1 = new Note(PitchType.F, -1, 12, 12);
+  }
+
+  /**
+   * Duration cannot be negative.
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testNote2() {
+    Note f1 = new Note(PitchType.F, 1, -12, 12);
+  }
+
+  /**
+   * Octave cannot be negative.
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testNote3() {
+    Note f1 = new Note(PitchType.F, 1, 12, -12);
+  }
+
+
   @Test
   public void testAdd() {
     model.add(middleC);

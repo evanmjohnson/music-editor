@@ -22,7 +22,7 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
 
   @Override
   public CompositionBuilder<IMusicModel> addNote(int start, int end, int instrument,
-                                          int pitch, int volume) {
+                                                 int pitch, int volume) {
     PitchType pitchType = PitchType.A;
     for (PitchType type : PitchType.values()) {
       if (type.getToneOrder() == pitch % 12) {
@@ -32,8 +32,13 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
     if (pitch > 127 || pitch < 0) {
       throw new IllegalArgumentException("Pitch must be between 0 and 127.");
     }
-    Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) - 1, instrument, volume);
-    model.add(toAdd);
+    if (pitch < 12) {
+      Note toAdd = new Note(pitchType, start, end - start, (pitch / 12), instrument, volume);
+      model.add(toAdd);
+    } else {
+      Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) - 1, instrument, volume);
+      model.add(toAdd);
+    }
     return this;
   }
 }
