@@ -8,6 +8,7 @@ import cs3500.music.model.IMusicModel;
 public interface IMusicController {
   /**
    * Start the music editor with the given view.
+   *
    * @param args The command line arguments, including which view to use for this editor
    */
   void start(IMusicModel model, String[] args);

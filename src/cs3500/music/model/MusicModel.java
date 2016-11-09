@@ -19,6 +19,7 @@ public class MusicModel implements IMusicModel {
    * Adds the given Note to this model. If there is already a Note sustained at the same Pitch and
    * octave at the starting beat of the given Note, override that Note for the duration of the
    * given Note.
+   *
    * @param n The Note to add
    */
   @Override
@@ -31,8 +32,7 @@ public class MusicModel implements IMusicModel {
         TreeSet<Note> toAdd = new TreeSet<>();
         toAdd.add(n);
         notes.put(i, toAdd);
-      }
-      else {
+      } else {
         notes.get(i).add(n);
       }
     }
@@ -47,7 +47,7 @@ public class MusicModel implements IMusicModel {
   @Override
   public void remove(Note n) throws IllegalArgumentException {
     boolean removed = false;
-    for(Map.Entry<Integer,TreeSet<Note>> entry : notes.entrySet()) {
+    for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
       TreeSet<Note> set = entry.getValue();
       if (set.contains(n)) {
         set.remove(n);
@@ -121,7 +121,7 @@ public class MusicModel implements IMusicModel {
 
   @Override
   public void combineSimultaneously(MusicModel sheet1) {
-    for(Map.Entry<Integer,TreeSet<Note>> entry : notes.entrySet()) {
+    for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
       for (Note n : entry.getValue()) {
         sheet1.add(n);
       }
@@ -131,7 +131,7 @@ public class MusicModel implements IMusicModel {
   @Override
   public void combineConsecutively(MusicModel sheet1) {
     ArrayList<Note> notesToAdd = new ArrayList<>();
-    for(Map.Entry<Integer,TreeSet<Note>> entry : notes.entrySet()) {
+    for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
       int i = entry.getKey();
       TreeSet<Note> set = entry.getValue();
       for (Note n : set) {
@@ -198,7 +198,7 @@ public class MusicModel implements IMusicModel {
   public int getNumBeats() {
     int result = 0;
     ArrayList<Integer> keys = new ArrayList<>(notes.keySet());
-    for(int i : keys) {
+    for (int i : keys) {
       if (!notes.get(i).isEmpty()) {
         result = i;
       }
@@ -221,8 +221,7 @@ public class MusicModel implements IMusicModel {
           noteRange.add(new Note(pitch, 0, 0, lowest.getOctave()));
         }
       }
-    }
-    else {
+    } else {
       for (PitchType pitch : PitchType.values()) {
         if (pitch.getToneOrder() >= lowest.getPitch().getToneOrder()) {
           noteRange.add(new Note(pitch, 0, 0, lowest.getOctave()));
@@ -304,8 +303,7 @@ public class MusicModel implements IMusicModel {
   public int getTempo() throws IllegalStateException {
     if (tempo != 0) {
       return this.tempo;
-    }
-    else {
+    } else {
       throw new IllegalStateException("Tempo has not been set yet.");
     }
   }
