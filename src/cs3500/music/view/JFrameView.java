@@ -19,14 +19,17 @@ public class JFrameView extends JFrame implements IMusicView {
 
   public JFrameView() {
     super();
-    setSize(500, 300);
+    setSize(new Dimension(500, 500));
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
+    //this.setResizable(false);
     notesPanel = new NotesPanel();
     //change dimension to reflect notes and beats
-    notesPanel.setPreferredSize(new Dimension(500, 500));
-    this.add(notesPanel, BorderLayout.CENTER);
+    ;
+    //scrollPane.setPreferredSize(new Dimension(200, 200));
+
+    //this.add(notesPanel, BorderLayout.CENTER);
   }
 
   @Override
@@ -37,6 +40,7 @@ public class JFrameView extends JFrame implements IMusicView {
 
   @Override
   public void create(MusicViewModel model) {
+    System.out.println(model.getNumBeats());
     JPanel notePanel = new JPanel();
     JPanel beatPanel = new JPanel();
     notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
@@ -72,7 +76,11 @@ public class JFrameView extends JFrame implements IMusicView {
     for (int i = 0; i < numBeats; i++) {
       notesPanel.setNotes(model.notesStartAtThisBeat(i), model.notesContinueAtThisBeat(i), i);
     }
-    pack();
+    JScrollPane scrollPane = new JScrollPane(notesPanel,
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    this.add(scrollPane, BorderLayout.CENTER);
+//    pack();
   }
 
 

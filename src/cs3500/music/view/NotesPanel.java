@@ -49,7 +49,6 @@ public class NotesPanel extends JPanel {
 
   @Override
   protected void paintComponent(Graphics g) {
-    System.out.println("draw");
     //never forget to call super.paintComponent!
     super.paintComponent(g);
 
