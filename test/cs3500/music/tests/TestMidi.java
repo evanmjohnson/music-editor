@@ -139,14 +139,6 @@ public class TestMidi {
   }
 
   @Test
-  public void testMidiNoNotes() {
-    model.setTempo(2);
-    MusicViewModel vm = new MusicViewModel(model);
-    midi.create(vm);
-    assertEquals("", midi.messageString.toString());
-  }
-
-  @Test
   public void testMidiTwoNotes() {
     model.setTempo(2);
     Note a4 = new Note(PitchType.A, 0, 2, 4, 1, 120);
