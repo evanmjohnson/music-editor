@@ -162,5 +162,13 @@ public class TestMidi {
     assertEquals(exp, midi.messageString.toString());
   }
 
-
+  /**
+   * Cannot create a MIDI view if the given model is empty.
+   */
+  @Test (expected = IllegalArgumentException.class)
+  public void testMidiEmpty() {
+    model.setTempo(2);
+    MusicViewModel vm = new MusicViewModel(model);
+    midi.create(vm);
+  }
 }

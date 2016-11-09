@@ -46,6 +46,10 @@ public class MidiView implements IMusicView {
 
   @Override
   public void create(MusicViewModel model) {
+    if (model.length() == 0) {
+      throw new IllegalArgumentException("Empty model.");
+    }
+
     // set up channels
     MidiChannel[] channels = synth.getChannels();
     TreeMap<Integer, Integer> instrumentToChannel = new TreeMap<>();
