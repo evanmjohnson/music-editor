@@ -19,14 +19,17 @@ public class JFrameView extends JFrame implements IMusicView {
 
   public JFrameView() {
     super();
-    setSize(500, 300);
+    setSize(new Dimension(500, 500));
     setLocation(200, 200);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
+    //this.setResizable(false);
     notesPanel = new NotesPanel();
     //change dimension to reflect notes and beats
-    notesPanel.setPreferredSize(new Dimension(500, 500));
-    this.add(notesPanel, BorderLayout.CENTER);
+    ;
+    //scrollPane.setPreferredSize(new Dimension(200, 200));
+
+    //this.add(notesPanel, BorderLayout.CENTER);
   }
 
   @Override
@@ -37,6 +40,7 @@ public class JFrameView extends JFrame implements IMusicView {
 
   @Override
   public void create(MusicViewModel model) {
+    System.out.println(model.getNumBeats());
     JPanel notePanel = new JPanel();
     JPanel beatPanel = new JPanel();
     notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
@@ -55,18 +59,28 @@ public class JFrameView extends JFrame implements IMusicView {
     for (int i = 0; i <= numBeats; i++) {
       if (i % 16 == 0) {
         if (i == 0) {
-          beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+          beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
+        }
+        else {
+          beatPanel.add(Box.createRigidArea(new Dimension(12 - (i / 16), 0)));
         }
         JLabel label = new JLabel(Integer.toString(i));
         label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
         beatPanel.add(label);
       } else {
-        beatPanel.add(Box.createRigidArea(new Dimension(50, 0)));
+        beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
       }
     }
     this.add(beatPanel, BorderLayout.NORTH);
     notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
-    pack();
+    for (int i = 0; i < numBeats; i++) {
+      notesPanel.setNotes(model.notesStartAtThisBeat(i), model.notesContinueAtThisBeat(i), i);
+    }
+    JScrollPane scrollPane = new JScrollPane(notesPanel,
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    this.add(scrollPane, BorderLayout.CENTER);
+//    pack();
   }
 
 
