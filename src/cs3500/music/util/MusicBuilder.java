@@ -32,6 +32,9 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
         pitchType = type;
       }
     }
+    if (start == end) {
+      throw new IllegalArgumentException("Duration cannot be zero.");
+    }
     if (pitch > 127 || pitch < 0) {
       throw new IllegalArgumentException("Pitch must be between 0 and 127.");
     }

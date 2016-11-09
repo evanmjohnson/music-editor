@@ -126,6 +126,14 @@ public class TestMidi {
     compBuild.addNote(1, 3, -1, 15, 127);
   }
 
+  /**
+   * Cannot add a note with a duration of 0.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void testAddNoteException7() {
+    compBuild.addNote(1, 1, 1, 15, 127);
+  }
+
   @Test
   public void testMidiOneNote() {
     Note c2 = new Note(PitchType.C, 1, 2, 2);
