@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="music-editor:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/music_editor_jar</output-path>
+    <root id="archive" name="music-editor.jar">
+      <element id="module-output" name="music-editor" />
+    </root>
+  </artifact>
+</component>

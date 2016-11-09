@@ -15,10 +15,11 @@ public class Note implements Comparable<Note> {
 
   /**
    * Creates a new Note with default values for instrument and volume.
-   * @param pitch The PitchType of this Note
+   *
+   * @param pitch     The PitchType of this Note
    * @param startBeat The beat at which this Note starts
-   * @param duration How many beats this Note is sustained, including the starting beat
-   * @param octave The octave of this Note
+   * @param duration  How many beats this Note is sustained, including the starting beat
+   * @param octave    The octave of this Note
    */
   public Note(PitchType pitch, int startBeat, int duration, int octave) {
     if (duration < 0) {
@@ -41,12 +42,13 @@ public class Note implements Comparable<Note> {
 
   /**
    * Creates a new Note with all given paramaters.
-   * @param pitch The PitchType
-   * @param startBeat The beat at which this Note starts
-   * @param duration How many beats this Note is sustained, including the starting beat
-   * @param octave The ocatve of this Note
+   *
+   * @param pitch      The PitchType
+   * @param startBeat  The beat at which this Note starts
+   * @param duration   How many beats this Note is sustained, including the starting beat
+   * @param octave     The ocatve of this Note
    * @param instrument The instrument that plays this Note
-   * @param volume The volume of this Note
+   * @param volume     The volume of this Note
    */
   public Note(PitchType pitch, int startBeat, int duration, int octave,
               int instrument, int volume) {
@@ -81,6 +83,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Compares this Note with the given Note.
+   *
    * @param n The Note to compare to
    * @return A negative integer, zero, or a positive integer as this Note is less than,
    * equal to, or greater than the given Note.
@@ -94,6 +97,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Get the value of this Note's pitch.
+   *
    * @return This Note's PitchType
    */
   public PitchType getPitch() {
@@ -102,6 +106,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Get the value of this Note's octave.
+   *
    * @return This Note's octave
    */
   public int getOctave() {
@@ -110,6 +115,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Get the value of this Note's starting beat.
+   *
    * @return This Note's starting beat
    */
   public int getStartBeat() {
@@ -118,6 +124,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Get this Note's duration.
+   *
    * @return This Note's duration
    */
   public int getDuration() {
@@ -134,11 +141,12 @@ public class Note implements Comparable<Note> {
     Note that = (Note) o;
     return that.pitch == this.pitch && this.octave == that.octave &&
         this.startBeat == that.startBeat && this.duration == that.duration &&
-            this.instrument == that.instrument && this.volume == that.volume;
+        this.instrument == that.instrument && this.volume == that.volume;
   }
 
   /**
    * Gets the instrument of this Note.
+   *
    * @return The instrument type of this Note
    */
   public int getInstrument() {
@@ -147,6 +155,7 @@ public class Note implements Comparable<Note> {
 
   /**
    * Gets the volume of this Note.
+   *
    * @return The volume of this Note
    */
   public int getVolume() {

@@ -7,7 +7,6 @@ import cs3500.music.view.MidiView;
 
 import java.io.FileWriter;
 import java.io.IOException;
-//import cs3500.music.view.MidiView;
 
 /**
  * Factory class for the music editor.
@@ -23,24 +22,20 @@ public class MusicCreator {
       }
       // if a file is specified, use it as the Appendable
       else {
-        String filePath = args[1];
+        String filePath = args[2];
         try {
           ap = new FileWriter(filePath);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
           ap = System.out;
           e.printStackTrace();
         }
       }
       return new ConsoleView(ap);
-    }
-    else if(viewType.equals("visual")) {
+    } else if (viewType.equals("visual")) {
       return new JFrameView();
-    }
-    else if (viewType.equals("midi")){
-      return new MidiView();
-    }
-    else {
+    } else if (viewType.equals("midi")) {
+      return new MidiView("");
+    } else {
       throw new IllegalArgumentException("Must be one of console, visual, or midi.");
     }
   }

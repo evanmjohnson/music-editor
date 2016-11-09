@@ -1,6 +1,8 @@
 package cs3500.music.view;
 
-import cs3500.music.model.*;
+import cs3500.music.model.Note;
+import cs3500.music.model.PitchType;
+import cs3500.music.model.MusicViewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,6 +1,15 @@
 package cs3500.music.view;
 
-import javax.sound.midi.*;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.Synthesizer;
+import javax.sound.midi.VoiceStatus;
+import javax.sound.midi.Soundbank;
+import javax.sound.midi.Instrument;
+import javax.sound.midi.Patch;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.Transmitter;
+
 import java.util.List;
 
 /**

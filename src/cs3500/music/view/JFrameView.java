@@ -3,10 +3,17 @@ package cs3500.music.view;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.BoxLayout;
+import javax.swing.Box;
+import javax.swing.ScrollPaneConstants;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
+import java.awt.Font;
 
 /**
  * Displays a java Swing BoxLayout view for the music editor.
@@ -60,8 +67,7 @@ public class JFrameView extends JFrame implements IMusicView {
       if (i % 16 == 0) {
         if (i == 0) {
           beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-        }
-        else {
+        } else {
           beatPanel.add(Box.createRigidArea(new Dimension(12 - (i / 16), 0)));
         }
         JLabel label = new JLabel(Integer.toString(i));
@@ -82,7 +88,6 @@ public class JFrameView extends JFrame implements IMusicView {
     this.add(scrollPane, BorderLayout.CENTER);
 //    pack();
   }
-
 
 
 }

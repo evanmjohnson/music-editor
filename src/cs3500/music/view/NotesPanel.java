@@ -1,19 +1,21 @@
 package cs3500.music.view;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.Color;
 
-import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
 
 /**
- * Created by Shravali on 11/8/2016.
+ * Represents the panel in the middle of the view that shows the grid of notes.
  */
 public class NotesPanel extends JPanel {
   private List<Line> lines;
   private List<Rectangle> rects;
   private int numNotes;
-  private int numBeats;
   private final int RECTANGLE_WIDTH = 30;
   private final int RECTANGLE_HEIGHT = 24;
 
@@ -23,11 +25,10 @@ public class NotesPanel extends JPanel {
   }
 
   public void setLines(int numBeats, int numNotes) {
-    this.numBeats = numBeats;
     this.numNotes = numNotes;
     // draws vertical lines
-    for(int i= 0; i<=numBeats; i+=4) {
-        lines.add(new Line(i, 0, i, numNotes));
+    for (int i = 0; i <= numBeats; i += 4) {
+      lines.add(new Line(i, 0, i, numNotes));
     }
     // draw horizontal lines
     for (int j = 0; j <= numNotes; j++) {
@@ -39,8 +40,7 @@ public class NotesPanel extends JPanel {
     for (int i = 0; i <= numNotes; i++) {
       if (start.contains(i)) {
         rects.add(new Rectangle(beat, i, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));
-      }
-      else if (cont.contains(i)) {
+      } else if (cont.contains(i)) {
         rects.add(new Rectangle(beat, i, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.green));
       }
     }
@@ -57,7 +57,7 @@ public class NotesPanel extends JPanel {
     //g2d.setColor(Color.BLACK);
 
     for (Line l : lines) {
-      g2d.drawLine( l.x0 * 30, l.y0 * 22, l.x1 * 30, l.y1 * 22);
+      g2d.drawLine(l.x0 * 30, l.y0 * 22, l.x1 * 30, l.y1 * 22);
     }
 
     for (Rectangle r : rects) {

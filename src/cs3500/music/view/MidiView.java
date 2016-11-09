@@ -88,12 +88,12 @@ public class MidiView implements IMusicView {
           }
         }
       }
-//      try {
-//        Thread.sleep(model.getTempo() / 1000);
-//      }
-//      catch (InterruptedException e) {
-//        e.printStackTrace();
-//      }
+      try {
+        Thread.sleep(model.getTempo() / 1000);
+      }
+      catch (InterruptedException e) {
+        e.printStackTrace();
+      }
       // stop each note
       List<Integer> stopList = model.notesStopAtThisBeat(i);
       if (stopList != null) {
@@ -119,13 +119,14 @@ public class MidiView implements IMusicView {
         }
       }
     }
-
+    /*
     try {
       Thread.sleep(model.getTempo() * model.getNumBeats());
     }
     catch (InterruptedException e) {
       e.printStackTrace();
     }
+    */
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 

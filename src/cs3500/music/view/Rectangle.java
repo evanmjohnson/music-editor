@@ -1,6 +1,6 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Represents a rectangle to draw a Note in the visual view of the music editor. Supports

@@ -1,6 +1,9 @@
 package cs3500.music.util;
 
-import cs3500.music.model.*;
+import cs3500.music.model.MusicModel;
+import cs3500.music.model.IMusicModel;
+import cs3500.music.model.PitchType;
+import cs3500.music.model.Note;
 
 /**
  * Represents a MusicBuilder. Implements the CompositionBuilder interface paramaterized over

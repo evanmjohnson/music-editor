@@ -1,6 +1,10 @@
 package cs3500.music.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Represents a piece of music that can be manipulated.

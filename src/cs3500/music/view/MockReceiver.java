@@ -1,9 +1,7 @@
 package cs3500.music.view;
 
-import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
 
 /**
  * Mock Receiver used for testing the MIDI view.
