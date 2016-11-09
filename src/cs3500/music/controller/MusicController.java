@@ -8,13 +8,10 @@ import cs3500.music.view.IMusicView;
  * Represents the controller for the music editor. Implements the IMusicController interface.
  */
 public class MusicController implements IMusicController {
-  private IMusicView view;
-  private IMusicModel model;
 
   @Override
   public void start(IMusicModel model, String[] args) {
-    this.view = MusicCreator.create(args);
-    this.model = model;
+    IMusicView view = MusicCreator.create(args);
     MusicViewModel viewModel = new MusicViewModel(model);
     view.create(viewModel);
     view.makeVisible();

@@ -1,14 +1,18 @@
 package cs3500.music.tests;
 
 import cs3500.music.view.ConsoleView;
+
 import org.junit.Test;
 
-import cs3500.music.model.*;
+import cs3500.music.model.IMusicModel;
+import cs3500.music.model.MusicModel;
+import cs3500.music.model.MusicViewModel;
+import cs3500.music.model.PitchType;
+import cs3500.music.model.Note;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -21,7 +25,7 @@ public class TestMusicModel {
   IMusicModel model2 = new MusicModel();
   Note middleC = new Note(PitchType.C, 0, 2, 4);
   Note a440 = new Note(PitchType.A, 3, 2, 4);
-  Note e5 = new Note(PitchType.E,  3, 1, 5);
+  Note e5 = new Note(PitchType.E, 3, 1, 5);
   Note a1 = new Note(PitchType.A, 2, 1, 1);
   Note f4 = new Note(PitchType.F, 4, 2, 4);
   Note b4 = new Note(PitchType.B, 3, 1, 4);
@@ -38,7 +42,7 @@ public class TestMusicModel {
   /**
    * Start beat cannot be negative.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNote1() {
     Note f1 = new Note(PitchType.F, -1, 12, 12);
   }
@@ -46,7 +50,7 @@ public class TestMusicModel {
   /**
    * Duration cannot be negative.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNote2() {
     Note f1 = new Note(PitchType.F, 1, -12, 12);
   }
@@ -54,7 +58,7 @@ public class TestMusicModel {
   /**
    * Octave cannot be negative.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNote3() {
     Note f1 = new Note(PitchType.F, 1, 12, -12);
   }
@@ -64,8 +68,8 @@ public class TestMusicModel {
   public void testAdd() {
     model.add(middleC);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -75,8 +79,8 @@ public class TestMusicModel {
     model.add(middleC);
     model.add(middleC);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -86,11 +90,11 @@ public class TestMusicModel {
     model.add(a440);
     model.add(a4);
     String expected = "  A4  \n" +
-        "0  X  \n" +
-        "1  |  \n" +
-        "2  |  \n" +
-        "3  X  \n" +
-        "4  |  \n";
+            "0  X  \n" +
+            "1  |  \n" +
+            "2  |  \n" +
+            "3  X  \n" +
+            "4  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -99,10 +103,10 @@ public class TestMusicModel {
   public void testAddNotZero() {
     model.add(b4);
     String expected = "  B4  \n" +
-        "0     \n" +
-        "1     \n" +
-        "2     \n" +
-        "3  X  \n";
+            "0     \n" +
+            "1     \n" +
+            "2     \n" +
+            "3  X  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -113,8 +117,8 @@ public class TestMusicModel {
     model.add(a4);
     model.remove(a4);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -134,16 +138,16 @@ public class TestMusicModel {
     model2.add(a4);
     model.playConsecutively(model2);
     String expected = "   B3   C4   C#4  D4   D#4  E4   F4   F#4  G4   G#4  A4  \n" +
-        " 0  X    X                                               \n" +
-        " 1  |    |                                               \n" +
-        " 2  |                                                    \n" +
-        " 3  |                                                    \n" +
-        " 4       X                                               \n" +
-        " 5       |                                               \n" +
-        " 6                                                    X  \n" +
-        " 7                                                    |  \n" +
-        " 8                                                    |  \n" +
-        " 9                                                    |  \n";
+            " 0  X    X                                               \n" +
+            " 1  |    |                                               \n" +
+            " 2  |                                                    \n" +
+            " 3  |                                                    \n" +
+            " 4       X                                               \n" +
+            " 5       |                                               \n" +
+            " 6                                                    X  \n" +
+            " 7                                                    |  \n" +
+            " 8                                                    |  \n" +
+            " 9                                                    |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -153,8 +157,8 @@ public class TestMusicModel {
     model2.add(middleC);
     model.playConsecutively(model2);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -164,27 +168,20 @@ public class TestMusicModel {
     model.add(middleC);
     model.playConsecutively(model2);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
-/*
-  @Test
-  public void testPlayConsecutivelyBothEmpty() {
-    model.playConsecutively(model2);
-    console.create(new MusicViewModel(model));
-    assertEquals("", out.toString());
-  }
-*/
+
   @Test
   public void testPlaySimultaneously() {
     model.add(middleC);
     model2.add(middleC);
     model.playSimultaneously(model2);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -195,12 +192,12 @@ public class TestMusicModel {
     model2.add(a4);
     model.playConsecutively(model2);
     String expected = "  C4   C#4  D4   D#4  E4   F4   F#4  G4   G#4  A4  \n" +
-        "0  X                                               \n" +
-        "1  |                                               \n" +
-        "2                                               X  \n" +
-        "3                                               |  \n" +
-        "4                                               |  \n" +
-        "5                                               |  \n";
+            "0  X                                               \n" +
+            "1  |                                               \n" +
+            "2                                               X  \n" +
+            "3                                               |  \n" +
+            "4                                               |  \n" +
+            "5                                               |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -210,8 +207,8 @@ public class TestMusicModel {
     model2.add(middleC);
     model.playSimultaneously(model2);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -221,19 +218,12 @@ public class TestMusicModel {
     model.add(middleC);
     model.playSimultaneously(model2);
     String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+            "0  X  \n" +
+            "1  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
-/*
-  @Test
-  public void testPlaySimultaneouslyBothEmpty() {
-    model.playSimultaneously(model2);
-    console.create(new MusicViewModel(model));
-    assertEquals("", out.toString());
-  }
-*/
+
   @Test
   public void testLength() {
     model.add(middleC);
@@ -260,10 +250,10 @@ public class TestMusicModel {
     model.add(middleC);
     model.replace(middleC, a4);
     String expected = "  A4  \n" +
-        "0  X  \n" +
-        "1  |  \n" +
-        "2  |  \n" +
-        "3  |  \n";
+            "0  X  \n" +
+            "1  |  \n" +
+            "2  |  \n" +
+            "3  |  \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
@@ -372,7 +362,7 @@ public class TestMusicModel {
     assertEquals(middleC, model.getNote(0, 0));
   }
 
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testGetNoteNotThere() {
     model.add(middleC);
     model.add(e5);

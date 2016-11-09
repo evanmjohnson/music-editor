@@ -94,7 +94,7 @@ public class ConsoleView implements IMusicView {
    * Gets the first row of the console output.
    *
    * @return String respresentation of all of the notes between the lowest and highest notes
-   * in this piece.
+   *         in this piece.
    */
   private String printFirstRow() {
     StringBuilder sb = new StringBuilder();

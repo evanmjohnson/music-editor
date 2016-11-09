@@ -13,6 +13,15 @@ public class Rectangle {
   public final int width;
   public final int height;
 
+  /**
+   * Constructs a rectangle.
+   *
+   * @param x      the x position.
+   * @param y      the y position
+   * @param width  the width of the rectangle.
+   * @param height the height of the rectangle.
+   * @param color  the color of the rectangle
+   */
   public Rectangle(int x, int y, int width, int height, Color color) {
     this.x = x;
     this.y = y;

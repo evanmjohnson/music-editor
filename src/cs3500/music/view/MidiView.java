@@ -3,13 +3,23 @@ package cs3500.music.view;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
-import javax.sound.midi.*;
-import java.util.*;
+import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.InvalidMidiDataException;
+
+import java.util.List;
+import java.util.Arrays;
+import java.util.TreeMap;
+
 
 /**
- * A skeleton for MIDI playback
+ * A skeleton for MIDI playback.
  */
-
 public class MidiView implements IMusicView {
   private Synthesizer synth;
   private Receiver receiver;
@@ -30,6 +40,7 @@ public class MidiView implements IMusicView {
 
   /**
    * Constructor for testing. Takes a message String that is used to get the state of this view.
+   *
    * @param messageString The starter message String for this view
    */
   public MidiView(String messageString) {
@@ -38,8 +49,7 @@ public class MidiView implements IMusicView {
       this.receiver = this.synth.getReceiver();
       this.synth.open();
       this.messageString.append(messageString);
-    }
-    catch (MidiUnavailableException e) {
+    } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
   }
@@ -72,17 +82,16 @@ public class MidiView implements IMusicView {
           int channelOf;
           if (instrumentToChannel.get(toAdd.getInstrument()) == null) {
             channelOf = 0;
-          }
-          else {
+          } else {
             channelOf = instrumentToChannel.get(toAdd.getInstrument());
           }
           int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
           try {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
-                pitch, toAdd.getVolume());
+                    pitch, toAdd.getVolume());
             this.receiver.send(message, i * model.getTempo());
             this.messageString.append("start " + channelOf + " " + pitch + " " +
-                toAdd.getVolume() + "\n");
+                    toAdd.getVolume() + "\n");
           } catch (InvalidMidiDataException e) {
             e.printStackTrace();
           }
@@ -90,8 +99,7 @@ public class MidiView implements IMusicView {
       }
       try {
         Thread.sleep(model.getTempo() / 1000);
-      }
-      catch (InterruptedException e) {
+      } catch (InterruptedException e) {
         e.printStackTrace();
       }
       // stop each note
@@ -102,36 +110,27 @@ public class MidiView implements IMusicView {
           int channelOf;
           if (instrumentToChannel.get(toAdd.getInstrument()) == null) {
             channelOf = 0;
-          }
-          else {
+          } else {
             channelOf = instrumentToChannel.get(toAdd.getInstrument());
           }
           int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
           try {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
-                pitch, toAdd.getVolume());
+                    pitch, toAdd.getVolume());
             this.receiver.send(message, i * model.getTempo());
-            this.messageString.append("stop " + channelOf + " " + pitch +  " " +
-                toAdd.getVolume() + "\n");
+            this.messageString.append("stop " + channelOf + " " + pitch + " " +
+                    toAdd.getVolume() + "\n");
           } catch (InvalidMidiDataException e) {
             e.printStackTrace();
           }
         }
       }
     }
-    /*
-    try {
-      Thread.sleep(model.getTempo() * model.getNumBeats());
-    }
-    catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    */
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
   @Override
   public void makeVisible() {
-
+    return;
   }
 }

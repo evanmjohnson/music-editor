@@ -12,6 +12,11 @@ import java.io.IOException;
  * Factory class for the music editor.
  */
 public class MusicCreator {
+  /**
+   * Creates an IMusicView based on the specified args.
+   * @param args The type of view that is to be created.
+   * @return An IMusicView of the specified type.
+   */
   public static IMusicView create(String[] args) {
     String viewType = args[0];
     if (viewType.equals("console")) {

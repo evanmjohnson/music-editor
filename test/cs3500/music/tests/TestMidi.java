@@ -1,7 +1,11 @@
 package cs3500.music.tests;
 
 import cs3500.music.controller.MusicController;
-import cs3500.music.model.*;
+import cs3500.music.model.IMusicModel;
+import cs3500.music.model.MusicModel;
+import cs3500.music.model.MusicViewModel;
+import cs3500.music.model.PitchType;
+import cs3500.music.model.Note;
 import cs3500.music.util.CompositionBuilder;
 import cs3500.music.util.MusicBuilder;
 
@@ -165,7 +169,7 @@ public class TestMidi {
   /**
    * Cannot create a MIDI view if the given model is empty.
    */
-  @Test (expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testMidiEmpty() {
     model.setTempo(2);
     MusicViewModel vm = new MusicViewModel(model);

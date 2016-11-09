@@ -13,6 +13,12 @@ import javax.sound.midi.InvalidMidiDataException;
  * Runs the music editor program.
  */
 public class MusicEditor {
+  /**
+   * Runs the music editor for this program.
+   * @param args the command line prompts for this program.
+   * @throws IOException
+   * @throws InvalidMidiDataException
+   */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     IMusicModel viewModel;
     args = new String[3];

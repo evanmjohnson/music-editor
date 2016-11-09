@@ -86,7 +86,7 @@ public class Note implements Comparable<Note> {
    *
    * @param n The Note to compare to
    * @return A negative integer, zero, or a positive integer as this Note is less than,
-   * equal to, or greater than the given Note.
+   *         equal to, or greater than the given Note.
    */
   public int compareTo(Note n) {
     if (this.octave == n.octave) {
@@ -131,6 +131,7 @@ public class Note implements Comparable<Note> {
     return this.duration;
   }
 
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

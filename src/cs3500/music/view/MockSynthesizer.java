@@ -50,7 +50,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void unloadInstrument(Instrument instrument) {
-
+    return;
   }
 
   @Override
@@ -80,7 +80,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void unloadAllInstruments(Soundbank soundbank) {
-
+    return;
   }
 
   @Override
@@ -90,7 +90,7 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void unloadInstruments(Soundbank soundbank, Patch[] patchList) {
-
+    return;
   }
 
   @Override
@@ -100,12 +100,12 @@ public class MockSynthesizer implements Synthesizer {
 
   @Override
   public void open() throws MidiUnavailableException {
-
+    return;
   }
 
   @Override
   public void close() {
-
+    return;
   }
 
   @Override

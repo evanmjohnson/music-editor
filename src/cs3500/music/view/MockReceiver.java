@@ -16,7 +16,7 @@ public final class MockReceiver implements Receiver {
 
   @Override
   public void close() {
-
+    return;
   }
 
 }

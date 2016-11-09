@@ -24,6 +24,13 @@ public class NotesPanel extends JPanel {
     rects = new ArrayList<>();
   }
 
+  /**
+   * Sets the horizontal and vertical lines in this panel.
+   *
+   * @param numBeats the number of rows.
+   * @param numNotes the number of columns.
+   */
+
   public void setLines(int numBeats, int numNotes) {
     this.numNotes = numNotes;
     // draws vertical lines
@@ -36,6 +43,13 @@ public class NotesPanel extends JPanel {
     }
   }
 
+  /**
+   * Sets the notes in this panel.
+   *
+   * @param start the notes that start at the beat.
+   * @param cont  the notes that continue at the beat.
+   * @param beat  the y position of the note.
+   */
   public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
     for (int i = 0; i <= numNotes; i++) {
       if (start.contains(i)) {
@@ -53,8 +67,6 @@ public class NotesPanel extends JPanel {
     super.paintComponent(g);
 
     Graphics2D g2d = (Graphics2D) g;
-
-    //g2d.setColor(Color.BLACK);
 
     for (Line l : lines) {
       g2d.drawLine(l.x0 * 30, l.y0 * 22, l.x1 * 30, l.y1 * 22);
