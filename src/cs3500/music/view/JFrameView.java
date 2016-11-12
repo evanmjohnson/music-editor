@@ -2,14 +2,9 @@ package cs3500.music.view;
 
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
+import cs3500.music.model.PitchType;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JLabel;
-import javax.swing.BoxLayout;
-import javax.swing.Box;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
@@ -18,7 +13,7 @@ import java.awt.Font;
 /**
  * Displays a java Swing BoxLayout view for the music editor.
  */
-public class JFrameView extends JFrame implements IMusicView {
+public class JFrameView extends JFrame implements IMusicGUIView {
   private NotesPanel notesPanel;
 
   /**
@@ -88,4 +83,13 @@ public class JFrameView extends JFrame implements IMusicView {
   }
 
 
+  @Override
+  public Note showAddPrompt() {
+    Object[] possibilities = PitchType.values();
+    Object o = JOptionPane.showInputDialog(this,
+        "Select the pitch that you want the new note to have.\n",
+        "Add a note", JOptionPane.PLAIN_MESSAGE, null, possibilities, PitchType.C);
+    PitchType type = (PitchType)o;
+    return new Note(type, 1, 3, 4);
+  }
 }
