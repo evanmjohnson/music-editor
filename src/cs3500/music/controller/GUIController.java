@@ -7,9 +7,12 @@ import cs3500.music.model.Note;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.JFrameView;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * Represents a controller for the GUI view.
@@ -42,7 +45,7 @@ public class GUIController extends MusicController {
    * Last we create our KeyboardListener object, set all its maps and then give it to the view.
    */
   private void configureKeyBoardListener() {
-    Map<Character, Runnable> keyTypes = new HashMap<>();
+    Map<Integer, Runnable> keyTypes = new HashMap<>();
     Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
@@ -54,10 +57,11 @@ public class GUIController extends MusicController {
     // Note that "view" is in scope inside this Runnable!  But, also note that within the Runnable,
     // "this" refers to the Runnable and not to the Controller, so we don't say "this.view".
 
-    keyTypes.put('a', () -> {
+    keyTypes.put(KeyEvent.VK_A, () -> {
+      System.out.println("lambda");
       Note n = view.showAddPrompt();
+      model.add(n);
     });
-
     // Another possible syntax:
     // Instead of an anonymous class, you can (as of Java 8) use "lambda syntax",
     // as follows: if the interface you want to implement has only one single method,
@@ -66,7 +70,8 @@ public class GUIController extends MusicController {
     // single method of that interface, and translate the code for you to resemble the
     // anonymous Runnable example above.
     // Again note all the names that are in scope.
-    keyTypes.put('r', () -> {
+    keyTypes.put(KeyEvent.VK_R, () -> {
+      System.out.println("lambda");
       // exchange the hotkeys C and U:
       // Take the event handlers from VK_C and VK_U
       Runnable oldCHandler = keyPresses.get(KeyEvent.VK_C);
@@ -83,13 +88,15 @@ public class GUIController extends MusicController {
         keyPresses.remove(KeyEvent.VK_U);
     });
 
-    KeyboardListener kbd = new KeyboardListener();
+    keyReleases.put(KeyEvent.VK_A, () -> {
+      Note n = view.showAddPrompt();
+    });
+
+    KeyboardHandler kbd = new KeyboardHandler();
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
-
-    view.addKeyListener(kbd);
-
+    view.addListener(kbd);
   }
 
   /*
