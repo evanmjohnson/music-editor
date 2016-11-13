@@ -1,10 +1,11 @@
 package cs3500.music.view;
 
 import cs3500.music.controller.GUIController;
-import cs3500.music.controller.KeyboardListener;
+//import cs3500.music.controller.KeyboardListener;
 import cs3500.music.model.Note;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.IllegalFormatException;
 
 /**
@@ -24,7 +25,7 @@ public interface IMusicGUIView extends IMusicView {
    * Reset the focus on the appropriate part of the view that has the keyboard listener
    * attached to it, so that keyboard events will still flow through.
    */
-  void resetFoucs();
+  void resetFocus();
 
 
 
@@ -35,7 +36,7 @@ public interface IMusicGUIView extends IMusicView {
    *
    * Thus our Swing-based implementation of this interface will already have such a method.
    */
-  void addKeyListener(KeyboardListener kbd);
+  void addListener(KeyListener kbd);
 
   void addActionListener(ActionListener listener);
 }
