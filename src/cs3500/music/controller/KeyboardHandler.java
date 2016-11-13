@@ -17,22 +17,22 @@ import java.util.Map;
  * This class implements the KeyListener interface, so that its object can be used as a valid
  * keylistener for Java Swing.
  */
-public class KeyboardListener implements KeyListener {
-  private Map<Character, Runnable> keyTypedMap;
+public class KeyboardHandler implements KeyListener {
+  private Map<Integer, Runnable> keyTypedMap;
   private Map<Integer, Runnable> keyPressedMap;
   private Map<Integer, Runnable> keyReleasedMap;
 
   /**
    * Empty default constructor
    */
-  public KeyboardListener() {
+  public KeyboardHandler() {
   }
 
   /**
    * Set the map for key typed events. Key typed events in Java Swing are characters
    * @param map The key typed events map
    */
-  public void setKeyTypedMap(Map<Character, Runnable> map) {
+  public void setKeyTypedMap(Map<Integer, Runnable> map) {
     this.keyTypedMap = map;
   }
   /**
