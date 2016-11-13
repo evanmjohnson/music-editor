@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.controller.GUIController;
-import cs3500.music.controller.KeyboardListener;
+import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 
 /**
  * Displays a java Swing BoxLayout view for the music editor.
@@ -21,41 +22,38 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   private NotesPanel notesPanel;
 
   /**
-   * Constructs a JFrameView with a border layout which has a NotesPanel inside of it.
+   * Constructs a JthisView with a border layout which has a NotesPanel inside of it.
    */
   public JFrameView() {
     super();
-    setSize(new Dimension(500, 500));
-    setLocation(200, 200);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setSize(new Dimension(500, 500));
+    this.setLocation(200, 200);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     //this.setResizable(false);
     this.notesPanel = new NotesPanel();
     //change dimension to reflect notes and beats
     //scrollPane.setPreferredSize(new Dimension(200, 200));
-
     //this.add(notesPanel, BorderLayout.CENTER);
   }
 
   @Override
   public void makeVisible() {
-
     this.setVisible(true);
   }
 
   @Override
   public void create(MusicViewModel model) {
-    System.out.println(model.getNumBeats());
-    JPanel notePanel = new JPanel();
+    JPanel rangePanel = new JPanel();
     JPanel beatPanel = new JPanel();
-    notePanel.setLayout(new BoxLayout(notePanel, BoxLayout.Y_AXIS));
+    rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.Y_AXIS));
 
     // write the range of notes on the left side
     for (Note n : model.getNoteRange()) {
       JLabel label = new JLabel(n.toString());
       label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
-      notePanel.add(label);
-      this.add(notePanel, BorderLayout.WEST);
+      rangePanel.add(label);
+      this.add(rangePanel, BorderLayout.WEST);
     }
 
     // create each of the beats on the top
@@ -97,32 +95,34 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     Object startBeatObject = JOptionPane.showInputDialog(this,
         "Enter a start beat for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
-    Integer startBeat = (Integer)startBeatObject;
+    Integer startBeat = Integer.parseInt((String)startBeatObject);
     Object durationObject = JOptionPane.showInputDialog(this,
         "Enter the duration of the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
-    Integer duration = (Integer)durationObject;
+    Integer duration = Integer.parseInt((String)durationObject);
     Object octaveObject = JOptionPane.showInputDialog(this,
         "Enter a valid octave for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
-    Integer octave = (Integer)octaveObject;
-    return new Note(type, startBeat, duration, octave);
+    Integer octave = Integer.parseInt((String)octaveObject);
+    Note n = new Note(type, startBeat, duration, octave);
+    return n;
   }
 
   @Override
-  public void resetFoucs() {
+  public void resetFocus() {
     this.setFocusable(true);
     this.requestFocus();
   }
 
   @Override
   public void addActionListener(ActionListener listener) {
-    this.addActionListener(listener);
   }
 
   @Override
-  public void addKeyListener(KeyboardListener kbd) {
-    super.addKeyListener(kbd);
+  public void addListener(KeyListener kbd) {
+    this.setFocusable(true);
+    this.requestFocus();
+    this.addKeyListener(kbd);
   }
 
 

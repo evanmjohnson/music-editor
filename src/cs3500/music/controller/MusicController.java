@@ -5,6 +5,7 @@ import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.IMusicView;
+import cs3500.music.view.JFrameView;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
@@ -24,10 +25,12 @@ public class MusicController implements IMusicController {
       GUIController gui = new GUIController();
       gui.start(model, args);
     }
-    this.model = model;
-    this.view = MusicCreator.create(args);
-    MusicViewModel viewModel = new MusicViewModel(model);
-    view.create(viewModel);
-    view.makeVisible();
+    else {
+      this.view = MusicCreator.create(args);
+      this.model = model;
+      MusicViewModel viewModel = new MusicViewModel(model);
+      view.create(viewModel);
+      view.makeVisible();
+    }
   }
 }
