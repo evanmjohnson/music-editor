@@ -26,7 +26,7 @@ public class GUIController extends MusicController {
     view.create(viewModel);
     view.makeVisible();
     configureKeyBoardListener();
-    this.view.addActionListener(this);
+
   }
 
   /**
@@ -53,10 +53,9 @@ public class GUIController extends MusicController {
     // "new Interfacename() { all the methods you need to implement }"
     // Note that "view" is in scope inside this Runnable!  But, also note that within the Runnable,
     // "this" refers to the Runnable and not to the Controller, so we don't say "this.view".
-    keyTypes.put('a', new Runnable() {
-      public void run() {
-        Note n = view.showAddPrompt();
-      }
+
+    keyTypes.put('a', () -> {
+      Note n = view.showAddPrompt();
     });
 
     // Another possible syntax:
@@ -89,7 +88,7 @@ public class GUIController extends MusicController {
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
 
-    //view.addKeyListener(kbd);
+    view.addKeyListener(kbd);
 
   }
 

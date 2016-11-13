@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import cs3500.music.controller.GUIController;
+import cs3500.music.controller.KeyboardListener;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
@@ -104,7 +106,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         "Enter a valid octave for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
     Integer octave = (Integer)octaveObject;
-    return new Note(type, startBeat, duration, octave;
+    return new Note(type, startBeat, duration, octave);
   }
 
   @Override
@@ -117,4 +119,11 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   public void addActionListener(ActionListener listener) {
     this.addActionListener(listener);
   }
+
+  @Override
+  public void addKeyListener(KeyboardListener kbd) {
+    super.addKeyListener(kbd);
+  }
+
+
 }
