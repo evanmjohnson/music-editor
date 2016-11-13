@@ -3,12 +3,14 @@ package cs3500.music.view;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 
 /**
  * Displays a java Swing BoxLayout view for the music editor.
@@ -86,10 +88,33 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   @Override
   public Note showAddPrompt() {
     Object[] possibilities = PitchType.values();
-    Object o = JOptionPane.showInputDialog(this,
+    Object pitchObject = JOptionPane.showInputDialog(this,
         "Select the pitch that you want the new note to have.\n",
         "Add a note", JOptionPane.PLAIN_MESSAGE, null, possibilities, PitchType.C);
-    PitchType type = (PitchType)o;
-    return new Note(type, 1, 3, 4);
+    PitchType type = (PitchType)pitchObject;
+    Object startBeatObject = JOptionPane.showInputDialog(this,
+        "Enter a start beat for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
+        null, null, null);
+    Integer startBeat = (Integer)startBeatObject;
+    Object durationObject = JOptionPane.showInputDialog(this,
+        "Enter the duration of the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
+        null, null, null);
+    Integer duration = (Integer)durationObject;
+    Object octaveObject = JOptionPane.showInputDialog(this,
+        "Enter a valid octave for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
+        null, null, null);
+    Integer octave = (Integer)octaveObject;
+    return new Note(type, startBeat, duration, octave;
+  }
+
+  @Override
+  public void resetFoucs() {
+    this.setFocusable(true);
+    this.requestFocus();
+  }
+
+  @Override
+  public void addActionListener(ActionListener listener) {
+    this.addActionListener(listener);
   }
 }
