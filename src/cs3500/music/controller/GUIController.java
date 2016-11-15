@@ -58,11 +58,15 @@ public class GUIController extends MusicController {
     // "this" refers to the Runnable and not to the Controller, so we don't say "this.view".
 
     keyTypes.put(KeyEvent.VK_A, () -> {
-      System.out.println("lambda");
       Note n = view.showAddPrompt();
       model.add(n);
-      Note inRange = new Note(n.getPitch(), 0, 0, n.getOctave());
+      //Note inRange = new Note(n.getPitch(), 0, 0, n.getOctave());
 
+      this.view = new JFrameView();
+      MusicViewModel viewModel = new MusicViewModel(model);
+      view.create(viewModel);
+      view.makeVisible();
+      /*
       if(model.getNoteRange().contains(inRange)
           && model.getNumBeats() < n.getStartBeat() + n.getDuration()) {
         view.drawNote(n,  model.getNoteRange().indexOf(inRange));
@@ -73,6 +77,7 @@ public class GUIController extends MusicController {
         view.create(viewModel);
         view.makeVisible();
       }
+      */
     });
     // Another possible syntax:
     // Instead of an anonymous class, you can (as of Java 8) use "lambda syntax",
@@ -83,7 +88,6 @@ public class GUIController extends MusicController {
     // anonymous Runnable example above.
     // Again note all the names that are in scope.
     keyTypes.put(KeyEvent.VK_R, () -> {
-      System.out.println("lambda");
       // exchange the hotkeys C and U:
       // Take the event handlers from VK_C and VK_U
       Runnable oldCHandler = keyPresses.get(KeyEvent.VK_C);

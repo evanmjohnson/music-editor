@@ -271,12 +271,11 @@ public class TestMusicModel {
     model.add(middleC);
     model.add(a4);
     model.add(e5);
-    //System.out.print(model.getState());
     List<Integer> zeroBeat = new ArrayList<>();
     zeroBeat.add(0);
     zeroBeat.add(9);
-    assertEquals(zeroBeat, model.notesStartAtThisBeat(0));
-    assertEquals(new ArrayList<Integer>(), model.notesStartAtThisBeat(1));
+    assertEquals(zeroBeat, model.notesStartAtThisBeatLowestToHighest(0));
+    assertEquals(new ArrayList<Integer>(), model.notesStartAtThisBeatLowestToHighest(1));
   }
 
   @Test
@@ -287,8 +286,8 @@ public class TestMusicModel {
     List<Integer> oneBeat = new ArrayList<>();
     oneBeat.add(0);
     oneBeat.add(9);
-    assertEquals(oneBeat, model.notesContinueAtThisBeat(1));
-    assertEquals(new ArrayList<Integer>(), model.notesContinueAtThisBeat(0));
+    assertEquals(oneBeat, model.notesContinueAtThisBeatLowestToHighest(1));
+    assertEquals(new ArrayList<Integer>(), model.notesContinueAtThisBeatLowestToHighest(0));
   }
 
   @Test
@@ -334,7 +333,7 @@ public class TestMusicModel {
     model.add(middleC);
     List<Integer> exp = new ArrayList<>();
     exp.add(0);
-    assertEquals(exp, model.notesStopAtThisBeat(1));
+    assertEquals(exp, model.notesStopAtThisBeatLowestToHighest(1));
   }
 
   @Test
@@ -342,7 +341,7 @@ public class TestMusicModel {
     model.add(middleC);
     List<Integer> exp = new ArrayList<>();
     exp.add(0);
-    assertEquals(exp, model.notesStopAtThisBeat(1));
+    assertEquals(exp, model.notesStopAtThisBeatLowestToHighest(1));
   }
 
   @Test
@@ -352,7 +351,7 @@ public class TestMusicModel {
     List<Integer> exp = new ArrayList<>();
     exp.add(0);
     exp.add(10);
-    assertEquals(exp, model.notesStopAtThisBeat(3));
+    assertEquals(exp, model.notesStopAtThisBeatLowestToHighest(3));
   }
 
   @Test
@@ -367,5 +366,29 @@ public class TestMusicModel {
     model.add(middleC);
     model.add(e5);
     model.getNote(2, 3);
+  }
+
+  @Test
+  public void testNotesStartAtThisBeatHighestToLowest() {
+    model.add(middleC);
+    model.add(a4);
+    model.add(e5);
+    List<Integer> zeroBeat = new ArrayList<>();
+    zeroBeat.add(9);
+    zeroBeat.add(0);
+    assertEquals(zeroBeat, model.notesStartAtThisBeatHighestToLowest(0));
+    assertEquals(new ArrayList<Integer>(), model.notesStartAtThisBeatHighestToLowest(1));
+  }
+
+  @Test
+  public void testNotesContinueAtThisBeatHighestToLowest() {
+    model.add(middleC);
+    model.add(a4);
+    model.add(e5);
+    List<Integer> oneBeat = new ArrayList<>();
+    oneBeat.add(9);
+    oneBeat.add(0);
+    assertEquals(oneBeat, model.notesContinueAtThisBeatHighestToLowest(1));
+    assertEquals(new ArrayList<Integer>(), model.notesContinueAtThisBeatHighestToLowest(0));
   }
 }

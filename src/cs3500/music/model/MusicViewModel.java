@@ -56,13 +56,23 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> notesStartAtThisBeat(int beat) {
-    return model.notesStartAtThisBeat(beat);
+  public List<Integer> notesStartAtThisBeatLowestToHighest(int beat) {
+    return model.notesStartAtThisBeatLowestToHighest(beat);
   }
 
   @Override
-  public List<Integer> notesContinueAtThisBeat(int beat) {
-    return model.notesContinueAtThisBeat(beat);
+  public List<Integer> notesStartAtThisBeatHighestToLowest(int beat) {
+    return model.notesStartAtThisBeatHighestToLowest(beat);
+  }
+
+  @Override
+  public List<Integer> notesContinueAtThisBeatLowestToHighest(int beat) {
+    return model.notesContinueAtThisBeatLowestToHighest(beat);
+  }
+
+  @Override
+  public List<Integer> notesContinueAtThisBeatHighestToLowest(int beat) {
+    return model.notesContinueAtThisBeatHighestToLowest(beat);
   }
 
   @Override
@@ -81,8 +91,8 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> notesStopAtThisBeat(int beat) {
-    return model.notesStopAtThisBeat(beat);
+  public List<Integer> notesStopAtThisBeatLowestToHighest(int beat) {
+    return model.notesStopAtThisBeatLowestToHighest(beat);
   }
 
   @Override

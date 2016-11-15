@@ -48,18 +48,25 @@ public class NotesPanel extends JPanel {
   }
 
   /**
-   * Sets the notes in this panel.
+   * Sets the notes in this panel at the given beat.
    *
    * @param start the notes that start at the beat.
    * @param cont  the notes that continue at the beat.
    * @param beat  the y position of the note.
    */
   public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
+    if (beat == 0) {
+      System.out.println(start.get(0));
+      System.out.println(start.get(1));
+    }
+    else if (beat == 1) {
+      System.out.println(cont.get(0));
+    }
     for (int i = 0; i <= numNotes; i++) {
       if (start.contains(i)) {
-        rects.add(new Rectangle(beat, i, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));
+        rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));
       } else if (cont.contains(i)) {
-        rects.add(new Rectangle(beat, i, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.green));
+        rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.green));
       }
     }
   }
@@ -73,12 +80,12 @@ public class NotesPanel extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
 
     for (Line l : lines) {
-      g2d.drawLine(l.x0 * 30, l.y0 * 22, l.x1 * 30, l.y1 * 22);
+      g2d.drawLine(l.x0 * RECTANGLE_WIDTH, l.y0 * 22, l.x1 * RECTANGLE_WIDTH, l.y1 * 22);
     }
 
     for (Rectangle r : rects) {
       g2d.setColor(r.color);
-      g2d.fillRect(r.x * 30, r.y * 22, r.width, r.height - 3);
+      g2d.fillRect(r.x * RECTANGLE_WIDTH, r.y * 22, r.width, r.height - 3);
     }
   }
 

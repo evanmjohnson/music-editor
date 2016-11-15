@@ -26,9 +26,6 @@ public interface IMusicGUIView extends IMusicView {
    */
   void resetFocus();
 
-
-
-
   /**
    * This is to force the view to have a method to set up the keyboard. The name has been chosen
    * deliberately. This is the same method signature to add a key listener in Java Swing.
@@ -36,13 +33,4 @@ public interface IMusicGUIView extends IMusicView {
    * Thus our Swing-based implementation of this interface will already have such a method.
    */
   void addListener(KeyListener kbd);
-
-  void addActionListener(ActionListener listener);
-
-  /**
-   * Draws a single note.
-   * @param n the note to be drawn.
-   * @param i
-   */
-  void drawNote(Note n, int i);
 }

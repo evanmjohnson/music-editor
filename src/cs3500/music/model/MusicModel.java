@@ -1,6 +1,8 @@
 package cs3500.music.model;
 
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -160,7 +162,7 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> notesStartAtThisBeat(int beat) {
+  public List<Integer> notesStartAtThisBeatLowestToHighest(int beat) {
     List<Integer> result = new ArrayList<>();
     TreeSet<Note> set = this.notes.get(beat);
     List<Note> noteRange = this.getNoteRange();
@@ -180,7 +182,14 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> notesContinueAtThisBeat(int beat) {
+  public List<Integer> notesStartAtThisBeatHighestToLowest(int beat) {
+    List<Integer> result = this.notesStartAtThisBeatLowestToHighest(beat);
+    Collections.reverse(result);
+    return result;
+  }
+
+  @Override
+  public List<Integer> notesContinueAtThisBeatLowestToHighest(int beat) {
     List<Integer> result = new ArrayList<>();
     TreeSet<Note> set = this.notes.get(beat);
     List<Note> noteRange = this.getNoteRange();
@@ -195,6 +204,13 @@ public class MusicModel implements IMusicModel {
         }
       }
     }
+    return result;
+  }
+
+  @Override
+  public List<Integer> notesContinueAtThisBeatHighestToLowest(int beat) {
+    List<Integer> result = this.notesContinueAtThisBeatLowestToHighest(beat);
+    Collections.reverse(result);
     return result;
   }
 
@@ -259,15 +275,15 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> notesStopAtThisBeat(int beat) {
+  public List<Integer> notesStopAtThisBeatLowestToHighest(int beat) {
     List<Integer> result = new ArrayList<>();
     if (beat == this.getNumBeats()) {
-      result.addAll(this.notesContinueAtThisBeat(beat));
-      result.addAll(this.notesStartAtThisBeat(beat));
+      result.addAll(this.notesContinueAtThisBeatLowestToHighest(beat));
+      result.addAll(this.notesStartAtThisBeatLowestToHighest(beat));
     }
-    List<Integer> contNow = this.notesContinueAtThisBeat(beat);
-    List<Integer> startNow = this.notesStartAtThisBeat(beat);
-    List<Integer> contNext = this.notesContinueAtThisBeat(beat + 1);
+    List<Integer> contNow = this.notesContinueAtThisBeatLowestToHighest(beat);
+    List<Integer> startNow = this.notesStartAtThisBeatLowestToHighest(beat);
+    List<Integer> contNext = this.notesContinueAtThisBeatLowestToHighest(beat + 1);
     for (Integer i : contNow) {
       if (!contNext.contains(i) && !result.contains(i) &&
           !startNow.contains(i)) {

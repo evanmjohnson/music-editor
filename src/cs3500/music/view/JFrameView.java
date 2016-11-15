@@ -5,18 +5,20 @@ import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Displays a java Swing BoxLayout view for the music editor.
  */
 public class JFrameView extends JFrame implements IMusicGUIView {
-  private NotesPanel notesPanel;
 
   /**
    * Constructs a JthisView with a border layout which has a NotesPanel inside of it.
@@ -28,10 +30,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     //this.setResizable(false);
-    this.notesPanel = new NotesPanel();
-    //change dimension to reflect notes and beats
-    //scrollPane.setPreferredSize(new Dimension(200, 200));
-    //this.add(notesPanel, BorderLayout.CENTER);
   }
 
   @Override
@@ -41,19 +39,31 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void create(MusicViewModel model) {
-    JPanel rangePanel = new JPanel();
-    JPanel beatPanel = new JPanel();
-    rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.Y_AXIS));
+    this.add(this.createRange(model), BorderLayout.WEST);
+    this.add(this.createBeats(model), BorderLayout.NORTH);
+    NotesPanel notes = this.createNotes(model);
+    JScrollPane scrollPane = new JScrollPane(notes,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    this.add(scrollPane);
+  }
 
-    // write the range of notes on the left side
-    for (Note n : model.getNoteRange()) {
+  private JPanel createRange(MusicViewModel model) {
+    JPanel rangePanel = new JPanel();
+    rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.Y_AXIS));
+    List<Note> range = model.getNoteRange();
+    Collections.reverse(range);
+    for (Note n : range) {
       JLabel label = new JLabel(n.toString());
       label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
       rangePanel.add(label);
-      this.add(rangePanel, BorderLayout.WEST);
+      //this.add(rangePanel, BorderLayout.WEST);
     }
+    return rangePanel;
+  }
 
-    // create each of the beats on the top
+  private JPanel createBeats(MusicViewModel model) {
+    JPanel beatPanel = new JPanel();
     beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
     int numBeats = model.getNumBeats();
     for (int i = 0; i <= numBeats; i++) {
@@ -70,18 +80,18 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
       }
     }
-    this.add(beatPanel, BorderLayout.NORTH);
-    notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
-    for (int i = 0; i < numBeats; i++) {
-      notesPanel.setNotes(model.notesStartAtThisBeat(i), model.notesContinueAtThisBeat(i), i);
-    }
-    JScrollPane scrollPane = new JScrollPane(notesPanel,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    this.add(scrollPane, BorderLayout.CENTER);
+    return beatPanel;
   }
 
-
+  private NotesPanel createNotes(MusicViewModel model) {
+    NotesPanel notesPanel = new NotesPanel();
+    notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
+    for (int i = 0; i < model.getNumBeats(); i++) {
+      notesPanel.setNotes(model.notesStartAtThisBeatHighestToLowest(i),
+          model.notesContinueAtThisBeatHighestToLowest(i), i);
+    }
+    return notesPanel;
+  }
 
 
   @Override
@@ -111,15 +121,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   public void resetFocus() {
     this.setFocusable(true);
     this.requestFocus();
-  }
-
-  @Override
-  public void addActionListener(ActionListener listener) {
-  }
-
-  @Override
-  public void drawNote(Note n, int noteRange) {
-    this.notesPanel.setNote(n, noteRange);
   }
 
   @Override

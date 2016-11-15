@@ -36,7 +36,6 @@ public class ConsoleView implements IMusicView {
    * @return The String state of the view model
    */
   private String getState() {
-    List<Integer> list = model.notesStartAtThisBeat(5);
     StringBuilder sb = new StringBuilder();
     int totalDigits = new Integer(model.length()).toString().length();
     sb.append(this.printFirstRow() + "\n");
@@ -48,8 +47,8 @@ public class ConsoleView implements IMusicView {
       sb.append(i);
       ArrayList<Integer> notesAtThisBeat = new ArrayList<>();
       try {
-        notesAtThisBeat.addAll(model.notesStartAtThisBeat(i));
-        notesAtThisBeat.addAll(model.notesContinueAtThisBeat(i));
+        notesAtThisBeat.addAll(model.notesStartAtThisBeatLowestToHighest(i));
+        notesAtThisBeat.addAll(model.notesContinueAtThisBeatLowestToHighest(i));
       } catch (NullPointerException e) {
         notesAtThisBeat = new ArrayList<>();
       }

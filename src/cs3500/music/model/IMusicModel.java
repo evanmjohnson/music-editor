@@ -68,21 +68,39 @@ public interface IMusicModel {
 
   /**
    * Return a {@code List<Integer>} of the indicies of the Notes that start at this beat in the
-   * range of Notes in this piece.
+   * range of Notes in this piece, sorted from lowest to highest.
    *
    * @param beat The beat to analyze
    * @return The List of indicies of Notes that start at the given beat
    */
-  List<Integer> notesStartAtThisBeat(int beat);
+  List<Integer> notesStartAtThisBeatLowestToHighest(int beat);
+
+  /**
+   * Return a {@code List<Integer>} of the indicies of the Notes that start at this beat in the
+   * range of Notes in this piece, sorted from highest to lowest.
+   *
+   * @param beat The beat to analyze
+   * @return The List of indicies of Notes that start at the given beat
+   */
+  List<Integer> notesStartAtThisBeatHighestToLowest(int beat);
 
   /**
    * Return a {@code List<Integer>} of the indicies of the Notes that continue at this beat in the
-   * range of Notes in this piece.
+   * range of Notes in this piece, sorted from lowest to highest.
    *
    * @param beat The beat to analyze
    * @return The List of indicies of Notes that continue at the given beat
    */
-  List<Integer> notesContinueAtThisBeat(int beat);
+  List<Integer> notesContinueAtThisBeatLowestToHighest(int beat);
+
+  /**
+   * Return a {@code List<Integer>} of the indicies of the Notes that continue at this beat in the
+   * range of Notes in this piece, sorted from highest to lowest.
+   *
+   * @param beat The beat to analyze
+   * @return The List of indicies of Notes that continue at the given beat
+   */
+  List<Integer> notesContinueAtThisBeatHighestToLowest(int beat);
 
   /**
    * Get the number of beats in this piece.
@@ -107,12 +125,12 @@ public interface IMusicModel {
 
   /**
    * Gets all of the Notes in this piece that were playing the beat before the given beat,
-   * but are not longer playing.
+   * but are not longer playing, sorted from lowest to highest.
    *
    * @param beat The beat at which Notes stop
    * @return The List of indicies of Notes that stop before the given beat
    */
-  List<Integer> notesStopAtThisBeat(int beat);
+  List<Integer> notesStopAtThisBeatLowestToHighest(int beat);
 
   /**
    * Gets the Note at the given beat and the given index in the range of Notes.
