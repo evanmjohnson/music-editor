@@ -55,13 +55,6 @@ public class NotesPanel extends JPanel {
    * @param beat  the y position of the note.
    */
   public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
-    if (beat == 0) {
-      System.out.println(start.get(0));
-      System.out.println(start.get(1));
-    }
-    else if (beat == 1) {
-      System.out.println(cont.get(0));
-    }
     for (int i = 0; i <= numNotes; i++) {
       if (start.contains(i)) {
         rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));

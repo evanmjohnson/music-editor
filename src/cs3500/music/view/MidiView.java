@@ -75,7 +75,7 @@ public class MidiView implements IMusicView {
 
     for (int i = 0; i <= model.getNumBeats(); i++) {
       // start each note
-      List<Integer> startList = model.notesStartAtThisBeatLowestToHighest(i);
+      List<Integer> startList = model.notesStartAtThisBeat(i);
       if (startList != null) {
         for (Integer start : startList) {
           Note toAdd = model.getNote(start, i);

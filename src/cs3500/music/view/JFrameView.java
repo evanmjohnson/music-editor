@@ -87,8 +87,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     NotesPanel notesPanel = new NotesPanel();
     notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
     for (int i = 0; i < model.getNumBeats(); i++) {
-      notesPanel.setNotes(model.notesStartAtThisBeatHighestToLowest(i),
-          model.notesContinueAtThisBeatHighestToLowest(i), i);
+      notesPanel.setNotes(model.notesStartAtThisBeat(i),
+          model.notesContinueAtThisBeat(i), i);
     }
     return notesPanel;
   }
@@ -129,8 +129,4 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.requestFocus();
     this.addKeyListener(kbd);
   }
-
-
-
-
 }

@@ -47,8 +47,8 @@ public class ConsoleView implements IMusicView {
       sb.append(i);
       ArrayList<Integer> notesAtThisBeat = new ArrayList<>();
       try {
-        notesAtThisBeat.addAll(model.notesStartAtThisBeatLowestToHighest(i));
-        notesAtThisBeat.addAll(model.notesContinueAtThisBeatLowestToHighest(i));
+        notesAtThisBeat.addAll(model.notesStartAtThisBeat(i));
+        notesAtThisBeat.addAll(model.notesContinueAtThisBeat(i));
       } catch (NullPointerException e) {
         notesAtThisBeat = new ArrayList<>();
       }

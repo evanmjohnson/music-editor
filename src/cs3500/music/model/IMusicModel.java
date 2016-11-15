@@ -73,16 +73,7 @@ public interface IMusicModel {
    * @param beat The beat to analyze
    * @return The List of indicies of Notes that start at the given beat
    */
-  List<Integer> notesStartAtThisBeatLowestToHighest(int beat);
-
-  /**
-   * Return a {@code List<Integer>} of the indicies of the Notes that start at this beat in the
-   * range of Notes in this piece, sorted from highest to lowest.
-   *
-   * @param beat The beat to analyze
-   * @return The List of indicies of Notes that start at the given beat
-   */
-  List<Integer> notesStartAtThisBeatHighestToLowest(int beat);
+  List<Integer> notesStartAtThisBeat(int beat);
 
   /**
    * Return a {@code List<Integer>} of the indicies of the Notes that continue at this beat in the
@@ -91,16 +82,7 @@ public interface IMusicModel {
    * @param beat The beat to analyze
    * @return The List of indicies of Notes that continue at the given beat
    */
-  List<Integer> notesContinueAtThisBeatLowestToHighest(int beat);
-
-  /**
-   * Return a {@code List<Integer>} of the indicies of the Notes that continue at this beat in the
-   * range of Notes in this piece, sorted from highest to lowest.
-   *
-   * @param beat The beat to analyze
-   * @return The List of indicies of Notes that continue at the given beat
-   */
-  List<Integer> notesContinueAtThisBeatHighestToLowest(int beat);
+  List<Integer> notesContinueAtThisBeat(int beat);
 
   /**
    * Get the number of beats in this piece.
