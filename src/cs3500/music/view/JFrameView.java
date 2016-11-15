@@ -1,11 +1,8 @@
 package cs3500.music.view;
 
-import cs3500.music.controller.GUIController;
-import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 
@@ -85,6 +82,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
 
+
+
   @Override
   public Note showAddPrompt() {
     Object[] possibilities = PitchType.values();
@@ -119,11 +118,18 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
   @Override
+  public void drawNote(Note n, int noteRange) {
+    this.notesPanel.setNote(n, noteRange);
+  }
+
+  @Override
   public void addListener(KeyListener kbd) {
     this.setFocusable(true);
     this.requestFocus();
     this.addKeyListener(kbd);
   }
+
+
 
 
 }

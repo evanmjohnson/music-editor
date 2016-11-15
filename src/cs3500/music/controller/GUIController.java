@@ -61,6 +61,18 @@ public class GUIController extends MusicController {
       System.out.println("lambda");
       Note n = view.showAddPrompt();
       model.add(n);
+      Note inRange = new Note(n.getPitch(), 0, 0, n.getOctave());
+
+      if(model.getNoteRange().contains(inRange)
+          && model.getNumBeats() < n.getStartBeat() + n.getDuration()) {
+        view.drawNote(n,  model.getNoteRange().indexOf(inRange));
+      }
+      else {
+        this.view = new JFrameView();
+        MusicViewModel viewModel = new MusicViewModel(model);
+        view.create(viewModel);
+        view.makeVisible();
+      }
     });
     // Another possible syntax:
     // Instead of an anonymous class, you can (as of Java 8) use "lambda syntax",

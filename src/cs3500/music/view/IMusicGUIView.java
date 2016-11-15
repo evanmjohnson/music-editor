@@ -1,6 +1,5 @@
 package cs3500.music.view;
 
-import cs3500.music.controller.GUIController;
 //import cs3500.music.controller.KeyboardListener;
 import cs3500.music.model.Note;
 
@@ -39,4 +38,11 @@ public interface IMusicGUIView extends IMusicView {
   void addListener(KeyListener kbd);
 
   void addActionListener(ActionListener listener);
+
+  /**
+   * Draws a single note.
+   * @param n the note to be drawn.
+   * @param i
+   */
+  void drawNote(Note n, int i);
 }

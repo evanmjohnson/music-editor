@@ -9,12 +9,15 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import cs3500.music.model.Note;
+
 /**
  * Represents the panel in the middle of the view that shows the grid of notes.
  */
 public class NotesPanel extends JPanel {
   private List<Line> lines;
   private List<Rectangle> rects;
+  private List<Rectangle> singleRects;
   private int numNotes;
   private final int RECTANGLE_WIDTH = 30;
   private final int RECTANGLE_HEIGHT = 24;
@@ -22,6 +25,7 @@ public class NotesPanel extends JPanel {
   public NotesPanel() {
     lines = new ArrayList<>();
     rects = new ArrayList<>();
+    singleRects = new ArrayList<>();
   }
 
   /**
@@ -79,4 +83,8 @@ public class NotesPanel extends JPanel {
   }
 
 
+  public void setNote(Note n, int noteRange) {
+    singleRects.add(new Rectangle(n.getStartBeat(), noteRange, RECTANGLE_WIDTH,
+            RECTANGLE_HEIGHT, Color.black));
+  }
 }
