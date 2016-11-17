@@ -12,6 +12,7 @@ public class Note implements Comparable<Note> {
   private int octave;
   private int instrument;
   private int volume;
+  private boolean selected;
 
   /**
    * Creates a new Note with default values for instrument and volume.
@@ -38,6 +39,7 @@ public class Note implements Comparable<Note> {
     this.octave = octave;
     this.instrument = 0;
     this.volume = 127;
+    this.selected = false;
   }
 
   /**
@@ -74,6 +76,7 @@ public class Note implements Comparable<Note> {
       throw new IllegalArgumentException("Volume must be between 0 and 127.");
     }
     this.volume = volume;
+    this.selected = false;
   }
 
   @Override
@@ -161,5 +164,13 @@ public class Note implements Comparable<Note> {
    */
   public int getVolume() {
     return this.volume;
+  }
+
+  /**
+   * Sets this Note's selected field to the given boolean.
+   * @param selected What to set this Note's selected field as
+   */
+  public void makeSelected(boolean selected) {
+    this.selected = selected;
   }
 }
