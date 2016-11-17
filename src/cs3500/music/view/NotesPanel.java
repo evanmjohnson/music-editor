@@ -56,12 +56,19 @@ public class NotesPanel extends JPanel {
    */
   public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
     for (int i = 0; i <= numNotes; i++) {
+      if (beat == 0) {
+        //System.out.println(start.size());
+      }
       if (start.contains(i)) {
         rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));
       } else if (cont.contains(i)) {
         rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.green));
       }
     }
+  }
+
+  void removeRects() {
+    this.rects.clear();
   }
 
 
@@ -82,9 +89,4 @@ public class NotesPanel extends JPanel {
     }
   }
 
-
-  public void setNote(Note n, int noteRange) {
-    singleRects.add(new Rectangle(n.getStartBeat(), noteRange, RECTANGLE_WIDTH,
-            RECTANGLE_HEIGHT, Color.black));
-  }
 }
