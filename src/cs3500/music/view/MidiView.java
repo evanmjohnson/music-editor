@@ -155,7 +155,7 @@ public class MidiView implements IMusicView {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, toAdd.getInstrument(),
                 pitch, toAdd.getVolume());
             track.add(new MidiEvent(message, toAdd.getStartBeat() * model.getTempo()));
-            this.messageString.append("start " + model. + " " + pitch + " " +
+            this.messageString.append("start " + toAdd.getInstrument() + " " + pitch + " " +
                 toAdd.getVolume() + "\n");
           } catch (InvalidMidiDataException e) {
             e.printStackTrace();
@@ -185,6 +185,6 @@ public class MidiView implements IMusicView {
 
   @Override
   public void makeVisible() {
-    return;
+
   }
 }
