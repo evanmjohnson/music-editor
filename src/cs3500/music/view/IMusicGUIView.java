@@ -49,4 +49,6 @@ public interface IMusicGUIView extends IMusicView {
    * Redraw the board.
    */
   void reDraw(MusicViewModel model);
+
+  void showSelected(MusicViewModel model);
 }

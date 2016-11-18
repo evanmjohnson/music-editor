@@ -6,6 +6,7 @@ import cs3500.music.model.Note;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.IMusicView;
 import cs3500.music.view.JFrameView;
+import cs3500.music.view.MidiView;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
