@@ -73,8 +73,9 @@ public class GUIController extends MusicController {
 
     keyReleases.put(KeyEvent.VK_A, () -> {
       Note n = view.showAddPrompt();
+      System.out.println(model.getNoteRange().size());
       model.add(n);
-      System.out.println(model.notesStartAtThisBeat(0));
+      System.out.println(model.getNoteRange().size());
       MusicViewModel viewModel = new MusicViewModel(model);
       this.view.reDraw(viewModel);
     });

@@ -20,8 +20,8 @@ import java.util.List;
 public class JFrameView extends JFrame implements IMusicGUIView {
   private JScrollPane scrollPane;
   private NotesPanel notesPanel;
-  private JPanel rangePanel;
-  private JPanel beatPanel;
+  private RangePanel rangePanel;
+  private BeatPanel beatPanel;
 
   /**
    * Constructs a JFrameView with a border layout which has a NotesPanel inside of it.
@@ -33,6 +33,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     this.notesPanel = new NotesPanel();
+    this.beatPanel = new BeatPanel();
+    this.rangePanel = new RangePanel();
     //this.setResizable(false);
   }
 
@@ -43,8 +45,9 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void create(MusicViewModel model) {
-    this.rangePanel = this.createRange(model);
-    this.beatPanel = this.createBeats(model);
+    //this.rangePanel = this.createRange(model);
+    beatPanel.setBeats(model.getNumBeats());
+    rangePanel.setNotes(model.getNoteRange());
     this.add(rangePanel, BorderLayout.WEST);
     this.add(beatPanel, BorderLayout.NORTH);
     NotesPanel notes = this.createNotes(model);
@@ -54,40 +57,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.add(scrollPane, BorderLayout.CENTER);
   }
 
-  private JPanel createRange(MusicViewModel model) {
-    JPanel rangePanel = new JPanel();
-    rangePanel.setLayout(new BoxLayout(rangePanel, BoxLayout.Y_AXIS));
-    List<Note> range = model.getNoteRange();
-    Collections.reverse(range);
-    for (Note n : range) {
-      JLabel label = new JLabel(n.toString());
-      label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
-      rangePanel.add(label);
-    }
-    return rangePanel;
-  }
 
-  private JPanel createBeats(MusicViewModel model) {
-    JPanel beatPanel = new JPanel();
-    beatPanel.setLayout(new BoxLayout(beatPanel, BoxLayout.X_AXIS));
-    int numBeats = model.getNumBeats();
-    for (int i = 0; i <= numBeats; i++) {
-      if (i % 16 == 0) {
-        if (i == 0) {
-          beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-        } else {
-          beatPanel.add(Box.createRigidArea(new Dimension(12 - (i / 16), 0)));
-        }
-        JLabel label = new JLabel(Integer.toString(i));
-        label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
-        beatPanel.add(label);
 
-      } else {
-        beatPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-      }
-    }
-    return beatPanel;
-  }
 
   private NotesPanel createNotes(MusicViewModel model) {
     notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
@@ -101,13 +72,11 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   public void reDraw(MusicViewModel model) {
     this.notesPanel.removeRects();
     this.createNotes(model);
+    this.rangePanel.setNotes(model.getNoteRange());
     this.notesPanel.repaint();
-    this.createBeats(model);
-    this.remove(rangePanel);
-    rangePanel = this.createRange(model);
-    rangePanel.revalidate();
-    this.add(rangePanel, BorderLayout.WEST);
-    rangePanel.repaint();
+    this.beatPanel.repaint();
+    this.rangePanel.revalidate();
+    this.rangePanel.repaint();
   }
 
   @Override

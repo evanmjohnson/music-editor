@@ -68,7 +68,7 @@ public class MidiView implements IMusicView {
     // set up the MIDI Sequence
     Sequence sequence;
     try {
-      sequence = new Sequence(Sequence.PPQ, model.getTempo());
+      sequence = new Sequence(Sequence.PPQ, 1);
       Track track = sequence.createTrack();
       track = this.startNotes(model, track);
       Sequencer sequencer = MidiSystem.getSequencer();
@@ -83,6 +83,7 @@ public class MidiView implements IMusicView {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
+
   private Track startNotes(MusicViewModel model, Track track) {
     for (int i = 0; i <= model.getNumBeats(); i++) {
       // start each note
@@ -96,29 +97,33 @@ public class MidiView implements IMusicView {
                 pitch, toAdd.getVolume());
             track.add(new MidiEvent(message, i));
             this.messageString.append("start " + toAdd.getInstrument() + " " + pitch + " " +
-                toAdd.getVolume() + "\n");
+                    toAdd.getVolume() + "\n");
+            MidiMessage messageStop = new ShortMessage(ShortMessage.NOTE_OFF, toAdd.getInstrument(),
+                    pitch, toAdd.getVolume());
+            track.add(new MidiEvent(messageStop, (i + toAdd.getDuration())));
           } catch (InvalidMidiDataException e) {
             e.printStackTrace();
           }
         }
       }
+
       // stop each note
-      List<Integer> stopList = model.notesStopAtThisBeatLowestToHighest(i);
-      if (stopList != null) {
-        for (Integer stop : stopList) {
-          Note toAdd = model.getNote(stop, i);
-          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
-          try {
-            MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, toAdd.getInstrument(),
-                pitch, toAdd.getVolume());
-            track.add(new MidiEvent(message, i + 1));
-            this.messageString.append("stop " + toAdd.getInstrument() + " " + pitch + " " +
-                toAdd.getVolume() + "\n");
-          } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-          }
-        }
-      }
+//      List<Integer> stopList = model.notesStopAtThisBeatLowestToHighest(i);
+//      if (stopList != null) {
+//        for (Integer stop : stopList) {
+//          Note toAdd = model.getNote(stop, i);
+//          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
+//          try {
+//            MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, toAdd.getInstrument(),
+//                pitch, toAdd.getVolume());
+//            track.add(new MidiEvent(message, i + 1));
+//            this.messageString.append("stop " + toAdd.getInstrument() + " " + pitch + " " +
+//                toAdd.getVolume() + "\n");
+//          } catch (InvalidMidiDataException e) {
+//            e.printStackTrace();
+//          }
+//        }
+//      }
     }
     return track;
   }
