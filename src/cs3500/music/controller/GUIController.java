@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * Represents a controller for the GUI view.
  */
-public class GUIController extends MusicController {
+public class GUIController extends MusicController implements IMouseCallback {
   private IMusicModel model;
   private IMusicGUIView view;
 
@@ -30,7 +30,7 @@ public class GUIController extends MusicController {
     view.create(viewModel);
     view.makeVisible();
     configureKeyBoardListener();
-
+    configureMouseListener();
   }
 
   /**
@@ -88,12 +88,27 @@ public class GUIController extends MusicController {
   }
 
   private void configureMouseListener() {
-    Map<Integer, Runnable> mousePressed = new HashMap<>();
-    Map<Integer, Runnable> mouseReleased = new HashMap<>();
-    Map<Integer, Runnable> mouseClicked = new HashMap<>();
+    MouseHandler mouse = new MouseHandler(this);
+    this.view.setMouseListener(mouse);
+  }
 
-    mousePressed.put(MouseEvent.MOUSE_PRESSED, () -> {
-
-    });
+  @Override
+  public void check(int x, int y) {
+    System.out.println(x/30 + "" + (model.getNoteRange().size() - y/22 + 1) + ", ");
+    try {
+      Note clicked = this.model.getNote(model.getNoteRange().size() - y / 22 - 1, x / 30);
+      if (clicked != null) {
+        clicked.makeSelected(true);
+        MusicViewModel viewModel = new MusicViewModel(this.model);
+        if (this.view.doRemove()) {
+          System.out.println(clicked.toString());
+          model.remove(clicked);
+          this.view.reDrawNotes(viewModel);
+        }
+      }
+    }
+    catch (IllegalArgumentException e) {
+      return;
+    }
   }
 }

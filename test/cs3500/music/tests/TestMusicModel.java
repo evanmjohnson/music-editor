@@ -114,14 +114,20 @@ public class TestMusicModel {
   @Test
   public void testRemove() {
     model.add(middleC);
+    Note anotherC = new Note(PitchType.C, 3, 2, 4);
+    model.add(anotherC);
     model.add(a4);
-    model.remove(a4);
-    String expected = "  C4  \n" +
-        "0  X  \n" +
-        "1  |  \n";
+    model.remove(middleC);
+    String expected = "  C4   C#4  D4   D#4  E4   F4   F#4  G4   G#4  A4  \n" +
+        "0                                               X  \n" +
+        "1                                               |  \n" +
+        "2                                               |  \n" +
+        "3  X                                            |  \n" +
+        "4  |                                               \n";
     console.create(new MusicViewModel(model));
     assertEquals(expected, out.toString());
   }
+
 
   // this test should throw an exception beause you cannot remove a Note that's not in the piece.
   @Test(expected = IllegalArgumentException.class)

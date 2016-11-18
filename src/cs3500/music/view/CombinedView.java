@@ -4,6 +4,7 @@ import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.IllegalFormatException;
 
 /**
@@ -53,7 +54,17 @@ public class CombinedView implements IMusicGUIView {
   }
 
   @Override
-  public void showSelected(MusicViewModel model) {
+  public void reDrawNotes(MusicViewModel model) {
+
+  }
+
+  @Override
+  public boolean doRemove() {
+    return false;
+  }
+
+  @Override
+  public void setMouseListener(MouseListener mouse) {
 
   }
 }

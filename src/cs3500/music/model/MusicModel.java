@@ -52,16 +52,10 @@ public class MusicModel implements IMusicModel {
 
   @Override
   public void remove(Note n) throws IllegalArgumentException {
-    boolean removed = false;
-    for (Map.Entry<Integer, TreeSet<Note>> entry : notes.entrySet()) {
-      TreeSet<Note> set = entry.getValue();
-      if (set.contains(n)) {
-        set.remove(n);
-        removed = true;
+    for (int i = n.getStartBeat(); i < n.getStartBeat() + n.getDuration(); i++) {
+      if (!notes.get(i).remove(n)) {
+        throw new IllegalArgumentException("Note not in the piece.");
       }
-    }
-    if (!removed) {
-      throw new IllegalArgumentException("That Note isn't in this model");
     }
   }
 
@@ -313,5 +307,4 @@ public class MusicModel implements IMusicModel {
       throw new IllegalStateException("Tempo has not been set yet.");
     }
   }
-
 }

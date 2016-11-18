@@ -18,5 +18,4 @@ public interface IMusicView {
    * after the view is constructed
    */
   void makeVisible();
-
 }

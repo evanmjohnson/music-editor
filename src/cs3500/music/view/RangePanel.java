@@ -20,14 +20,15 @@ public class RangePanel extends JPanel {
 //  }
 
   public void setNotes(List<Note> noteRange) {
-    System.out.println("SET Notes");
     range = noteRange;
-    System.out.println(range.size());
+  }
+
+  public void clearNotes() {
+    this.range = new ArrayList<>();
   }
 
   @Override
   protected void paintComponent(Graphics g) {
-    System.out.println("PAINT Notes");
     //never forget to call super.paintComponent!
     super.paintComponent(g);
     this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

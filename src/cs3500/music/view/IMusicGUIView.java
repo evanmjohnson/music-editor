@@ -6,6 +6,7 @@ import cs3500.music.model.Note;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.IllegalFormatException;
 
 /**
@@ -16,6 +17,7 @@ public interface IMusicGUIView extends IMusicView {
    * Show the prompt to add a Note to the editor. Once a prompt is shown,
    * if every necessary field is filled out correctly return the Note that
    * should be added to the editor.
+   *
    * @return The Note to add to the model
    * @throws IllegalFormatException If the input is malformed
    */
@@ -30,7 +32,7 @@ public interface IMusicGUIView extends IMusicView {
   /**
    * This is to force the view to have a method to set up the keyboard. The name has been chosen
    * deliberately. This is the same method signature to add a key listener in Java Swing.
-   *
+   * <p>
    * Thus our Swing-based implementation of this interface will already have such a method.
    */
   void addListener(KeyListener kbd);
@@ -47,8 +49,27 @@ public interface IMusicGUIView extends IMusicView {
 
   /**
    * Redraw the board.
+   *
+   * @param model A {@link MusicViewModel} of the model to draw
    */
   void reDraw(MusicViewModel model);
 
-  void showSelected(MusicViewModel model);
+  /**
+   * Redraw the panel of Notes in the middle of the visual view.
+   *
+   * @param model A {@link MusicViewModel} of the model to draw
+   */
+  void reDrawNotes(MusicViewModel model);
+
+  /**
+   * Prompt the user if they want to remove their selected Note.
+   * @return If the user says they want to remove the Note.
+   */
+  boolean doRemove();
+
+  /**
+   * Set this view's note panel's MouseListener to the given MouseListener.
+   * @param mouse The MouseListener to set
+   */
+  void setMouseListener(MouseListener mouse);
 }

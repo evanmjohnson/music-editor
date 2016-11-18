@@ -11,6 +11,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,12 +53,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.add(beatPanel, BorderLayout.NORTH);
     NotesPanel notes = this.createNotes(model);
     scrollPane = new JScrollPane(notes,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     this.add(scrollPane, BorderLayout.CENTER);
   }
-
-
 
 
   private NotesPanel createNotes(MusicViewModel model) {
@@ -70,41 +69,48 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
   public void reDraw(MusicViewModel model) {
-    this.notesPanel.removeRects();
-    this.createNotes(model);
+    this.reDrawNotes(model);
+    this.rangePanel.clearNotes();
     this.rangePanel.setNotes(model.getNoteRange());
-    this.notesPanel.repaint();
     this.beatPanel.repaint();
     this.rangePanel.revalidate();
     this.rangePanel.repaint();
   }
 
   @Override
-  public void showSelected(MusicViewModel model) {
-
+  public void reDrawNotes(MusicViewModel model) {
+    this.notesPanel.removeRects();
+    this.createNotes(model);
+    this.notesPanel.repaint();
   }
 
   @Override
   public Note showAddPrompt() {
     Object[] possibilities = PitchType.values();
+    // ask the user about the details of the note to add
     Object pitchObject = JOptionPane.showInputDialog(this,
         "Select the pitch that you want the new note to have.\n",
         "Add a note", JOptionPane.PLAIN_MESSAGE, null, possibilities, PitchType.C);
-    PitchType type = (PitchType)pitchObject;
     Object startBeatObject = JOptionPane.showInputDialog(this,
         "Enter a start beat for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
-    Integer startBeat = Integer.parseInt((String)startBeatObject);
     Object durationObject = JOptionPane.showInputDialog(this,
         "Enter the duration of the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
-    Integer duration = Integer.parseInt((String)durationObject);
     Object octaveObject = JOptionPane.showInputDialog(this,
         "Enter a valid octave for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
-    Integer octave = Integer.parseInt((String)octaveObject);
-    Note n = new Note(type, startBeat, duration, octave);
-    return n;
+
+    // convert the user's inputs to data for the model
+    if (pitchObject == null || startBeatObject == null || durationObject == null
+        || octaveObject == null) {
+      return;
+    }
+    PitchType type = (PitchType) pitchObject;
+    Integer startBeat = Integer.parseInt((String) startBeatObject);
+    Integer duration = Integer.parseInt((String) durationObject);
+    Integer octave = Integer.parseInt((String) octaveObject);
+    return new Note(type, startBeat, duration, octave);
   }
 
   @Override
@@ -124,7 +130,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   public void scrollRight() {
     JViewport vp = this.scrollPane.getViewport();
     System.out.println(vp.getX() + " " + vp.getY());
-    vp.setViewPosition(new Point((int)(vp.getX() + 200), vp.getY()));
+    vp.setViewPosition(new Point((int) (vp.getX() + 200), vp.getY()));
     System.out.println(vp.getX() + " " + vp.getY());
     this.notesPanel.repaint();
     this.requestFocusInWindow();
@@ -135,5 +141,22 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     // this is wrong
     this.scrollPane.getHorizontalScrollBar().setValue(
         this.scrollPane.getHorizontalScrollBar().getValue() * -1);
+  }
+
+  @Override
+  public boolean doRemove() {
+    int option = JOptionPane.showConfirmDialog(null, "Do you want to remove this note?",
+        "Are you sure?", JOptionPane.YES_NO_OPTION);
+    if (option == 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  @Override
+  public void setMouseListener(MouseListener mouse) {
+    this.notesPanel.addMouseListener(mouse);
   }
 }
