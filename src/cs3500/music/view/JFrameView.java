@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import com.sun.prism.image.ViewPort;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
@@ -17,7 +18,7 @@ import java.util.List;
  * Displays a java Swing BoxLayout view for the music editor.
  */
 public class JFrameView extends JFrame implements IMusicGUIView {
-  private JScrollBar scrollBar;
+  private JScrollPane scrollPane;
   private NotesPanel notesPanel;
   private JPanel rangePanel;
   private JPanel beatPanel;
@@ -31,7 +32,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
-    this.scrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 30, 20, 0, 300);
     this.notesPanel = new NotesPanel();
     //this.setResizable(false);
   }
@@ -48,10 +48,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.add(rangePanel, BorderLayout.WEST);
     this.add(beatPanel, BorderLayout.NORTH);
     NotesPanel notes = this.createNotes(model);
-    JScrollPane scrollPane = new JScrollPane(notes,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    this.add(scrollPane);
+    scrollPane = new JScrollPane(notes,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    this.add(scrollPane, BorderLayout.CENTER);
   }
 
   private JPanel createRange(MusicViewModel model) {
@@ -110,12 +110,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     rangePanel.repaint();
   }
 
-  private void resetRange() {
-    for (Component comp : this.rangePanel.getComponents()) {
-      rangePanel.remove(comp);
-    }
-  }
+  @Override
+  public void showSelected(MusicViewModel model) {
 
+  }
 
   @Override
   public Note showAddPrompt() {
@@ -155,11 +153,18 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void scrollRight() {
-    this.scrollBar.setValue(25);
+    JViewport vp = this.scrollPane.getViewport();
+    System.out.println(vp.getX() + " " + vp.getY());
+    vp.setViewPosition(new Point((int)(vp.getX() + 200), vp.getY()));
+    System.out.println(vp.getX() + " " + vp.getY());
+    this.notesPanel.repaint();
+    this.requestFocusInWindow();
   }
 
   @Override
   public void scrollLeft() {
-    this.scrollBar.setValue(-25);
+    // this is wrong
+    this.scrollPane.getHorizontalScrollBar().setValue(
+        this.scrollPane.getHorizontalScrollBar().getValue() * -1);
   }
 }
