@@ -11,11 +11,20 @@ import java.util.IllegalFormatException;
  * Represents a view that combines the window of the visual view and the sound of the MIDI view.
  */
 public class CombinedView implements IMusicGUIView {
-  private int currentBeat;
+  private IMusicGUIView gui;
+  private IMusicView midi;
+
+  public CombinedView() {
+    this.gui = new JFrameView();
+    this.midi = new MidiView();
+  }
 
   @Override
   public void create(MusicViewModel model) {
-
+    gui.create(model);
+    this.createRedLine();
+    gui.makeVisible();
+    midi.create(model);
   }
 
   @Override
@@ -66,5 +75,15 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public void setMouseListener(MouseListener mouse) {
 
+  }
+
+  @Override
+  public void moveRedLine() {
+    gui.moveRedLine();
+  }
+
+  @Override
+  public void createRedLine() {
+    gui.createRedLine();
   }
 }
