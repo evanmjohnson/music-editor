@@ -15,12 +15,13 @@ import cs3500.music.model.Note;
 public class RangePanel extends JPanel {
   List<Note> range;
 
-//  public RangePanel() {
-//    range = new ArrayList<>();
-//  }
+  public RangePanel() {
+
+  }
 
   public void setNotes(List<Note> noteRange) {
     range = noteRange;
+    Collections.reverse(range);
   }
 
   public void clearNotes() {
@@ -31,8 +32,8 @@ public class RangePanel extends JPanel {
   protected void paintComponent(Graphics g) {
     //never forget to call super.paintComponent!
     super.paintComponent(g);
-    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    Collections.reverse(range);
+    this.setLayout(new GridLayout(range.size(), 1, 1, 1));
+   //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     for (Note n : range) {
       JLabel label = new JLabel(n.toString());
       label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));

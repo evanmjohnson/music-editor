@@ -36,6 +36,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.notesPanel = new NotesPanel();
     this.beatPanel = new BeatPanel();
     this.rangePanel = new RangePanel();
+    this.add(rangePanel, BorderLayout.WEST);
+    this.add(beatPanel, BorderLayout.NORTH);
     //this.setResizable(false);
   }
 
@@ -49,8 +51,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     //this.rangePanel = this.createRange(model);
     beatPanel.setBeats(model.getNumBeats());
     rangePanel.setNotes(model.getNoteRange());
-    this.add(rangePanel, BorderLayout.WEST);
-    this.add(beatPanel, BorderLayout.NORTH);
     NotesPanel notes = this.createNotes(model);
     scrollPane = new JScrollPane(notes,
         ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -102,10 +102,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         null, null, null);
 
     // convert the user's inputs to data for the model
-    if (pitchObject == null || startBeatObject == null || durationObject == null
-        || octaveObject == null) {
-      return;
-    }
+//    if (pitchObject == null || startBeatObject == null || durationObject == null
+//        || octaveObject == null) {
+//      return;
+//    }
     PitchType type = (PitchType) pitchObject;
     Integer startBeat = Integer.parseInt((String) startBeatObject);
     Integer duration = Integer.parseInt((String) durationObject);
