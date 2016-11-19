@@ -72,4 +72,14 @@ public interface IMusicGUIView extends IMusicView {
    * @param mouse The MouseListener to set
    */
   void setMouseListener(MouseListener mouse);
+
+  /**
+   * Moves the red line tracking the beat over to the right by one.
+   */
+  void moveRedLine();
+
+  /**
+   * Creates the red line at beat 0.
+   */
+  void createRedLine();
 }

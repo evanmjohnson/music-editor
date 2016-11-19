@@ -1,8 +1,6 @@
 package cs3500.music.view;
 
-import java.awt.Graphics2D;
-import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -17,15 +15,14 @@ import cs3500.music.model.Note;
 public class NotesPanel extends JPanel {
   private List<Line> lines;
   private List<Rectangle> rects;
-  private List<Rectangle> singleRects;
-  private int numNotes;
+  private Line redLine;
+  private int numberNotes;
   private final int RECTANGLE_WIDTH = 30;
   private final int RECTANGLE_HEIGHT = 24;
 
   public NotesPanel() {
     lines = new ArrayList<>();
     rects = new ArrayList<>();
-    singleRects = new ArrayList<>();
   }
 
   /**
@@ -36,7 +33,7 @@ public class NotesPanel extends JPanel {
    */
 
   public void setLines(int numBeats, int numNotes) {
-    this.numNotes = numNotes;
+    this.numberNotes = numNotes;
     // draws vertical lines
     for (int i = 0; i <= numBeats; i += 4) {
       lines.add(new Line(i, 0, i, numNotes));
@@ -45,6 +42,7 @@ public class NotesPanel extends JPanel {
     for (int j = 0; j <= numNotes; j++) {
       lines.add(new Line(0, j, numBeats, j));
     }
+    this.numberNotes = numNotes;
   }
 
   /**
@@ -55,14 +53,16 @@ public class NotesPanel extends JPanel {
    * @param beat  the y position of the note.
    */
   public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
-    for (int i = 0; i <= numNotes; i++) {
+    for (int i = 0; i <= this.numberNotes; i++) {
       if (beat == 0) {
         //System.out.println(start.size());
       }
       if (start.contains(i)) {
-        rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.black));
+        rects.add(new Rectangle(beat, (numberNotes - i) - 1, RECTANGLE_WIDTH,
+            RECTANGLE_HEIGHT, Color.black));
       } else if (cont.contains(i)) {
-        rects.add(new Rectangle(beat, (numNotes - i) - 1, RECTANGLE_WIDTH, RECTANGLE_HEIGHT, Color.green));
+        rects.add(new Rectangle(beat, (numberNotes - i) - 1, RECTANGLE_WIDTH,
+            RECTANGLE_HEIGHT, Color.green));
       }
     }
   }
@@ -71,6 +71,13 @@ public class NotesPanel extends JPanel {
     this.rects.clear();
   }
 
+  void createRedLine() {
+    this.redLine = new Line(0, 0, 1, numberNotes);
+  }
+
+  void moveRedLine() {
+    this.redLine = new Line(redLine.x0 + 1, 0, redLine.x0 + 1, numberNotes);
+  }
 
   @Override
   protected void paintComponent(Graphics g) {
@@ -86,6 +93,11 @@ public class NotesPanel extends JPanel {
     for (Rectangle r : rects) {
       g2d.setColor(r.color);
       g2d.fillRect(r.x * RECTANGLE_WIDTH, r.y * 22, r.width, r.height - 3);
+    }
+    if (this.redLine != null) {
+      g2d.setStroke(new BasicStroke(5));
+      g2d.setColor(Color.red);
+      g2d.drawLine(redLine.x0, redLine.y0 * 22, redLine.x1, redLine.y1 * 22);
     }
   }
 

@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import java.awt.*;
+import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -29,7 +30,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
    */
   public JFrameView() {
     super();
-    this.setSize(new Dimension(500, 500));
+    this.setSize(new Dimension(1000, 500));
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
@@ -38,7 +39,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.rangePanel = new RangePanel();
     this.add(rangePanel, BorderLayout.WEST);
     this.add(beatPanel, BorderLayout.NORTH);
-    //this.setResizable(false);
+//    this.setResizable(false);
   }
 
   @Override
@@ -129,10 +130,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   @Override
   public void scrollRight() {
     JViewport vp = this.scrollPane.getViewport();
-    System.out.println(vp.getX() + " " + vp.getY());
-    vp.setViewPosition(new Point((int) (vp.getX() + 200), vp.getY()));
-    System.out.println(vp.getX() + " " + vp.getY());
-    this.notesPanel.repaint();
+    vp.setViewPosition(new Point(vp.getX() + 250, vp.getY()));
     this.requestFocusInWindow();
   }
 
@@ -149,8 +147,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         "Are you sure?", JOptionPane.YES_NO_OPTION);
     if (option == 0) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -158,5 +155,15 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   @Override
   public void setMouseListener(MouseListener mouse) {
     this.notesPanel.addMouseListener(mouse);
+  }
+
+  @Override
+  public void moveRedLine() {
+    this.notesPanel.moveRedLine();
+  }
+
+  @Override
+  public void createRedLine() {
+    this.notesPanel.createRedLine();
   }
 }
