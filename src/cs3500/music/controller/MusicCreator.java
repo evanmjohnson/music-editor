@@ -1,5 +1,6 @@
 package cs3500.music.controller;
 
+import cs3500.music.view.CombinedView;
 import cs3500.music.view.ConsoleView;
 import cs3500.music.view.IMusicView;
 import cs3500.music.view.JFrameView;
@@ -41,6 +42,8 @@ public class MusicCreator {
       return new JFrameView();
     } else if (viewType.equals("midi")) {
       return new MidiView();
+    } else if (viewType.equals("combined")) {
+      return new CombinedView();
     } else {
       throw new IllegalArgumentException("Must be one of console, visual, or midi.");
     }
