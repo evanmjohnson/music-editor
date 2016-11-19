@@ -74,7 +74,7 @@ public class MidiView implements IMusicView {
     }
 
     for (int i = 0; i <= model.getNumBeats(); i++) {
-      // start each note
+      // play each note
       List<Integer> startList = model.notesStartAtThisBeat(i);
       if (startList != null) {
         for (Integer start : startList) {
@@ -89,35 +89,12 @@ public class MidiView implements IMusicView {
           try {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
                 pitch, toAdd.getVolume());
-            this.receiver.send(message, i * model.getTempo());
-            this.messageString.append("start " + channelOf + " " + pitch + " " +
-                toAdd.getVolume() + "\n");
-          } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-      try {
-        Thread.sleep(model.getTempo() / 1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      // stop each note
-      List<Integer> stopList = model.notesStopAtThisBeatLowestToHighest(i);
-      if (stopList != null) {
-        for (Integer stop : stopList) {
-          Note toAdd = model.getNote(stop, i);
-          int channelOf;
-          if (instrumentToChannel.get(toAdd.getInstrument()) == null) {
-            channelOf = 0;
-          } else {
-            channelOf = instrumentToChannel.get(toAdd.getInstrument());
-          }
-          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
-          try {
-            MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
+            MidiMessage stopMessage = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
                 pitch, toAdd.getVolume());
             this.receiver.send(message, i * model.getTempo());
+            this.receiver.send(stopMessage, (i + toAdd.getDuration()) * model.getTempo());
+            this.messageString.append("start " + channelOf + " " + pitch + " " +
+                toAdd.getVolume() + "\n");
             this.messageString.append("stop " + channelOf + " " + pitch + " " +
                 toAdd.getVolume() + "\n");
           } catch (InvalidMidiDataException e) {
