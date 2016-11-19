@@ -7,13 +7,11 @@ import cs3500.music.model.Note;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.JFrameView;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Represents a controller for the GUI view.
@@ -31,6 +29,16 @@ public class GUIController extends MusicController implements IMouseCallback {
     view.makeVisible();
     configureKeyBoardListener();
     configureMouseListener();
+    if (args[0].equals("combined")) {
+      Timer timer = new Timer();
+      timer.schedule(new TimerTask() {
+        @Override
+        public void run() {
+          view.moveRedLine();
+          view.reDraw(viewModel);
+        }
+      }, model.getTempo() / 1000);
+    }
   }
 
   /**
@@ -51,23 +59,19 @@ public class GUIController extends MusicController implements IMouseCallback {
     Map<Integer, Runnable> keyReleases = new HashMap<>();
 
     keyTypes.put(KeyEvent.VK_R, () -> {
-      System.out.println("RIGHT");
       this.view.scrollRight();
     });
 
     keyReleases.put(KeyEvent.VK_RIGHT, () -> {
-      System.out.println("RIGHT");
       this.view.scrollRight();
     });
 
     keyTypes.put(KeyEvent.VK_L, () -> {
       this.view.scrollLeft();
-      System.out.println("LEFT");
     });
 
     keyReleases.put(KeyEvent.VK_LEFT, () -> {
       this.view.scrollLeft();
-      System.out.println("LEFT");
     });
 
 
@@ -111,4 +115,6 @@ public class GUIController extends MusicController implements IMouseCallback {
       return;
     }
   }
+
+
 }
