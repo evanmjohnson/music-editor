@@ -18,4 +18,14 @@ public interface IMusicView {
    * after the view is constructed
    */
   void makeVisible();
+
+  /**
+   * Pauses the playback of the piece if this view is a combined view.
+   */
+  void pause();
+
+  /**
+   * Resumes the plackback of the piece if this view is a combined view.
+   */
+  void resume();
 }

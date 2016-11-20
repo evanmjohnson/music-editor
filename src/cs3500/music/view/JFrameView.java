@@ -30,7 +30,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
    */
   public JFrameView() {
     super();
-    this.setSize(new Dimension(1000, 500));
+    this.setSize(new Dimension(1920, 1200));
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
@@ -80,8 +80,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void reDrawNotes(MusicViewModel model) {
-    this.notesPanel.removeRects();
-    this.createNotes(model);
+    //this.notesPanel.removeRects();
+    //this.createNotes(model);
     this.notesPanel.repaint();
   }
 
@@ -165,5 +165,20 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   @Override
   public void createRedLine() {
     this.notesPanel.createRedLine();
+  }
+
+  @Override
+  public int getCurrentPosition() {
+    return 0;
+  }
+
+  @Override
+  public void pause() {
+
+  }
+
+  @Override
+  public void resume() {
+
   }
 }

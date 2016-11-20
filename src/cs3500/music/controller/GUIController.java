@@ -17,13 +17,17 @@ import java.util.TimerTask;
 /**
  * Represents a controller for the GUI view.
  */
-public class GUIController extends MusicController implements IMouseCallback, ITimeCallback {
+public class GUIController extends MusicController implements IMouseCallback {
   private IMusicModel model;
   private IMusicGUIView view;
+  private String type;
+  private Timer timer;
 
   @Override
   public void start(IMusicModel model, String[] args) {
-    if (args[0].equals("combined")) {
+    this.type = args[0];
+    System.out.println(type);
+    if (type.equals("combined")) {
       this.startCombined(model);
     }
     else {
@@ -44,21 +48,34 @@ public class GUIController extends MusicController implements IMouseCallback, IT
   private void startCombined(IMusicModel model) {
     MusicViewModel viewModel = new MusicViewModel(model);
     this.view = new CombinedView();
+    this.configureKeyBoardListener();
     view.create(viewModel);
     view.makeVisible();
     view.createRedLine();
-    Timer timer = new Timer();
-    for (int i = 0; i < model.getNumBeats() * 30; i++) {
-      timer.schedule(new TimerTask() {
-        @Override
-        public void run() {
-          view.moveRedLine();
-          view.reDrawNotes(viewModel);
-        }
-      }, 2000);
-    }
+    timer = new Timer();
+    long period = (long)(model.getTempo()/30000.0);
+    System.out.println(model.getTempo()/30000.0);
+    this.cancel();
+    timer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        view.moveRedLine();
+        view.reDrawNotes(viewModel);
+      }
+    }, 0, period);
   }
 
+  private void resumeCombined(IMusicModel model, CombinedView view) {
+    MusicViewModel viewModel = new MusicViewModel(model);
+    long period = (long)(model.getTempo()/30000.0);
+    timer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        view.moveRedLine();
+        view.reDrawNotes(viewModel);
+      }
+    }, 0, period);
+  }
   /**
    * Creates and sets a keyboard listener for the view. In effect it creates snippets of code as
    * Runnable object, one for each time a key is typed, pressed and released, only for those that
@@ -102,6 +119,18 @@ public class GUIController extends MusicController implements IMouseCallback, IT
       this.view.reDraw(viewModel);
     });
 
+    if (type.equals("combined")) {
+      System.out.println("combined111");
+      keyReleases.put(KeyEvent.VK_SPACE, () -> {
+        view.pause();
+        timer.cancel();
+      });
+      keyReleases.put(KeyEvent.VK_K, () -> {
+        view.resume();
+      });
+    }
+
+
     KeyboardHandler kbd = new KeyboardHandler();
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
@@ -134,9 +163,7 @@ public class GUIController extends MusicController implements IMouseCallback, IT
     }
   }
 
-
-  @Override
-  public void send(int timestamp) {
-
+  private void cancel() {
+    this.timer.cancel();
   }
 }

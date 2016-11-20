@@ -1,7 +1,7 @@
 package cs3500.music.view;
 
 import cs3500.music.controller.GUIController;
-import cs3500.music.controller.ITimeCallback;
+import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
@@ -26,7 +26,9 @@ public class MidiView implements IMusicView {
   private Synthesizer synth;
   private Receiver receiver;
   public StringBuilder messageString = new StringBuilder();
-  private ITimeCallback callback;
+  private MusicViewModel model;
+  private TreeMap<Integer, Integer> instrumentToChannel;
+
 
   /**
    * Constructor for using the MIDI view to produce actual sound.
@@ -39,7 +41,7 @@ public class MidiView implements IMusicView {
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
-    this.callback = new GUIController();
+    instrumentToChannel = new TreeMap<>();
   }
 
   /**
@@ -60,13 +62,13 @@ public class MidiView implements IMusicView {
 
   @Override
   public void create(MusicViewModel model) {
+    this.model = model;
     if (model.length() == 0) {
       throw new IllegalArgumentException("Empty model.");
     }
 
     // set up channels
     MidiChannel[] channels = synth.getChannels();
-    TreeMap<Integer, Integer> instrumentToChannel = new TreeMap<>();
     List<Integer> instruments = model.getInstruments();
     for (int i = 0; i < model.getInstruments().size(); i++) {
       if (channels[i] != null) {
@@ -77,10 +79,13 @@ public class MidiView implements IMusicView {
       }
     }
 
-    for (int i = 0; i <= model.getNumBeats(); i++) {
+    this.createFrom(0);
+  }
+
+  private void createFrom(int beat) {
+    for (int i = beat; i <= model.getNumBeats(); i++) {
       // play each note
       List<Integer> startList = model.notesStartAtThisBeat(i);
-      this.sendCallback(i * model.getTempo());
       if (startList != null) {
         for (Integer start : startList) {
           Note toAdd = model.getNote(start, i);
@@ -111,12 +116,18 @@ public class MidiView implements IMusicView {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
-  private void sendCallback(int timestamp) {
-
-  }
-
   @Override
   public void makeVisible() {
     return;
+  }
+
+  @Override
+  public void pause() {
+    this.receiver.close();
+  }
+
+  @Override
+  public void resume() {
+
   }
 }

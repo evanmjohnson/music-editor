@@ -153,4 +153,14 @@ public class ConsoleView implements IMusicView {
   public void makeVisible() {
     return;
   }
+
+  @Override
+  public void pause() {
+
+  }
+
+  @Override
+  public void resume() {
+
+  }
 }

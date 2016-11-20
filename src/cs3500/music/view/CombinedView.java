@@ -6,6 +6,8 @@ import cs3500.music.model.Note;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.IllegalFormatException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Represents a view that combines the window of the visual view and the sound of the MIDI view.
@@ -85,5 +87,21 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public void createRedLine() {
     gui.createRedLine();
+  }
+
+  @Override
+  public void pause() {
+    gui.pause();
+    midi.pause();
+  }
+
+  @Override
+  public void resume() {
+
+  }
+
+  @Override
+  public int getCurrentPosition() {
+    return gui.getCurrentPosition();
   }
 }

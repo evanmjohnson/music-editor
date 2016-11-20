@@ -82,4 +82,10 @@ public interface IMusicGUIView extends IMusicView {
    * Creates the red line at beat 0.
    */
   void createRedLine();
+
+  /**
+   * Gets the current position of the red line in the view, if the view is a combined view.
+   * @return The x position (in beats) of the red line
+   */
+  int getCurrentPosition();
 }
