@@ -4,6 +4,7 @@ import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicModel;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
+import cs3500.music.view.CombinedView;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.JFrameView;
 
@@ -16,28 +17,45 @@ import java.util.TimerTask;
 /**
  * Represents a controller for the GUI view.
  */
-public class GUIController extends MusicController implements IMouseCallback {
+public class GUIController extends MusicController implements IMouseCallback, ITimeCallback {
   private IMusicModel model;
   private IMusicGUIView view;
 
   @Override
   public void start(IMusicModel model, String[] args) {
-    this.model = model;
-    this.view = new JFrameView();
+    if (args[0].equals("combined")) {
+      this.startCombined(model);
+    }
+    else {
+      this.model = model;
+      this.view = new JFrameView();
+      MusicViewModel viewModel = new MusicViewModel(model);
+      view.create(viewModel);
+      view.makeVisible();
+      configureKeyBoardListener();
+      configureMouseListener();
+    }
+  }
+
+  /**
+   * Starts the combined view.
+   * @param model The model of the work to display
+   */
+  private void startCombined(IMusicModel model) {
     MusicViewModel viewModel = new MusicViewModel(model);
+    this.view = new CombinedView();
     view.create(viewModel);
     view.makeVisible();
-    configureKeyBoardListener();
-    configureMouseListener();
-    if (args[0].equals("combined")) {
-      Timer timer = new Timer();
+    view.createRedLine();
+    Timer timer = new Timer();
+    for (int i = 0; i < model.getNumBeats() * 30; i++) {
       timer.schedule(new TimerTask() {
         @Override
         public void run() {
           view.moveRedLine();
-          view.reDraw(viewModel);
+          view.reDrawNotes(viewModel);
         }
-      }, model.getTempo() / 1000);
+      }, 2000);
     }
   }
 
@@ -117,4 +135,8 @@ public class GUIController extends MusicController implements IMouseCallback {
   }
 
 
+  @Override
+  public void send(int timestamp) {
+
+  }
 }

@@ -1,5 +1,7 @@
 package cs3500.music.view;
 
+import cs3500.music.controller.GUIController;
+import cs3500.music.controller.ITimeCallback;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
@@ -24,6 +26,7 @@ public class MidiView implements IMusicView {
   private Synthesizer synth;
   private Receiver receiver;
   public StringBuilder messageString = new StringBuilder();
+  private ITimeCallback callback;
 
   /**
    * Constructor for using the MIDI view to produce actual sound.
@@ -36,6 +39,7 @@ public class MidiView implements IMusicView {
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
+    this.callback = new GUIController();
   }
 
   /**
@@ -76,6 +80,7 @@ public class MidiView implements IMusicView {
     for (int i = 0; i <= model.getNumBeats(); i++) {
       // play each note
       List<Integer> startList = model.notesStartAtThisBeat(i);
+      this.sendCallback(i * model.getTempo());
       if (startList != null) {
         for (Integer start : startList) {
           Note toAdd = model.getNote(start, i);
@@ -85,7 +90,7 @@ public class MidiView implements IMusicView {
           } else {
             channelOf = instrumentToChannel.get(toAdd.getInstrument());
           }
-          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12);
+          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12) + 12;
           try {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
                 pitch, toAdd.getVolume());
@@ -104,6 +109,10 @@ public class MidiView implements IMusicView {
       }
     }
     this.receiver.close(); // Only call this once you're done playing *all* notes
+  }
+
+  private void sendCallback(int timestamp) {
+
   }
 
   @Override

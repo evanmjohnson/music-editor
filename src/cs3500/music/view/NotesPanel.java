@@ -76,7 +76,7 @@ public class NotesPanel extends JPanel {
   }
 
   void moveRedLine() {
-    this.redLine = new Line(redLine.x0 + 1, 0, redLine.x0 + 1, numberNotes);
+    this.redLine = new Line(redLine.x0 + 1, 0, redLine.x0 + 2, numberNotes);
   }
 
   @Override
@@ -86,19 +86,18 @@ public class NotesPanel extends JPanel {
 
     Graphics2D g2d = (Graphics2D) g;
 
-    for (Line l : lines) {
-      g2d.drawLine(l.x0 * RECTANGLE_WIDTH, l.y0 * 22, l.x1 * RECTANGLE_WIDTH, l.y1 * 22);
-    }
-
-    for (Rectangle r : rects) {
-      g2d.setColor(r.color);
-      g2d.fillRect(r.x * RECTANGLE_WIDTH, r.y * 22, r.width, r.height - 3);
-    }
+//    for (Line l : lines) {
+//      g2d.drawLine(l.x0 * RECTANGLE_WIDTH, l.y0 * 22, l.x1 * RECTANGLE_WIDTH, l.y1 * 22);
+//    }
+//
+//    for (Rectangle r : rects) {
+//      g2d.setColor(r.color);
+//      g2d.fillRect(r.x * RECTANGLE_WIDTH, r.y * 22, r.width, r.height - 3);
+//    }
     if (this.redLine != null) {
       g2d.setStroke(new BasicStroke(5));
       g2d.setColor(Color.red);
       g2d.drawLine(redLine.x0, redLine.y0 * 22, redLine.x1, redLine.y1 * 22);
     }
   }
-
 }

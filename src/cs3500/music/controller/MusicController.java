@@ -22,7 +22,7 @@ public class MusicController implements IMusicController {
   @Override
   public void start(IMusicModel model, String[] args) {
     // if we want a gui view, delegate to the gui controller
-    if (args[0].equals("visual")) {
+    if (args[0].equals("visual") || args[0].equals("combined")) {
       GUIController gui = new GUIController();
       gui.start(model, args);
     }

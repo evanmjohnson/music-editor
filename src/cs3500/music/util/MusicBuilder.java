@@ -42,7 +42,7 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
       Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) , instrument, volume);
       model.add(toAdd);
     } else {
-      Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) , instrument, volume);
+      Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) - 1, instrument, volume);
       model.add(toAdd);
     }
     return this;

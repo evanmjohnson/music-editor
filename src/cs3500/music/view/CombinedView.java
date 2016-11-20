@@ -29,7 +29,7 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void makeVisible() {
-
+    gui.makeVisible();
   }
 
   @Override
@@ -59,12 +59,12 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void reDraw(MusicViewModel model) {
-
+    gui.reDraw(model);
   }
 
   @Override
   public void reDrawNotes(MusicViewModel model) {
-
+    gui.reDrawNotes(model);
   }
 
   @Override
