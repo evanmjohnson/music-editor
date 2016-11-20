@@ -22,6 +22,7 @@ public class GUIController extends MusicController implements IMouseCallback {
   private IMusicGUIView view;
   private String type;
   private Timer timer;
+  private boolean playing;
 
   @Override
   public void start(IMusicModel model, String[] args) {
@@ -46,6 +47,7 @@ public class GUIController extends MusicController implements IMouseCallback {
    * @param model The model of the work to display
    */
   private void startCombined(IMusicModel model) {
+    this.playing = true;
     MusicViewModel viewModel = new MusicViewModel(model);
     this.view = new CombinedView();
     this.configureKeyBoardListener();
@@ -55,12 +57,13 @@ public class GUIController extends MusicController implements IMouseCallback {
     timer = new Timer();
     long period = (long)(model.getTempo()/30000.0);
     System.out.println(model.getTempo()/30000.0);
-    this.cancel();
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
-        view.moveRedLine();
-        view.reDrawNotes(viewModel);
+        if (playing) {
+          view.moveRedLine();
+          view.reDrawNotes(viewModel);
+        }
       }
     }, 0, period);
   }
@@ -122,11 +125,10 @@ public class GUIController extends MusicController implements IMouseCallback {
     if (type.equals("combined")) {
       System.out.println("combined111");
       keyReleases.put(KeyEvent.VK_SPACE, () -> {
-        view.pause();
-        timer.cancel();
+        this.playing = false;
       });
       keyReleases.put(KeyEvent.VK_K, () -> {
-        view.resume();
+        this.playing = true;
       });
     }
 
@@ -161,9 +163,5 @@ public class GUIController extends MusicController implements IMouseCallback {
     catch (IllegalArgumentException e) {
       return;
     }
-  }
-
-  private void cancel() {
-    this.timer.cancel();
   }
 }

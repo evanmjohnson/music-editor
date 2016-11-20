@@ -46,7 +46,7 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void addListener(KeyListener kbd) {
-
+    gui.addListener(kbd);
   }
 
   @Override
