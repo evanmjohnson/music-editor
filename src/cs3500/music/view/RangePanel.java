@@ -10,10 +10,12 @@ import javax.swing.*;
 import cs3500.music.model.Note;
 
 /**
- * Created by Shravali on 11/17/2016.
+ * Represents he panel on the left side of the GUI view that displays
+ * the range of notes in the piece.
  */
 public class RangePanel extends JPanel {
   List<Note> range;
+  List<String> labels;
 
   public RangePanel() {
 
@@ -22,6 +24,10 @@ public class RangePanel extends JPanel {
   public void setNotes(List<Note> noteRange) {
     range = noteRange;
     Collections.reverse(range);
+    labels = new ArrayList<>();
+    for (Note n : range) {
+      labels.add(n.toString());
+    }
   }
 
   public void clearNotes() {
@@ -32,13 +38,9 @@ public class RangePanel extends JPanel {
   protected void paintComponent(Graphics g) {
     //never forget to call super.paintComponent!
     super.paintComponent(g);
-    this.setLayout(new GridLayout(range.size(), 1, 1, 1));
-   //this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    for (Note n : range) {
-      JLabel label = new JLabel(n.toString());
-      label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
-      this.add(label);
+    for (int i = 0; i < range.size(); i++) {
+      g.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
+      g.drawString(labels.get(i).toString(), 0, 24 * i);
     }
-    range = new ArrayList<>();
   }
 }

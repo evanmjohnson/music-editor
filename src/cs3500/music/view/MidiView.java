@@ -123,7 +123,20 @@ public class MidiView implements IMusicView {
 
   @Override
   public void pause() {
-    this.receiver.close();
+    int beat = 0;
+    List<Note> start = model.noteListStartAt(beat);
+    List<Note> cont = model.noteListContinueAt(beat);
+    for (Note s : start) {
+      try {
+        int channelOf = instrumentToChannel.get(s.getInstrument());
+        MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
+            s.getPitch().getToneOrder() + (s.getOctave() * 12), s.getVolume());
+        this.receiver.send(message, beat * model.getTempo());
+      }
+      catch (InvalidMidiDataException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   @Override

@@ -30,15 +30,15 @@ public class JFrameView extends JFrame implements IMusicGUIView {
    */
   public JFrameView() {
     super();
-    this.setSize(new Dimension(1920, 1200));
+    this.setSize(new Dimension(1000, 1000));
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
-    this.notesPanel = new NotesPanel();
     this.beatPanel = new BeatPanel();
     this.rangePanel = new RangePanel();
     this.add(rangePanel, BorderLayout.WEST);
     this.add(beatPanel, BorderLayout.NORTH);
+    this.notesPanel = new NotesPanel();
 //    this.setResizable(false);
   }
 

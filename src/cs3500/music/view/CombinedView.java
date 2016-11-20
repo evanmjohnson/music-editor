@@ -15,6 +15,7 @@ import java.util.TimerTask;
 public class CombinedView implements IMusicGUIView {
   private IMusicGUIView gui;
   private IMusicView midi;
+  private boolean playing;
 
   public CombinedView() {
     this.gui = new JFrameView();
@@ -26,7 +27,9 @@ public class CombinedView implements IMusicGUIView {
     gui.create(model);
     this.createRedLine();
     gui.makeVisible();
-    midi.create(model);
+    while (playing) {
+      //midi.create;
+    }
   }
 
   @Override
@@ -91,8 +94,7 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void pause() {
-    gui.pause();
-    midi.pause();
+    this.playing = false;
   }
 
   @Override

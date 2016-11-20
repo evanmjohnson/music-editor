@@ -21,6 +21,7 @@ public interface IMusicView {
 
   /**
    * Pauses the playback of the piece if this view is a combined view.
+   * @param beat the beat at which to
    */
   void pause();
 

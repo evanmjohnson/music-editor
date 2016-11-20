@@ -23,11 +23,11 @@ public class GUIController extends MusicController implements IMouseCallback {
   private String type;
   private Timer timer;
   private boolean playing;
+  private int counter;
 
   @Override
   public void start(IMusicModel model, String[] args) {
     this.type = args[0];
-    System.out.println(type);
     if (type.equals("combined")) {
       this.startCombined(model);
     }
@@ -56,11 +56,11 @@ public class GUIController extends MusicController implements IMouseCallback {
     view.createRedLine();
     timer = new Timer();
     long period = (long)(model.getTempo()/30000.0);
-    System.out.println(model.getTempo()/30000.0);
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
-        if (playing) {
+        if (playing && counter <= model.getNumBeats() * 30) {
+          counter++;
           view.moveRedLine();
           view.reDrawNotes(viewModel);
         }
@@ -115,15 +115,12 @@ public class GUIController extends MusicController implements IMouseCallback {
 
     keyReleases.put(KeyEvent.VK_A, () -> {
       Note n = view.showAddPrompt();
-      System.out.println(model.getNoteRange().size());
       model.add(n);
-      System.out.println(model.getNoteRange().size());
       MusicViewModel viewModel = new MusicViewModel(model);
       this.view.reDraw(viewModel);
     });
 
     if (type.equals("combined")) {
-      System.out.println("combined111");
       keyReleases.put(KeyEvent.VK_SPACE, () -> {
         this.playing = false;
       });
@@ -147,14 +144,15 @@ public class GUIController extends MusicController implements IMouseCallback {
 
   @Override
   public void check(int x, int y) {
-    System.out.println(x/30 + "" + (model.getNoteRange().size() - y/22 + 1) + ", ");
     try {
+      if (x > model.getNumBeats() || y > model.getNoteRange().size()) {
+        return;
+      }
       Note clicked = this.model.getNote(model.getNoteRange().size() - y / 22 - 1, x / 30);
       if (clicked != null) {
         clicked.makeSelected(true);
         MusicViewModel viewModel = new MusicViewModel(this.model);
         if (this.view.doRemove()) {
-          System.out.println(clicked.toString());
           model.remove(clicked);
           this.view.reDrawNotes(viewModel);
         }
