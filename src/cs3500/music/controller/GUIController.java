@@ -55,14 +55,15 @@ public class GUIController extends MusicController implements IMouseCallback {
     view.makeVisible();
     view.createRedLine();
     timer = new Timer();
-    counter = 0;
     long period = (long)(model.getTempo()/30000.0);
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
         if (playing && counter <= model.getNumBeats() * 30) {
+          if (counter % 30 == 0) {
+            view.sendNotes(counter / 30);
+          }
           counter++;
-          view.sendNotes(counter);
           view.moveRedLine();
           view.reDrawNotes(viewModel);
         }
@@ -124,10 +125,7 @@ public class GUIController extends MusicController implements IMouseCallback {
 
     if (type.equals("combined")) {
       keyReleases.put(KeyEvent.VK_SPACE, () -> {
-        this.playing = false;
-      });
-      keyReleases.put(KeyEvent.VK_K, () -> {
-        this.playing = true;
+        this.playing = !playing;
       });
     }
 

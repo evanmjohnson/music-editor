@@ -67,7 +67,7 @@ public class MidiView implements IMusicView {
       throw new IllegalArgumentException("Empty model.");
     }
 
-    // set up channels
+//     set up channels
 //    MidiChannel[] channels = synth.getChannels();
 //    List<Integer> instruments = model.getInstruments();
 //    for (int i = 0; i < model.getInstruments().size(); i++) {
@@ -78,42 +78,6 @@ public class MidiView implements IMusicView {
 //        }
 //      }
 //    }
-//
-//    this.createFrom(0);
-  }
-
-  private void createFrom(int beat) {
-    for (int i = beat; i <= model.getNumBeats(); i++) {
-      // play each note
-      List<Integer> startList = model.notesStartAtThisBeat(i);
-      if (startList != null) {
-        for (Integer start : startList) {
-          Note toAdd = model.getNote(start, i);
-          int channelOf;
-          if (instrumentToChannel.get(toAdd.getInstrument()) == null) {
-            channelOf = 0;
-          } else {
-            channelOf = instrumentToChannel.get(toAdd.getInstrument());
-          }
-          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12) + 12;
-          try {
-            MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
-                pitch, toAdd.getVolume());
-            MidiMessage stopMessage = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
-                pitch, toAdd.getVolume());
-            this.receiver.send(message, i * model.getTempo());
-            this.receiver.send(stopMessage, (i + toAdd.getDuration()) * model.getTempo());
-            this.messageString.append("start " + channelOf + " " + pitch + " " +
-                toAdd.getVolume() + "\n");
-            this.messageString.append("stop " + channelOf + " " + pitch + " " +
-                toAdd.getVolume() + "\n");
-          } catch (InvalidMidiDataException e) {
-            e.printStackTrace();
-          }
-        }
-      }
-    }
-    this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
   @Override
@@ -123,20 +87,20 @@ public class MidiView implements IMusicView {
 
   @Override
   public void pause() {
-    int beat = 0;
-    List<Note> start = model.noteListStartAt(beat);
-    List<Note> cont = model.noteListContinueAt(beat);
-    for (Note s : start) {
-      try {
-        int channelOf = instrumentToChannel.get(s.getInstrument());
-        MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
-            s.getPitch().getToneOrder() + (s.getOctave() * 12), s.getVolume());
-        this.receiver.send(message, beat * model.getTempo());
-      }
-      catch (InvalidMidiDataException e) {
-        e.printStackTrace();
-      }
-    }
+//    int beat = 0;
+//    List<Note> start = model.noteListStartAt(beat);
+//    List<Note> cont = model.noteListContinueAt(beat);
+//    for (Note s : start) {
+//      try {
+//        int channelOf = instrumentToChannel.get(s.getInstrument());
+//        MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
+//            s.getPitch().getToneOrder() + (s.getOctave() * 12), s.getVolume());
+//        this.receiver.send(message, beat * model.getTempo());
+//      }
+//      catch (InvalidMidiDataException e) {
+//        e.printStackTrace();
+//      }
+//    }
   }
 
   @Override
@@ -146,14 +110,24 @@ public class MidiView implements IMusicView {
 
   @Override
   public void sendNotes(int beat) {
+    MidiChannel[] channels = synth.getChannels();
+    List<Integer> instruments = model.getInstruments();
+    System.out.println(instruments);
+    for (int i = 0; i < model.getInstruments().size(); i++) {
+      if (channels[i] != null) {
+        if (!Arrays.asList(channels).contains(instruments.get(i))) {
+          channels[i].programChange(instruments.get(i));
+          instrumentToChannel.put(instruments.get(i), i);
+        }
+      }
+    }
     List<Note> start = model.noteListStartAt(beat);
-
-    for (int i = beat; i <= start.size(); i++) {
+    for (int i = 0; i <= start.size(); i++) {
       // play each note
-      List<Integer> startList = model.notesStartAtThisBeat(i);
+      List<Integer> startList = model.notesStartAtThisBeat(beat);
       if (startList != null) {
         for (Integer s : startList) {
-          Note toAdd = model.getNote(s, i);
+          Note toAdd = model.getNote(s, beat);
           int channelOf;
           if (instrumentToChannel.get(toAdd.getInstrument()) == null) {
             channelOf = 0;
@@ -164,10 +138,7 @@ public class MidiView implements IMusicView {
           try {
             MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
                     pitch, toAdd.getVolume());
-            MidiMessage stopMessage = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
-                    pitch, toAdd.getVolume());
-            this.receiver.send(message, i * model.getTempo());
-            this.receiver.send(stopMessage, (i + toAdd.getDuration()) * model.getTempo());
+            this.receiver.send(message, beat * model.getTempo());
             this.messageString.append("start " + channelOf + " " + pitch + " " +
                     toAdd.getVolume() + "\n");
             this.messageString.append("stop " + channelOf + " " + pitch + " " +

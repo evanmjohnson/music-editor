@@ -24,8 +24,9 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void create(MusicViewModel model) {
-    gui.create(model);
+    midi.create(model);
     this.createRedLine();
+    gui.create(model);
     gui.makeVisible();
     while (playing) {
       //midi.create;
