@@ -50,8 +50,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     notesPanel = this.createNotes(model);
     notesPanel.setPreferredSize(new Dimension(model.getNumBeats() * 30, model.getNoteRange().size() * 24));
     scrollPane = new JScrollPane(notesPanel,
-        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     scrollPane.setPreferredSize(new Dimension(model.getNumBeats(), model.getNoteRange().size()));
     scrollPane.getHorizontalScrollBar().setUnitIncrement(15);
     scrollPane.getHorizontalScrollBar().setUnitIncrement(15);
@@ -133,24 +133,28 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   @Override
   public void scrollRight() {
     this.scrollPane.getHorizontalScrollBar().setValue(
+        this.scrollPane.getHorizontalScrollBar().getValue() +
         this.scrollPane.getHorizontalScrollBar().getUnitIncrement());
   }
 
   @Override
   public void scrollLeft() {
     this.scrollPane.getHorizontalScrollBar().setValue(
+        this.scrollPane.getHorizontalScrollBar().getValue() +
         this.scrollPane.getHorizontalScrollBar().getUnitIncrement() * -1);
   }
 
   @Override
   public void scrollUp() {
     this.scrollPane.getVerticalScrollBar().setValue(
+        this.scrollPane.getVerticalScrollBar().getValue() +
         this.scrollPane.getVerticalScrollBar().getUnitIncrement());
   }
 
   @Override
   public void scrollDown() {
     this.scrollPane.getVerticalScrollBar().setValue(
+        this.scrollPane.getVerticalScrollBar().getValue() +
         this.scrollPane.getVerticalScrollBar().getUnitIncrement() * -1);
   }
 
