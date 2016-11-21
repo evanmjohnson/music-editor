@@ -6,7 +6,9 @@ import cs3500.music.model.PitchType;
 
 import javax.swing.*;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
@@ -24,16 +26,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
    */
   public JFrameView() {
     super();
-    this.setSize(new Dimension(1000, 1000));
+    this.setPreferredSize(new Dimension(1000, 1000));
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    this.setLayout(new BorderLayout());
-    this.beatPanel = new BeatPanel();
-    this.rangePanel = new RangePanel();
-    this.add(rangePanel, BorderLayout.WEST);
-    this.add(beatPanel, BorderLayout.NORTH);
-    this.notesPanel = new NotesPanel();
   }
 
   @Override
@@ -43,28 +39,44 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void create(MusicViewModel model) {
-    //this.rangePanel = this.createRange(model);
+    this.setLayout(new BorderLayout());
+    this.beatPanel = new BeatPanel();
+    this.rangePanel = new RangePanel();
+    this.notesPanel = new NotesPanel();
     beatPanel.setBeats(model.getNumBeats());
     rangePanel.setNotes(model.getNoteRange());
-    NotesPanel notes = this.createNotes(model);
-    scrollPane = new JScrollPane(notes,
+    this.add(rangePanel, BorderLayout.WEST);
+    this.add(beatPanel, BorderLayout.NORTH);
+    notesPanel = this.createNotes(model);
+    notesPanel.setPreferredSize(new Dimension(model.getNumBeats() * 30, model.getNoteRange().size() * 24));
+    scrollPane = new JScrollPane(notesPanel,
         ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-    notesPanel.setSize(new Dimension(model.getNumBeats(), model.getNoteRange().size()));
-    this.add(scrollPane);
+    scrollPane.setPreferredSize(new Dimension(model.getNumBeats(), model.getNoteRange().size()));
+    scrollPane.getHorizontalScrollBar().setUnitIncrement(15);
+    scrollPane.getHorizontalScrollBar().setUnitIncrement(15);
+    this.add(scrollPane, BorderLayout.CENTER);
+    this.pack();
   }
 
+  /**
+   * Creates the center panel of the notes.
+   * @param model A {@link MusicViewModel} of the model to draw
+   * @return the notes panel
+   */
   private NotesPanel createNotes(MusicViewModel model) {
     notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
     for (int i = 0; i < model.getNumBeats(); i++) {
       notesPanel.setNotes(model.notesStartAtThisBeat(i),
           model.notesContinueAtThisBeat(i), i);
     }
-
     return notesPanel;
-
   }
 
+  /**
+   * Re-draw the frame.
+   * @param model A {@link MusicViewModel} of the model to draw
+   */
   public void reDraw(MusicViewModel model) {
     this.notesPanel.removeRects();
     this.createNotes(model);
@@ -120,18 +132,26 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void scrollRight() {
-    System.out.println(this.scrollPane.getHorizontalScrollBar().getValue());
-    this.scrollPane.getHorizontalScrollBar().setValue(800);
-//    JViewport vp = this.scrollPane.getViewport();
-//    vp.setViewPosition(new Point(vp.getX() + 250, vp.getY()));
-//    this.requestFocusInWindow();
+    this.scrollPane.getHorizontalScrollBar().setValue(
+        this.scrollPane.getHorizontalScrollBar().getUnitIncrement());
   }
 
   @Override
   public void scrollLeft() {
-    // this is wrong
     this.scrollPane.getHorizontalScrollBar().setValue(
-        this.scrollPane.getHorizontalScrollBar().getValue() * -1);
+        this.scrollPane.getHorizontalScrollBar().getUnitIncrement() * -1);
+  }
+
+  @Override
+  public void scrollUp() {
+    this.scrollPane.getVerticalScrollBar().setValue(
+        this.scrollPane.getVerticalScrollBar().getUnitIncrement());
+  }
+
+  @Override
+  public void scrollDown() {
+    this.scrollPane.getVerticalScrollBar().setValue(
+        this.scrollPane.getVerticalScrollBar().getUnitIncrement() * -1);
   }
 
   @Override
