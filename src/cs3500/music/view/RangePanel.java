@@ -10,22 +10,14 @@ import javax.swing.*;
 import cs3500.music.model.Note;
 
 /**
- * Created by Shravali on 11/17/2016.
+ * Represents the range of notes in the piece, on the left side of the frame.
  */
 public class RangePanel extends JPanel {
   List<Note> range;
 
-  public RangePanel() {
-
-  }
-
-  public void setNotes(List<Note> noteRange) {
+  void setNotes(List<Note> noteRange) {
     range = noteRange;
     Collections.reverse(range);
-  }
-
-  public void clearNotes() {
-    this.range = new ArrayList<>();
   }
 
   @Override

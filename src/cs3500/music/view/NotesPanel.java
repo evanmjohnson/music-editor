@@ -1,13 +1,14 @@
 package cs3500.music.view;
 
-import java.awt.*;
-
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
 import java.util.List;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-import cs3500.music.model.Note;
 
 /**
  * Represents the panel in the middle of the view that shows the grid of notes.
@@ -67,14 +68,32 @@ public class NotesPanel extends JPanel {
     }
   }
 
+  /**
+   * Gets the current position of this panel.
+   *
+   * @return the x-value of the red line's current position
+   */
+  int getPosition() {
+    return this.redLine.x0;
+  }
+
+  /**
+   * Clears the rectangles to be drawn.
+   */
   void removeRects() {
     this.rects.clear();
   }
 
+  /**
+   * Creates the red line that is used in the composite view at x = 0.
+   */
   void createRedLine() {
     this.redLine = new Line(0, 0, 1, numberNotes);
   }
 
+  /**
+   * Moves the red line over one pixel.
+   */
   void moveRedLine() {
     this.redLine = new Line(redLine.x0 + 1, 0, redLine.x0 + 2, numberNotes);
   }
@@ -94,6 +113,7 @@ public class NotesPanel extends JPanel {
       g2d.setColor(r.color);
       g2d.fillRect(r.x * RECTANGLE_WIDTH, r.y * 22, r.width, r.height - 3);
     }
+
     if (this.redLine != null) {
       g2d.setStroke(new BasicStroke(5));
       g2d.setColor(Color.red);

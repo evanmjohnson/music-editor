@@ -1,22 +1,14 @@
 package cs3500.music.view;
 
-import com.sun.prism.image.ViewPort;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
-import java.awt.Rectangle;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Displays a java Swing BoxLayout view for the music editor.
@@ -42,7 +34,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.add(rangePanel, BorderLayout.WEST);
     this.add(beatPanel, BorderLayout.NORTH);
     this.notesPanel = new NotesPanel();
-//    this.setResizable(false);
   }
 
   @Override
@@ -61,10 +52,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
     notesPanel.setSize(new Dimension(model.getNumBeats(), model.getNoteRange().size()));
     this.add(scrollPane);
-
-
   }
-
 
   private NotesPanel createNotes(MusicViewModel model) {
     notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
@@ -93,7 +81,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   public void reDrawNotes(MusicViewModel model) {
     this.notesPanel.repaint();
   }
-
 
 
   @Override
@@ -125,12 +112,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
   @Override
-  public void resetFocus() {
-    this.setFocusable(true);
-    this.requestFocus();
-  }
-
-  @Override
   public void addListener(KeyListener kbd) {
     this.setFocusable(true);
     this.requestFocus();
@@ -155,7 +136,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public boolean doRemove() {
-    System.out.println("do remove");
     int option = JOptionPane.showConfirmDialog(null, "Do you want to remove this note?",
         "Are you sure?", JOptionPane.YES_NO_OPTION);
     if (option == 0) {
@@ -182,21 +162,11 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public int getCurrentPosition() {
-    return 0;
-  }
-
-  @Override
-  public void pause() {
-
-  }
-
-  @Override
-  public void resume() {
-
+    return this.notesPanel.getPosition();
   }
 
   @Override
   public void sendNotes(int counter) {
-
+    // this method is not used in this view
   }
 }

@@ -6,8 +6,6 @@ import cs3500.music.model.Note;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.IllegalFormatException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Represents a view that combines the window of the visual view and the sound of the MIDI view.
@@ -15,7 +13,6 @@ import java.util.TimerTask;
 public class CombinedView implements IMusicGUIView {
   private IMusicGUIView gui;
   private IMusicView midi;
-  private boolean playing;
 
   public CombinedView() {
     this.gui = new JFrameView();
@@ -28,9 +25,6 @@ public class CombinedView implements IMusicGUIView {
     this.createRedLine();
     gui.create(model);
     gui.makeVisible();
-    while (playing) {
-      //midi.create;
-    }
   }
 
   @Override
@@ -41,11 +35,6 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public Note showAddPrompt() throws IllegalFormatException {
     return null;
-  }
-
-  @Override
-  public void resetFocus() {
-
   }
 
   @Override
@@ -80,7 +69,7 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void setMouseListener(MouseListener mouse) {
-
+    gui.setMouseListener(mouse);
   }
 
   @Override
@@ -91,16 +80,6 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public void createRedLine() {
     gui.createRedLine();
-  }
-
-  @Override
-  public void pause() {
-    this.playing = false;
-  }
-
-  @Override
-  public void resume() {
-
   }
 
   @Override

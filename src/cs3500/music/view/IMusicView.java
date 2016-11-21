@@ -20,15 +20,9 @@ public interface IMusicView {
   void makeVisible();
 
   /**
-   * Pauses the playback of the piece if this view is a combined view.
-   * @param beat the beat at which to
+   * Create the view at the given beat.
+   *
+   * @param counter the beat at which to create the view
    */
-  void pause();
-
-  /**
-   * Resumes the plackback of the piece if this view is a combined view.
-   */
-  void resume();
-
   void sendNotes(int counter);
 }

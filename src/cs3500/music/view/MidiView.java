@@ -1,7 +1,5 @@
 package cs3500.music.view;
 
-import cs3500.music.controller.GUIController;
-import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 
@@ -66,18 +64,6 @@ public class MidiView implements IMusicView {
     if (model.length() == 0) {
       throw new IllegalArgumentException("Empty model.");
     }
-
-//     set up channels
-//    MidiChannel[] channels = synth.getChannels();
-//    List<Integer> instruments = model.getInstruments();
-//    for (int i = 0; i < model.getInstruments().size(); i++) {
-//      if (channels[i] != null) {
-//        if (!Arrays.asList(channels).contains(instruments.get(i))) {
-//          channels[i].programChange(instruments.get(i));
-//          instrumentToChannel.put(instruments.get(i), i);
-//        }
-//      }
-//    }
   }
 
   @Override
@@ -86,33 +72,9 @@ public class MidiView implements IMusicView {
   }
 
   @Override
-  public void pause() {
-//    int beat = 0;
-//    List<Note> start = model.noteListStartAt(beat);
-//    List<Note> cont = model.noteListContinueAt(beat);
-//    for (Note s : start) {
-//      try {
-//        int channelOf = instrumentToChannel.get(s.getInstrument());
-//        MidiMessage message = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
-//            s.getPitch().getToneOrder() + (s.getOctave() * 12), s.getVolume());
-//        this.receiver.send(message, beat * model.getTempo());
-//      }
-//      catch (InvalidMidiDataException e) {
-//        e.printStackTrace();
-//      }
-//    }
-  }
-
-  @Override
-  public void resume() {
-
-  }
-
-  @Override
   public void sendNotes(int beat) {
     MidiChannel[] channels = synth.getChannels();
     List<Integer> instruments = model.getInstruments();
-    System.out.println(instruments);
     for (int i = 0; i < model.getInstruments().size(); i++) {
       if (channels[i] != null) {
         if (!Arrays.asList(channels).contains(instruments.get(i))) {

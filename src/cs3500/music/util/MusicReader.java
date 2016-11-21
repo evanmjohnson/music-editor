@@ -11,7 +11,6 @@ public class MusicReader {
    * A factory for producing new music compositions, given a source of music and a
    * builder for constructing compositions.
    *
-   *
    * @param readable The source of data for the music composition
    * @param piece    A builder for helping to construct a new composition
    * @param <T>      The main model interface type describing music compositions

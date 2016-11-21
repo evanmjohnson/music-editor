@@ -2,7 +2,6 @@ package cs3500.music.controller;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Map;
 
 /**
  * Handles all mouse events for the music editor.

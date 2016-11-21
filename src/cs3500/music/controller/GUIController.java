@@ -1,7 +1,6 @@
 package cs3500.music.controller;
 
 import cs3500.music.model.IMusicModel;
-import cs3500.music.model.MusicModel;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.view.CombinedView;
@@ -30,8 +29,7 @@ public class GUIController extends MusicController implements IMouseCallback {
     this.type = args[0];
     if (type.equals("combined")) {
       this.startCombined(model);
-    }
-    else {
+    } else {
       this.model = model;
       this.view = new JFrameView();
       MusicViewModel viewModel = new MusicViewModel(model);
@@ -44,6 +42,7 @@ public class GUIController extends MusicController implements IMouseCallback {
 
   /**
    * Starts the combined view.
+   *
    * @param model The model of the work to display
    */
   private void startCombined(IMusicModel model) {
@@ -55,7 +54,7 @@ public class GUIController extends MusicController implements IMouseCallback {
     view.makeVisible();
     view.createRedLine();
     timer = new Timer();
-    long period = (long)(model.getTempo()/30000.0);
+    long period = (long) (model.getTempo() / 30000.0);
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
@@ -71,56 +70,36 @@ public class GUIController extends MusicController implements IMouseCallback {
     }, 0, period);
   }
 
-  private void resumeCombined(IMusicModel model, CombinedView view) {
-    MusicViewModel viewModel = new MusicViewModel(model);
-    long period = (long)(model.getTempo()/30000.0);
-    timer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        view.moveRedLine();
-        view.reDrawNotes(viewModel);
-      }
-    }, 0, period);
-  }
   /**
    * Creates and sets a keyboard listener for the view. In effect it creates snippets of code as
    * Runnable object, one for each time a key is typed, pressed and released, only for those that
    * the program needs.
-   *
+   * <p>
    * In this example, we need to toggle color when user TYPES 'd', make the message all caps when
    * the user PRESSES 'c' and reverts to the original string when the user RELEASES 'c'. Thus we
    * create three snippets of code (ToggleColor,MakeCaps and MakeOriginalCase) and put them in the
    * appropriate map.
-   *
+   * <p>
    * Last we create our KeyboardListener object, set all its maps and then give it to the view.
    */
   private void configureKeyBoardListener() {
-    Map<Integer, Runnable> keyTypes = new HashMap<>();
-    Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<>();
-
-    keyTypes.put(KeyEvent.VK_R, () -> {
-      this.view.scrollRight();
-    });
 
     keyReleases.put(KeyEvent.VK_RIGHT, () -> {
       this.view.scrollRight();
-    });
-
-    keyTypes.put(KeyEvent.VK_L, () -> {
-      this.view.scrollLeft();
     });
 
     keyReleases.put(KeyEvent.VK_LEFT, () -> {
       this.view.scrollLeft();
     });
 
-
     keyReleases.put(KeyEvent.VK_A, () -> {
       Note n = view.showAddPrompt();
-      model.add(n);
-      MusicViewModel viewModel = new MusicViewModel(model);
-      this.view.reDraw(viewModel);
+      if (n != null) {
+        model.add(n);
+        MusicViewModel viewModel = new MusicViewModel(model);
+        this.view.reDraw(viewModel);
+      }
     });
 
     if (type.equals("combined")) {
@@ -129,10 +108,9 @@ public class GUIController extends MusicController implements IMouseCallback {
       });
     }
 
-
     KeyboardHandler kbd = new KeyboardHandler();
-    kbd.setKeyTypedMap(keyTypes);
-    kbd.setKeyPressedMap(keyPresses);
+    kbd.setKeyPressedMap(new HashMap<>());
+    kbd.setKeyTypedMap(new HashMap<>());
     kbd.setKeyReleasedMap(keyReleases);
     view.addListener(kbd);
   }
@@ -151,15 +129,13 @@ public class GUIController extends MusicController implements IMouseCallback {
       Note clicked = this.model.getNote(model.getNoteRange().size() - y / 22 - 1, x / 30);
       System.out.println(clicked);
       if (clicked != null) {
-        clicked.makeSelected(true);
         MusicViewModel viewModel = new MusicViewModel(this.model);
         if (this.view.doRemove()) {
           model.remove(clicked);
           this.view.reDraw(viewModel);
         }
       }
-    }
-    catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       return;
     }
   }

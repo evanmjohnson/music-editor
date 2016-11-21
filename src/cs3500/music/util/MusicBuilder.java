@@ -39,7 +39,7 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
       throw new IllegalArgumentException("Pitch must be between 0 and 127.");
     }
     if (pitch < 12) {
-      Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) , instrument, volume);
+      Note toAdd = new Note(pitchType, start, end - start, (pitch / 12), instrument, volume);
       model.add(toAdd);
     } else {
       Note toAdd = new Note(pitchType, start, end - start, (pitch / 12) - 1, instrument, volume);

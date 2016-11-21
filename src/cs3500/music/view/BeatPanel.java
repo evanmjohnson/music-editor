@@ -1,14 +1,16 @@
 package cs3500.music.view;
 
+import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.Font;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.Box;
 
 /**
- * Created by Shravali on 11/16/2016.
+ * Represents the panel of beats at the top of the GUI view.
  */
 public class BeatPanel extends JPanel {
   int beats;
@@ -19,9 +21,7 @@ public class BeatPanel extends JPanel {
     //never forget to call super.paintComponent!
     super.paintComponent(g);
     this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-   // System.out.println("paint");
     for (int i = 0; i <= beats; i++) {
-
       if (i % 16 == 0) {
         if (i == 0) {
           this.add(Box.createRigidArea(new Dimension(30, 0)));
