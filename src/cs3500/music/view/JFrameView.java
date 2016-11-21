@@ -35,6 +35,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.setSize(new Dimension(1000, 1000));
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     this.setLayout(new BorderLayout());
     this.beatPanel = new BeatPanel();
     this.rangePanel = new RangePanel();
@@ -77,9 +78,9 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
   public void reDraw(MusicViewModel model) {
-    this.reDrawNotes(model);
-//    this.rangePanel.clearNotes();
-    this.remove(rangePanel);
+    this.notesPanel.removeRects();
+    this.createNotes(model);
+    this.notesPanel.repaint();
     this.rangePanel = new RangePanel();
     this.add(rangePanel, BorderLayout.WEST);
     this.rangePanel.setNotes(model.getNoteRange());
@@ -90,10 +91,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void reDrawNotes(MusicViewModel model) {
-    //this.notesPanel.removeRects();
-    //this.createNotes(model);
     this.notesPanel.repaint();
   }
+
+
 
   @Override
   public Note showAddPrompt() {
@@ -154,6 +155,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public boolean doRemove() {
+    System.out.println("do remove");
     int option = JOptionPane.showConfirmDialog(null, "Do you want to remove this note?",
         "Are you sure?", JOptionPane.YES_NO_OPTION);
     if (option == 0) {
