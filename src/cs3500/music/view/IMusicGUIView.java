@@ -88,4 +88,6 @@ public interface IMusicGUIView extends IMusicView {
    * @return The x position (in beats) of the red line
    */
   int getCurrentPosition();
+
+//  void sendNotes(int counter);
 }

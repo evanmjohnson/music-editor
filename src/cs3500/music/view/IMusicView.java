@@ -29,4 +29,6 @@ public interface IMusicView {
    * Resumes the plackback of the piece if this view is a combined view.
    */
   void resume();
+
+  void sendNotes(int counter);
 }

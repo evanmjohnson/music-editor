@@ -68,18 +68,18 @@ public class MidiView implements IMusicView {
     }
 
     // set up channels
-    MidiChannel[] channels = synth.getChannels();
-    List<Integer> instruments = model.getInstruments();
-    for (int i = 0; i < model.getInstruments().size(); i++) {
-      if (channels[i] != null) {
-        if (!Arrays.asList(channels).contains(instruments.get(i))) {
-          channels[i].programChange(instruments.get(i));
-          instrumentToChannel.put(instruments.get(i), i);
-        }
-      }
-    }
-
-    this.createFrom(0);
+//    MidiChannel[] channels = synth.getChannels();
+//    List<Integer> instruments = model.getInstruments();
+//    for (int i = 0; i < model.getInstruments().size(); i++) {
+//      if (channels[i] != null) {
+//        if (!Arrays.asList(channels).contains(instruments.get(i))) {
+//          channels[i].programChange(instruments.get(i));
+//          instrumentToChannel.put(instruments.get(i), i);
+//        }
+//      }
+//    }
+//
+//    this.createFrom(0);
   }
 
   private void createFrom(int beat) {
@@ -142,5 +142,41 @@ public class MidiView implements IMusicView {
   @Override
   public void resume() {
 
+  }
+
+  @Override
+  public void sendNotes(int beat) {
+    List<Note> start = model.noteListStartAt(beat);
+
+    for (int i = beat; i <= start.size(); i++) {
+      // play each note
+      List<Integer> startList = model.notesStartAtThisBeat(i);
+      if (startList != null) {
+        for (Integer s : startList) {
+          Note toAdd = model.getNote(s, i);
+          int channelOf;
+          if (instrumentToChannel.get(toAdd.getInstrument()) == null) {
+            channelOf = 0;
+          } else {
+            channelOf = instrumentToChannel.get(toAdd.getInstrument());
+          }
+          int pitch = toAdd.getPitch().getToneOrder() + (toAdd.getOctave() * 12) + 12;
+          try {
+            MidiMessage message = new ShortMessage(ShortMessage.NOTE_ON, channelOf,
+                    pitch, toAdd.getVolume());
+            MidiMessage stopMessage = new ShortMessage(ShortMessage.NOTE_OFF, channelOf,
+                    pitch, toAdd.getVolume());
+            this.receiver.send(message, i * model.getTempo());
+            this.receiver.send(stopMessage, (i + toAdd.getDuration()) * model.getTempo());
+            this.messageString.append("start " + channelOf + " " + pitch + " " +
+                    toAdd.getVolume() + "\n");
+            this.messageString.append("stop " + channelOf + " " + pitch + " " +
+                    toAdd.getVolume() + "\n");
+          } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    }
   }
 }

@@ -163,4 +163,9 @@ public class ConsoleView implements IMusicView {
   public void resume() {
 
   }
+
+  @Override
+  public void sendNotes(int counter) {
+
+  }
 }

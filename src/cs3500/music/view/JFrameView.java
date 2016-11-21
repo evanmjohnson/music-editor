@@ -1,6 +1,8 @@
 package cs3500.music.view;
 
 import com.sun.prism.image.ViewPort;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
@@ -54,9 +56,12 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     rangePanel.setNotes(model.getNoteRange());
     NotesPanel notes = this.createNotes(model);
     scrollPane = new JScrollPane(notes,
-        ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    this.add(scrollPane, BorderLayout.CENTER);
+        ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+    notesPanel.setSize(new Dimension(model.getNumBeats(), model.getNoteRange().size()));
+    this.add(scrollPane);
+
+
   }
 
 
@@ -66,12 +71,17 @@ public class JFrameView extends JFrame implements IMusicGUIView {
       notesPanel.setNotes(model.notesStartAtThisBeat(i),
           model.notesContinueAtThisBeat(i), i);
     }
+
     return notesPanel;
+
   }
 
   public void reDraw(MusicViewModel model) {
     this.reDrawNotes(model);
-    this.rangePanel.clearNotes();
+//    this.rangePanel.clearNotes();
+    this.remove(rangePanel);
+    this.rangePanel = new RangePanel();
+    this.add(rangePanel, BorderLayout.WEST);
     this.rangePanel.setNotes(model.getNoteRange());
     this.beatPanel.repaint();
     this.rangePanel.revalidate();
@@ -102,11 +112,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         "Enter a valid octave for the note\n", "Add a note", JOptionPane.QUESTION_MESSAGE,
         null, null, null);
 
-    // convert the user's inputs to data for the model
-//    if (pitchObject == null || startBeatObject == null || durationObject == null
-//        || octaveObject == null) {
-//      return;
-//    }
+    if (pitchObject == null || startBeatObject == null || durationObject == null
+        || octaveObject == null) {
+      return null;
+    }
     PitchType type = (PitchType) pitchObject;
     Integer startBeat = Integer.parseInt((String) startBeatObject);
     Integer duration = Integer.parseInt((String) durationObject);
@@ -129,9 +138,11 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void scrollRight() {
-    JViewport vp = this.scrollPane.getViewport();
-    vp.setViewPosition(new Point(vp.getX() + 250, vp.getY()));
-    this.requestFocusInWindow();
+    System.out.println(this.scrollPane.getHorizontalScrollBar().getValue());
+    this.scrollPane.getHorizontalScrollBar().setValue(800);
+//    JViewport vp = this.scrollPane.getViewport();
+//    vp.setViewPosition(new Point(vp.getX() + 250, vp.getY()));
+//    this.requestFocusInWindow();
   }
 
   @Override
@@ -179,6 +190,11 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void resume() {
+
+  }
+
+  @Override
+  public void sendNotes(int counter) {
 
   }
 }

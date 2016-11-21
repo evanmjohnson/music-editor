@@ -103,6 +103,11 @@ public class CombinedView implements IMusicGUIView {
   }
 
   @Override
+  public void sendNotes(int counter) {
+    midi.sendNotes(counter);
+  }
+
+  @Override
   public int getCurrentPosition() {
     return gui.getCurrentPosition();
   }
