@@ -15,17 +15,17 @@ public class MouseHandler implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    this.callback.check(e.getX(), e.getY());
+    this.callback.check(e.getX(), e.getY(), true);
   }
 
   @Override
   public void mousePressed(MouseEvent e) {
-    this.callback.check(e.getX(), e.getY());
+    this.callback.check(e.getX(), e.getY(), true);
   }
 
   @Override
   public void mouseReleased(MouseEvent e) {
-    this.callback.check(e.getX(), e.getY());
+    this.callback.check(e.getX(), e.getY(), true);
   }
 
   @Override

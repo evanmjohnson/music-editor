@@ -54,7 +54,7 @@ public class JFrameView extends JFrame implements IMusicGUIView {
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
     scrollPane.setPreferredSize(new Dimension(model.getNumBeats(), model.getNoteRange().size()));
     scrollPane.getHorizontalScrollBar().setUnitIncrement(15);
-    scrollPane.getHorizontalScrollBar().setUnitIncrement(15);
+    scrollPane.getVerticalScrollBar().setUnitIncrement(15);
     this.add(scrollPane, BorderLayout.CENTER);
     this.pack();
   }
@@ -176,6 +176,10 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void moveRedLine() {
+    int currentMaxPosition = this.scrollPane.getHorizontalScrollBar().getValue();
+    if (currentMaxPosition <= this.notesPanel.getPosition() - 500) {
+      this.scrollRight();
+    }
     this.notesPanel.moveRedLine();
   }
 

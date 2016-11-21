@@ -3,6 +3,7 @@ package cs3500.music.controller;
 import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
+import cs3500.music.model.PitchType;
 import cs3500.music.view.CombinedView;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.JFrameView;
@@ -23,9 +24,20 @@ public class GUIController extends MusicController implements IMouseCallback {
   private boolean playing;
   private int counter;
 
+  /**
+   * Constructs a new GUIController with the given paramaters.
+   *
+   * @param model the model which to control
+   * @param args  the command line arguments given to the program, the first of which is
+   *              what type of view to use
+   */
+  public GUIController(IMusicModel model, String[] args) {
+    this.model = model;
+    this.type = args[0];
+  }
+
   @Override
   public void start(IMusicModel model, String[] args) {
-    this.type = args[0];
     if (type.equals("combined")) {
       this.startCombined(model);
     } else {
@@ -92,6 +104,8 @@ public class GUIController extends MusicController implements IMouseCallback {
     });
 
     keyReleases.put(KeyEvent.VK_A, () -> {
+      // because we want user input, we set the first four paramaters to null and the last to true.
+      this.addNote(null, 0, 0, 0, true);
       Note n = view.showAddPrompt();
       if (n != null) {
         model.add(n);
@@ -113,24 +127,57 @@ public class GUIController extends MusicController implements IMouseCallback {
     view.addListener(kbd);
   }
 
+  /**
+   * Add a new Note to the model with the given paramaters. If the Note components are
+   * {@code null} and {@code showOption} is true, then delegate to the view to show an
+   * option pane requesting user input. If the Note components are not {@code null} and
+   * {@code showOption} is false, add the Note from the given input.
+   *
+   * @param pitchType  a String representation of the {@link PitchType} of the new Note
+   * @param start      the starting beat of the new Note
+   * @param duration   the duration of the new Note
+   * @param octave     the octave of the new Note
+   * @param showOption whether or not to show an option pane requesting the user's
+   *                   input on the fields of the new Note
+   */
+  public void addNote(String pitchType, int start, int duration, int octave,
+                      boolean showOption) {
+    if (showOption && pitchType == null && start == 0 && duration == 0 && octave == 0) {
+      view.showAddPrompt();
+    } else if (!showOption && pitchType != null) {
+      PitchType type = PitchType.valueOf(pitchType);
+      model.add(new Note(type, start, duration, octave));
+    } else {
+      throw new IllegalArgumentException("If showOption is true, the first four paramaters must" +
+          "be null. If showOption is false, they must have value.");
+    }
+  }
+
+  /**
+   * Configures the view's mouse listener to a new {@link MouseHandler} that calls back
+   * to this controller.
+   */
   private void configureMouseListener() {
     MouseHandler mouse = new MouseHandler(this);
     this.view.setMouseListener(mouse);
   }
 
   @Override
-  public void check(int x, int y) {
+  public void check(int x, int y, boolean showOption) {
     try {
       if (x > model.getNumBeats() * 30 || y > model.getNoteRange().size() * 24) {
         return;
       }
       Note clicked = this.model.getNote(model.getNoteRange().size() - y / 22 - 1, x / 30);
-      System.out.println(clicked);
       if (clicked != null) {
         MusicViewModel viewModel = new MusicViewModel(this.model);
-        if (this.view.doRemove()) {
+        if (showOption) {
+          if (this.view.doRemove()) {
+            model.remove(clicked);
+            this.view.reDraw(viewModel);
+          }
+        } else {
           model.remove(clicked);
-          this.view.reDraw(viewModel);
         }
       }
     } catch (IllegalArgumentException e) {

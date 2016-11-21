@@ -19,7 +19,7 @@ public class TestMouseHandler {
   private class ConcreteMouseCallback implements IMouseCallback {
 
     @Override
-    public void check(int x, int y) {
+    public void check(int x, int y, boolean showOption) {
       testX = x;
       testY = y;
     }

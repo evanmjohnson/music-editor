@@ -10,12 +10,22 @@ import cs3500.music.view.IMusicView;
 public class MusicController implements IMusicController {
   private IMusicModel model;
   private IMusicView view;
+  private String type;
+
+  MusicController() {
+
+  }
+
+  public MusicController(IMusicModel model, String[] args) {
+    this.model = model;
+    this.type = args[0];
+  }
 
   @Override
   public void start(IMusicModel model, String[] args) {
     // if we want a gui view, delegate to the gui controller
     if (args[0].equals("visual") || args[0].equals("combined")) {
-      GUIController gui = new GUIController();
+      GUIController gui = new GUIController(model, args);
       gui.start(model, args);
     } else {
       this.view = MusicCreator.create(args);

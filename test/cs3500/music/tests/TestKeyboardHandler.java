@@ -35,6 +35,7 @@ public class TestKeyboardHandler {
   @Test
   public void testKeySpace() {
     this.init();
+    this.keyString = "";
     keyReleased.get(KeyEvent.VK_SPACE).run();
     assertEquals(this.keyString, "space");
   }
@@ -42,6 +43,7 @@ public class TestKeyboardHandler {
   @Test
   public void testKeyLeft() {
     this.init();
+    this.keyString = "";
     keyReleased.get(KeyEvent.VK_LEFT).run();
     assertEquals(this.keyString, "left");
   }
@@ -49,6 +51,7 @@ public class TestKeyboardHandler {
   @Test
   public void testKeyRight() {
     this.init();
+    this.keyString = "";
     keyReleased.get(KeyEvent.VK_RIGHT).run();
     assertEquals(this.keyString, "right");
   }
