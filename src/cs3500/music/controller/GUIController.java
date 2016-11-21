@@ -47,7 +47,7 @@ public class GUIController extends MusicController implements IMouseCallback {
    * @param model The model of the work to display
    */
   private void startCombined(IMusicModel model) {
-    this.playing = true;
+    this.playing = false;
     MusicViewModel viewModel = new MusicViewModel(model);
     this.view = new CombinedView();
     this.configureKeyBoardListener();
@@ -145,16 +145,17 @@ public class GUIController extends MusicController implements IMouseCallback {
   @Override
   public void check(int x, int y) {
     try {
-      if (x > model.getNumBeats() || y > model.getNoteRange().size()) {
+      if (x > model.getNumBeats() * 30 || y > model.getNoteRange().size() * 24) {
         return;
       }
       Note clicked = this.model.getNote(model.getNoteRange().size() - y / 22 - 1, x / 30);
+      System.out.println(clicked);
       if (clicked != null) {
         clicked.makeSelected(true);
         MusicViewModel viewModel = new MusicViewModel(this.model);
         if (this.view.doRemove()) {
           model.remove(clicked);
-          this.view.reDrawNotes(viewModel);
+          this.view.reDraw(viewModel);
         }
       }
     }
