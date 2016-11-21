@@ -50,6 +50,7 @@ public class ConsoleView implements IMusicView {
         notesAtThisBeat.addAll(model.notesStartAtThisBeat(i));
         notesAtThisBeat.addAll(model.notesContinueAtThisBeat(i));
       } catch (NullPointerException e) {
+        // notesAtThisBeat should remain empty.
       }
       for (Note n : model.getNoteRange()) {
         List<Note> start = model.noteListStartAt(i);
@@ -92,7 +93,7 @@ public class ConsoleView implements IMusicView {
    * Gets the first row of the console output.
    *
    * @return String respresentation of all of the notes between the lowest and highest notes
-   * in this piece.
+   *         in this piece.
    */
   private String printFirstRow() {
     StringBuilder sb = new StringBuilder();
@@ -156,6 +157,6 @@ public class ConsoleView implements IMusicView {
 
   @Override
   public void sendNotes(int counter) {
-
+    // not in this view
   }
 }

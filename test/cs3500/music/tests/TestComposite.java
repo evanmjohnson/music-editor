@@ -1,7 +1,6 @@
 package cs3500.music.tests;
 
 import cs3500.music.controller.MusicController;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;

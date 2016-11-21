@@ -37,9 +37,11 @@ public class BeatPanel extends JPanel {
     }
   }
 
-  public void setBeats(int numBeats) {
+  /**
+   * Sets the number of beats for this panel to display.
+   * @param numBeats number of beats to display
+   */
+  void setBeats(int numBeats) {
     beats = numBeats;
-
-
   }
 }

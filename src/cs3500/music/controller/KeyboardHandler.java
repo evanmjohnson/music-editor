@@ -7,14 +7,6 @@ import java.util.Map;
 /**
  * This class represents a keyboard listener. It is configurable by the controller that instantiates
  * it.
- * <p>
- * This listener keeps three maps, one each for key typed, key pressed and key released Each map
- * stores a key mapping. A key mapping is a pair (keystroke,code to be executed with that keystroke)
- * The latter part of that pair is actually a function object, i.e. an object of a class that
- * implements the Runnable interface
- * <p>
- * This class implements the KeyListener interface, so that its object can be used as a valid
- * keylistener for Java Swing.
  */
 public class KeyboardHandler implements KeyListener {
   private Map<Integer, Runnable> keyTypedMap;

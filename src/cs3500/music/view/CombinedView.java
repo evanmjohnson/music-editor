@@ -22,8 +22,8 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public void create(MusicViewModel model) {
     midi.create(model);
-    this.createRedLine();
     gui.create(model);
+    this.createRedLine();
     gui.makeVisible();
   }
 
@@ -44,12 +44,22 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public void scrollRight() {
-
+    gui.scrollRight();
   }
 
   @Override
   public void scrollLeft() {
+    gui.scrollLeft();
+  }
 
+  @Override
+  public void scrollUp() {
+    gui.scrollUp();
+  }
+
+  @Override
+  public void scrollDown() {
+    gui.scrollDown();
   }
 
   @Override

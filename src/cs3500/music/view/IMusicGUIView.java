@@ -23,10 +23,7 @@ public interface IMusicGUIView extends IMusicView {
   Note showAddPrompt() throws IllegalFormatException;
 
   /**
-   * This is to force the view to have a method to set up the keyboard. The name has been chosen
-   * deliberately. This is the same method signature to add a key listener in Java Swing.
-   * <p>
-   * Thus our Swing-based implementation of this interface will already have such a method.
+   * Add a KeyboardListneer to this view.
    */
   void addListener(KeyListener kbd);
 
@@ -39,6 +36,16 @@ public interface IMusicGUIView extends IMusicView {
    * Scroll the panel of Notes to the left.
    */
   void scrollLeft();
+
+  /**
+   * Scroll the panel of Notes up.
+   */
+  void scrollUp();
+
+  /**
+   * Scroll the panel of Notes down.
+   */
+  void scrollDown();
 
   /**
    * Redraw the board.

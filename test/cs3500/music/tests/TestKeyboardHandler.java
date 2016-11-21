@@ -27,6 +27,7 @@ public class TestKeyboardHandler {
   @Test
   public void testKeyA() {
     this.init();
+    this.keyString = "";
     keyReleased.get(KeyEvent.VK_A).run();
     assertEquals(this.keyString, "A");
   }

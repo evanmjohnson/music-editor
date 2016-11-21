@@ -1,18 +1,13 @@
 package cs3500.music.tests;
 
 import cs3500.music.controller.IMouseCallback;
-import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.controller.MouseHandler;
 import org.junit.Test;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
+import java.awt.Button;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * Tests the MouseHandler class from the music editor.
@@ -34,23 +29,25 @@ public class TestMouseHandler {
 
   @Test
   public void testMouseClicked() {
-    mouse.mouseClicked(new MouseEvent(new Button(), 0, 0, 0, 5, 10, 0, false));
-    assertEquals(5, this.testX);
-    assertEquals(10, this.testY);
+    MouseEvent e = new MouseEvent(new Button(), 0, 0, 0, 5, 10, 0, false);
+    mouse.mouseClicked(e);
+    assertEquals(e.getX(), this.testX);
+    assertEquals(e.getY(), this.testY);
   }
 
   @Test
   public void testMousePressed() {
     MouseEvent e = new MouseEvent(new Button(), 0, 0, 0, 15, 20, 0, false);
     mouse.mousePressed(e);
-    assertEquals(15, this.testX);
+    assertEquals(e.getX(), this.testX);
     assertEquals(20, this.testY);
   }
 
   @Test
   public void testMouseReleased() {
-    mouse.mouseReleased(new MouseEvent(new Button(), 0, 0, 0, 25, 30, 0, false));
-    assertEquals(25, this.testX);
-    assertEquals(30, this.testY);
+    MouseEvent e = new MouseEvent(new Button(), 0, 0, 0, 25, 30, 0, false);
+    mouse.mouseReleased(e);
+    assertEquals(e.getX(), this.testX);
+    assertEquals(e.getY(), this.testY);
   }
 }

@@ -31,6 +31,7 @@ public class RangePanel extends JPanel {
       label.setFont(new Font("Josephine Sans", Font.PLAIN, 18));
       this.add(label);
     }
+
     range = new ArrayList<>();
   }
 }

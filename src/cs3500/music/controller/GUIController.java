@@ -20,7 +20,6 @@ public class GUIController extends MusicController implements IMouseCallback {
   private IMusicModel model;
   private IMusicGUIView view;
   private String type;
-  private Timer timer;
   private boolean playing;
   private int counter;
 
@@ -51,9 +50,8 @@ public class GUIController extends MusicController implements IMouseCallback {
     this.view = new CombinedView();
     this.configureKeyBoardListener();
     view.create(viewModel);
-    view.makeVisible();
     view.createRedLine();
-    timer = new Timer();
+    Timer timer = new Timer();
     long period = (long) (model.getTempo() / 30000.0);
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
@@ -68,19 +66,11 @@ public class GUIController extends MusicController implements IMouseCallback {
         }
       }
     }, 0, period);
+    view.makeVisible();
   }
 
   /**
-   * Creates and sets a keyboard listener for the view. In effect it creates snippets of code as
-   * Runnable object, one for each time a key is typed, pressed and released, only for those that
-   * the program needs.
-   * <p>
-   * In this example, we need to toggle color when user TYPES 'd', make the message all caps when
-   * the user PRESSES 'c' and reverts to the original string when the user RELEASES 'c'. Thus we
-   * create three snippets of code (ToggleColor,MakeCaps and MakeOriginalCase) and put them in the
-   * appropriate map.
-   * <p>
-   * Last we create our KeyboardListener object, set all its maps and then give it to the view.
+   * Configures the keyboard listener for the view.
    */
   private void configureKeyBoardListener() {
     Map<Integer, Runnable> keyReleases = new HashMap<>();
@@ -91,6 +81,14 @@ public class GUIController extends MusicController implements IMouseCallback {
 
     keyReleases.put(KeyEvent.VK_LEFT, () -> {
       this.view.scrollLeft();
+    });
+
+    keyReleases.put(KeyEvent.VK_DOWN, () -> {
+      this.view.scrollDown();
+    });
+
+    keyReleases.put(KeyEvent.VK_UP, () -> {
+      this.view.scrollUp();
     });
 
     keyReleases.put(KeyEvent.VK_A, () -> {
