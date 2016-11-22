@@ -92,4 +92,10 @@ public interface IMusicGUIView extends IMusicView {
    * @return The x position (in beats) of the red line
    */
   int getCurrentPosition();
+
+  /**
+   * Removes all of the notes before reconstructing and repainting them.
+   * @param model the model of notes to redraw
+   */
+  void reDrawRemove(MusicViewModel model);
 }

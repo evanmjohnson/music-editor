@@ -4,9 +4,11 @@ import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
-import java.awt.Point;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
@@ -91,6 +93,13 @@ public class JFrameView extends JFrame implements IMusicGUIView {
 
   @Override
   public void reDrawNotes(MusicViewModel model) {
+    this.notesPanel.repaint();
+  }
+
+  @Override
+  public void reDrawRemove(MusicViewModel model) {
+    this.notesPanel.removeRects();
+    this.createNotes(model);
     this.notesPanel.repaint();
   }
 

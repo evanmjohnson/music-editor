@@ -1,13 +1,17 @@
 package cs3500.music.view;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.*;
 
 import cs3500.music.model.Note;
+
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Represents the range of notes in the piece, on the left side of the frame.

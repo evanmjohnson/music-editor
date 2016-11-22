@@ -63,6 +63,7 @@ public class GUIController extends MusicController implements IMouseCallback {
     this.configureKeyBoardListener();
     view.create(viewModel);
     view.createRedLine();
+    this.configureMouseListener();
     Timer timer = new Timer();
     long period = (long) (model.getTempo() / 30000.0);
     timer.scheduleAtFixedRate(new TimerTask() {
@@ -174,7 +175,7 @@ public class GUIController extends MusicController implements IMouseCallback {
         if (showOption) {
           if (this.view.doRemove()) {
             model.remove(clicked);
-            this.view.reDraw(viewModel);
+            this.view.reDrawRemove(viewModel);
           }
         } else {
           model.remove(clicked);

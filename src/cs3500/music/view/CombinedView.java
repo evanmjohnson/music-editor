@@ -74,7 +74,7 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public boolean doRemove() {
-    return false;
+    return gui.doRemove();
   }
 
   @Override
@@ -100,5 +100,10 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public int getCurrentPosition() {
     return gui.getCurrentPosition();
+  }
+
+  @Override
+  public void reDrawRemove(MusicViewModel model) {
+    gui.reDrawRemove(model);
   }
 }
