@@ -65,7 +65,7 @@ public class MidiView implements IMusicView {
    * @param n Note to be added
    */
   protected void addNote(Note n) {
-    for (int i = n.getStartTime(); i <= (n.getDuration() + n.getStartTime()); i++) {
+    for (int i = n.getStartBeat(); i <= (n.getDuration() + n.getStartBeat()); i++) {
       if (!notes.containsKey(i)) {
         ArrayList<Note> addNewBeat = new ArrayList<>();
         addNewBeat.add(n);
@@ -126,7 +126,7 @@ public class MidiView implements IMusicView {
     List<Note> startingNotes = new ArrayList<Note>();
     if (this.notes.containsKey(beat)) {
       for (int i = 0; i < notes.get(beat).size(); i++) {
-        if (this.notes.get(beat).get(i).getStartTime() == beat) {
+        if (this.notes.get(beat).get(i).getStartBeat() == beat) {
           startingNotes.add(notes.get(beat).get(i));
         }
       }
@@ -162,7 +162,7 @@ public class MidiView implements IMusicView {
           if (this.getStartingNotesAtBeat(currentBeat).contains(note)) {
             playNote(note);
           }
-          if (currentBeat == note.getDuration() + note.getStartTime()) {
+          if (currentBeat == note.getDuration() + note.getStartBeat()) {
             stopNote(note);
           }
         } catch (InvalidMidiDataException e) {
@@ -188,9 +188,10 @@ public class MidiView implements IMusicView {
     synth.getChannels()[0].programChange(allInstruments[note.getInstrument()].getPatch()
             .getProgram());
 
-    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, note.getNoteVal(),
+    int value = note.getPitch().getToneOrder() + (note.getOctave() * 12) + 12;
+    MidiMessage start = new ShortMessage(ShortMessage.NOTE_ON, 0, value,
             note.getVolume());
-    receiver.send(start, note.getStartTime());
+    receiver.send(start, note.getStartBeat());
   }
 
   /**
@@ -199,10 +200,11 @@ public class MidiView implements IMusicView {
    * @param note the note to be stopped
    */
   private void stopNote(Note note) throws InvalidMidiDataException {
-    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, note.getNoteVal(),
+    int value = note.getPitch().getToneOrder() + (note.getOctave() * 12) + 12;
+    MidiMessage stop = new ShortMessage(ShortMessage.NOTE_OFF, 0, value,
             note.getVolume());
 
-    receiver.send(stop, note.getStartTime() + note.getDuration() - 1);
+    receiver.send(stop, note.getStartBeat() + note.getDuration() - 1);
   }
 
 }
