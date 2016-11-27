@@ -3,7 +3,7 @@ package cs3500.music.provider;
 import java.util.List;
 import java.util.Objects;
 
-import cs3500.music.model.IMusicEditorModel;
+import cs3500.music.model.IMusicModel;
 import cs3500.music.model.Note;
 
 /**
@@ -11,7 +11,7 @@ import cs3500.music.model.Note;
  * certain information is not accessible.
  */
 public class ViewModel {
-  private IMusicEditorModel model;
+  private IMusicModel model;
 
   /**
    * Constructs a ViewModel of a particular MusicEditorModel.
@@ -19,7 +19,7 @@ public class ViewModel {
    * @param m the Music Editor model
    * @throws IllegalArgumentException if any argument is not valid
    */
-  public ViewModel(IMusicEditorModel m) {
+  public ViewModel(IMusicModel m) {
     try {
       Objects.requireNonNull(m);
     } catch (NullPointerException x) {
@@ -35,7 +35,7 @@ public class ViewModel {
    * @return the lowermost note
    */
   public Note getLowerNote() {
-    return this.model.getLowerNote();
+    return this.model.lowestNote();
   }
 
   /**
@@ -44,7 +44,7 @@ public class ViewModel {
    * @return the uppermost note
    */
   public Note getUpperNote() {
-    return this.model.getUpperNote();
+    return this.model.highestNote();
   }
 
   /**
@@ -53,7 +53,7 @@ public class ViewModel {
    * @return the final beat as an int
    */
   public int getFinalBeat() {
-    return this.model.getFinalBeat();
+    return this.model.getNumBeats();
   }
 
   /**
@@ -75,7 +75,10 @@ public class ViewModel {
    * @return the notes as an ArrayList
    */
   public List<Note> getAllNotesAtBeat(int beat) {
-    return this.model.getAllNotesAtBeat(beat);
+    List<Note> start = model.noteListStartAt(beat);
+    List<Note> cont = model.noteListContinueAt(beat);
+    start.addAll(cont);
+    return start;
   }
 
   /**
@@ -84,7 +87,7 @@ public class ViewModel {
    * @return the notes as an ArrayList
    */
   public List<Note> getStartingNotesAtBeat(int beat) {
-    return this.model.getStartingNotesAtBeat(beat);
+    return this.model.noteListStartAt(beat);
   }
 
   /**
@@ -92,7 +95,7 @@ public class ViewModel {
    *
    * @return the model
    */
-  public IMusicEditorModel getModel() {
+  public IMusicModel getModel() {
     return this.model;
   }
 }
