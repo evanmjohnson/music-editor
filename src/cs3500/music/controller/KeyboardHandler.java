@@ -14,13 +14,14 @@ public class KeyboardHandler implements KeyListener {
   private Map<Integer, Runnable> keyReleasedMap;
 
   /**
-   * Empty default constructor
+   * Empty default constructor.
    */
   public KeyboardHandler() {
+    // default constructor
   }
 
   /**
-   * Set the map for key typed events. Ke y typed events in Java Swing are characters
+   * Set the map for key typed events. Key typed events in Java Swing are characters.
    *
    * @param map The key typed events map
    */

@@ -13,7 +13,7 @@ public class MusicController implements IMusicController {
   private String type;
 
   MusicController() {
-
+    // default constructor
   }
 
   public MusicController(IMusicModel model, String[] args) {
