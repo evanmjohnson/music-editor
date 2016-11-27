@@ -15,12 +15,14 @@ public class TestKeyboardHandler {
   KeyboardHandler kbd = new KeyboardHandler();
   String keyString;
   Map<Integer, Runnable> keyReleased = new HashMap<>();
+  StringBuilder sb;
 
   void init() {
-    keyReleased.put(KeyEvent.VK_A, () -> keyString = "A");
-    keyReleased.put(KeyEvent.VK_SPACE, () -> keyString = "space");
-    keyReleased.put(KeyEvent.VK_LEFT, () -> keyString = "left");
-    keyReleased.put(KeyEvent.VK_RIGHT, () -> keyString = "right");
+    this.sb = new StringBuilder();
+    keyReleased.put(KeyEvent.VK_A, () -> sb.append("A"));
+    keyReleased.put(KeyEvent.VK_SPACE, () -> sb.append("space"));
+    keyReleased.put(KeyEvent.VK_LEFT, () -> sb.append("left"));
+    keyReleased.put(KeyEvent.VK_RIGHT, () -> sb.append("right"));
     kbd.setKeyReleasedMap(keyReleased);
   }
 
@@ -29,7 +31,7 @@ public class TestKeyboardHandler {
     this.init();
     this.keyString = "";
     keyReleased.get(KeyEvent.VK_A).run();
-    assertEquals(this.keyString, "A");
+    assertEquals(this.sb.toString(), "A");
   }
 
   @Test
@@ -37,7 +39,7 @@ public class TestKeyboardHandler {
     this.init();
     this.keyString = "";
     keyReleased.get(KeyEvent.VK_SPACE).run();
-    assertEquals(this.keyString, "space");
+    assertEquals(this.sb.toString(), "space");
   }
 
   @Test
@@ -45,7 +47,7 @@ public class TestKeyboardHandler {
     this.init();
     this.keyString = "";
     keyReleased.get(KeyEvent.VK_LEFT).run();
-    assertEquals(this.keyString, "left");
+    assertEquals(this.sb.toString(), "left");
   }
 
   @Test
@@ -53,6 +55,6 @@ public class TestKeyboardHandler {
     this.init();
     this.keyString = "";
     keyReleased.get(KeyEvent.VK_RIGHT).run();
-    assertEquals(this.keyString, "right");
+    assertEquals(this.sb.toString(), "right");
   }
 }

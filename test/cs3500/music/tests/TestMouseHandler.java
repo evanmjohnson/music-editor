@@ -40,7 +40,7 @@ public class TestMouseHandler {
     MouseEvent e = new MouseEvent(new Button(), 0, 0, 0, 15, 20, 0, false);
     mouse.mousePressed(e);
     assertEquals(e.getX(), this.testX);
-    assertEquals(20, this.testY);
+    assertEquals(e.getY(), this.testY);
   }
 
   @Test

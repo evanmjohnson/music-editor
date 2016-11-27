@@ -1,6 +1,5 @@
 package cs3500.music.tests;
 
-import cs3500.music.controller.MusicController;
 import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicModel;
 import cs3500.music.model.MusicViewModel;
@@ -16,7 +15,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import cs3500.music.view.ConsoleView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

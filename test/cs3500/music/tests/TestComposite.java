@@ -1,21 +1,16 @@
 package cs3500.music.tests;
 
 import cs3500.music.controller.GUIController;
-import cs3500.music.controller.MusicController;
 import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
-import cs3500.music.view.IMusicView;
 import org.junit.Test;
 
 import java.awt.Button;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * Tests the composite view of the music editor.
