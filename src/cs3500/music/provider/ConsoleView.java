@@ -2,9 +2,6 @@ package cs3500.music.provider;
 
 import java.util.List;
 
-import cs3500.music.model.Note;
-import cs3500.music.model.Pitch;
-
 /**
  * This class represents the model as a string printed to the console.
  */
@@ -41,6 +38,7 @@ public final class ConsoleView implements IMusicView {
    * @param str the string to center
    * @return the appended string
    */
+
   private String center(String str) {
     int buffer = 5 - str.length();
     for (int i = 0; i < (buffer / 2); i++) {
@@ -58,6 +56,7 @@ public final class ConsoleView implements IMusicView {
    * @param beat the current beat
    * @return all of the notes at the current beat as a String
    */
+
   private StringBuilder printNotes(ViewModel vm, int beat) {
     List<Note> notesToPrint = vm.getAllNotesAtBeat(beat);
     int b = (vm.getUpperNote().getNoteVal() - vm.getLowerNote().getNoteVal()) * 5 + 2;

@@ -1,7 +1,5 @@
 package cs3500.music.provider;
 
-import cs3500.music.model.Note;
-
 import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.MidiSystem;

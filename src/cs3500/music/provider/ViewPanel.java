@@ -1,8 +1,5 @@
 package cs3500.music.provider;
 
-import cs3500.music.model.Note;
-import cs3500.music.model.Pitch;
-
 import javax.swing.JPanel;
 
 import java.awt.geom.Line2D;

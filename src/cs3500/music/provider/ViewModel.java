@@ -3,9 +3,6 @@ package cs3500.music.provider;
 import java.util.List;
 import java.util.Objects;
 
-import cs3500.music.model.IMusicEditorModel;
-import cs3500.music.model.Note;
-
 /**
  * This class represents a MusicEditorModel accessible by the view, such that
  * certain information is not accessible.
