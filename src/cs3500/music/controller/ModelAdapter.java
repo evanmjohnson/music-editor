@@ -1,5 +1,6 @@
 package cs3500.music.controller;
 
+import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicModel;
 import cs3500.music.model.PitchType;
 import cs3500.music.provider.IMusicEditorModel;
@@ -14,13 +15,13 @@ import java.util.List;
  */
 public class ModelAdapter implements IMusicEditorModel {
 
-  private MusicModel model;
+  private IMusicModel model;
 
   public ModelAdapter() {
     this.model = new MusicModel();
   }
 
-  public ModelAdapter(MusicModel model) {
+  public ModelAdapter(IMusicModel model) {
     this.model = model;
   }
 
