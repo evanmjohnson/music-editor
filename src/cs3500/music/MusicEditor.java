@@ -20,9 +20,13 @@ public class MusicEditor {
    * @throws InvalidMidiDataException throws if the file has invalid midi data.
    */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
+    args = new String[3];
+    args[0] = "combined";
+    args[1] = "/Users/Shravali/Desktop/OOD/starteractual/mary-little-lamb.txt";
     IMusicModel viewModel;
     viewModel = MusicReader.parseFile(new FileReader(args[1]), new MusicBuilder());
     MusicController controller = new MusicController(viewModel, args);
     controller.start(viewModel, args);
+
   }
 }
