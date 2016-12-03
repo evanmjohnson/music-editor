@@ -30,12 +30,12 @@ public class TestComposite {
     assertEquals(0, model.getNumBeats());
   }
 
-  @Test
-  public void testAdd() {
-    String[] args = new String[1];
-    args[0] = "visual";
-    GUIController controller = new GUIController(model, args);
-    controller.addNote("C", 0, 2, 4, false);
-    assertEquals(1, model.getNumBeats());
-  }
+//  @Test
+//  public void testAdd() {
+//    String[] args = new String[1];
+//    args[0] = "visual";
+//    GUIController controller = new GUIController(model, args);
+//    controller.addNote("C", 0, 2, 4, false);
+//    assertEquals(1, model.getNumBeats());
+//  }
 }
