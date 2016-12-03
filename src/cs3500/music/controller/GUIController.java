@@ -137,13 +137,15 @@ public class GUIController extends MusicController implements IMouseCallback {
     });
 
     keyReleases.put(KeyEvent.VK_SPACE, () -> {
-      this.view.getThread1().suspend();
-      this.view.getThread2().suspend();
-    });
-
-    keyReleases.put(KeyEvent.VK_P, () -> {
-      this.view.getThread1().resume();
-      this.view.getThread2().resume();
+      if (playing) {
+        this.view.getThread1().suspend();
+        this.view.getThread2().suspend();
+      }
+      else {
+        this.view.getThread1().resume();
+        this.view.getThread2().resume();
+      }
+      playing = !playing;
     });
 
 //    keyReleases.put(KeyEvent.VK_A, () -> {
