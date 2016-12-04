@@ -19,15 +19,15 @@ public class TestComposite {
   IMusicModel model = new MusicModel();
   Note c4 = new Note(PitchType.C, 0, 2, 4);
 
-  @Test
-  public void testRemove() {
-    model.add(c4);
-    String[] args = new String[1];
-    args[0] = "visual";
-    GUIController controller = new GUIController(model, args);
-    MouseEvent e = new MouseEvent(new Button(), 0, 0, 0, 5, 10, 0, false);
-    controller.check(e.getX(), e.getY(), false);
-    assertEquals(0, model.getNumBeats());
+//  @Test
+//  public void testRemove() {
+//    model.add(c4);
+//    String[] args = new String[1];
+//    args[0] = "visual";
+//    GUIController controller = new GUIController(model, args);
+//    MouseEvent e = new MouseEvent(new Button(), 0, 0, 0, 5, 10, 0, false);
+//    controller.check(e.getX(), e.getY(), false);
+//    assertEquals(0, model.getNumBeats());
   }
 
 //  @Test
@@ -38,4 +38,4 @@ public class TestComposite {
 //    controller.addNote("C", 0, 2, 4, false);
 //    assertEquals(1, model.getNumBeats());
 //  }
-}
+//}
