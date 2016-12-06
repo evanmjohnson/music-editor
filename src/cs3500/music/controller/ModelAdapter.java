@@ -17,18 +17,25 @@ public class ModelAdapter implements IMusicEditorModel {
 
   private IMusicModel model;
 
+  /**
+   * Default constructor for ModelAdapter. Creates a new empty model.
+   */
   public ModelAdapter() {
     this.model = new MusicModel();
   }
 
+  /**
+   * Creates a new ModelAdapter using the given model.
+   * @param model the model to manipulate data from
+   */
   public ModelAdapter(IMusicModel model) {
     this.model = model;
   }
 
   /**
    * Converts a provider's Note to our Note.
-   * @param note a {@link cs3500.music.provider.Note} to convert
-   * @return a {@link cs3500.music.model.Note}
+   * @param note a provider Note to convert
+   * @return a model Note
    */
   private cs3500.music.model.Note convertNoteFromProvider(cs3500.music.provider.Note note) {
     String noteString = note.getPitch().toString();
@@ -70,6 +77,9 @@ public class ModelAdapter implements IMusicEditorModel {
       case "G#" :
         pitch = PitchType.GSharp;
         break;
+      default :
+        pitch = PitchType.A;
+        break;
     }
     int startBeat = note.getStartTime();
     int duration = note.getDuration();
@@ -81,8 +91,8 @@ public class ModelAdapter implements IMusicEditorModel {
 
   /**
    * Converts a our Note to a provider's Note.
-   * @param note a {@link cs3500.music.model.Note} to convert
-   * @return a {@link cs3500.music.provider.Note} with the same fields as the given note
+   * @param note a model Note to convert
+   * @return a provider Note with the same fields as the given note
    */
   private cs3500.music.provider.Note convertNoteToProvider(cs3500.music.model.Note note) {
     String noteString = note.getPitch().toString();
@@ -123,6 +133,9 @@ public class ModelAdapter implements IMusicEditorModel {
         break;
       case "G#" :
         pitch = Pitch.GSHARP;
+        break;
+      default :
+        pitch = Pitch.A;
         break;
     }
     int octave = note.getOctave();
