@@ -1,17 +1,12 @@
 package cs3500.music.controller;
 
 import cs3500.music.model.IMusicModel;
-import cs3500.music.model.MusicViewModel;
-import cs3500.music.model.Note;
-import cs3500.music.model.PitchType;
 import cs3500.music.provider.CompositeView;
 import cs3500.music.provider.GuiView;
 import cs3500.music.provider.IGuiView;
 import cs3500.music.provider.MidiView;
 import cs3500.music.provider.ViewModel;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +14,7 @@ import java.util.Map;
 /**
  * Represents a controller for the GUI view.
  */
-public class GUIController extends MusicController implements ActionListener {
+public class GUIController extends MusicController implements IMouseCallback {
   private IGuiView view;
   private IMusicModel model;
   private String type;
@@ -66,12 +61,12 @@ public class GUIController extends MusicController implements ActionListener {
     this.configureKeyBoardListener();
     ModelAdapter adapter = new ModelAdapter(model);
     ViewModel viewModel = new ViewModel(adapter);
+    this.configureMouseListener();
     try {
       view.renderModel(viewModel);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    this.configureMouseListener();
   }
 
   /**
@@ -128,15 +123,15 @@ public class GUIController extends MusicController implements ActionListener {
    * to this controller.
    */
   private void configureMouseListener() {
-//    MouseHandler mouse = new MouseHandler(this);
-//    this.view.setMouseListener(mouse);
-//    this.view.addMouse(mouse);
+    MouseHandler mouse = new MouseHandler(this);
+    view.addMouse(mouse);
   }
 
   @Override
-  public void actionPerformed(ActionEvent e) {
-    // // TODO: 12/4/16 WRITE AN ACTION LISTENER 
-    System.out.println("action performed");
-    this.view.action();
+  public void check(int x, int y, boolean showOption) {
+    System.out.print("check");
+    if (x >= 1000 && x <= 1100 && y >= 75 && y <= 130) {
+      view.action();
+    }
   }
 }
