@@ -1,6 +1,5 @@
 package cs3500.music;
 
-import cs3500.music.controller.IMusicController;
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.IMusicModel;
 import cs3500.music.util.MusicBuilder;
@@ -22,8 +21,11 @@ public class MusicEditor {
    */
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     IMusicModel viewModel;
+    args = new String[2];
+    args[0] = "console";
+    args[1] = "/Users/evan/Downloads/code/mary-little-lamb.txt";
     viewModel = MusicReader.parseFile(new FileReader(args[1]), new MusicBuilder());
-    IMusicController controller = new MusicController(viewModel, args);
-    controller.start(args);
+    MusicController controller = new MusicController(viewModel, args);
+    controller.start(viewModel, args);
   }
 }

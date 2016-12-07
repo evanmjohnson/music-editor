@@ -1,24 +1,28 @@
 package cs3500.music.controller;
 
 import cs3500.music.model.IMusicModel;
-import cs3500.music.provider.CompositeView;
-import cs3500.music.provider.GuiView;
-import cs3500.music.provider.IGuiView;
-import cs3500.music.provider.MidiView;
-import cs3500.music.provider.ViewModel;
+import cs3500.music.model.MusicViewModel;
+import cs3500.music.model.Note;
+import cs3500.music.model.PitchType;
+import cs3500.music.view.CombinedView;
+import cs3500.music.view.IMusicGUIView;
+import cs3500.music.view.JFrameView;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Represents a controller for the GUI view.
  */
 public class GUIController extends MusicController implements IMouseCallback {
-  private IGuiView view;
   private IMusicModel model;
+  private IMusicGUIView view;
   private String type;
   private boolean playing;
+  private int counter;
 
   /**
    * Constructs a new GUIController with the given paramaters.
@@ -33,18 +37,15 @@ public class GUIController extends MusicController implements IMouseCallback {
   }
 
   @Override
-  public void start(String[] args) {
-    if (type.equals("composite")) {
+  public void start(IMusicModel model, String[] args) {
+    if (type.equals("combined")) {
       this.startCombined(model);
     } else {
-      this.view = new GuiView();
-      ModelAdapter adapter = new ModelAdapter(model);
-      ViewModel viewModel = new ViewModel(adapter);
-      try {
-        view.renderModel(viewModel);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+      this.model = model;
+      this.view = new JFrameView();
+      MusicViewModel viewModel = new MusicViewModel(model);
+      view.create(viewModel);
+      view.makeVisible();
       configureKeyBoardListener();
       configureMouseListener();
     }
@@ -56,17 +57,29 @@ public class GUIController extends MusicController implements IMouseCallback {
    * @param model The model of the work to display
    */
   private void startCombined(IMusicModel model) {
-    this.playing = true;
-    this.view = new CompositeView(new GuiView(), new MidiView());
+    this.playing = false;
+    MusicViewModel viewModel = new MusicViewModel(model);
+    this.view = new CombinedView();
     this.configureKeyBoardListener();
-    ModelAdapter adapter = new ModelAdapter(model);
-    ViewModel viewModel = new ViewModel(adapter);
+    view.create(viewModel);
+    view.createRedLine();
     this.configureMouseListener();
-    try {
-      view.renderModel(viewModel);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    Timer timer = new Timer();
+    long period = (long) (model.getTempo() / 30000.0);
+    timer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        if (playing && counter <= model.getNumBeats() * 30) {
+          if (counter % 30 == 0) {
+            view.sendNotes(counter / 30);
+          }
+          counter++;
+          view.moveRedLine();
+          view.reDrawNotes(viewModel);
+        }
+      }
+    }, 0, period);
+    view.makeVisible();
   }
 
   /**
@@ -91,25 +104,22 @@ public class GUIController extends MusicController implements IMouseCallback {
       this.view.scrollUp();
     });
 
-    keyReleases.put(KeyEvent.VK_HOME, () -> {
-      this.view.scrollBeginning();
+    keyReleases.put(KeyEvent.VK_A, () -> {
+      // because we want user input, we set the first four paramaters to null and the last to true.
+      this.addNote(null, 0, 0, 0, true);
+      Note n = view.showAddPrompt();
+      if (n != null) {
+        model.add(n);
+        MusicViewModel viewModel = new MusicViewModel(model);
+        this.view.reDraw(viewModel);
+      }
     });
 
-    keyReleases.put(KeyEvent.VK_END, () -> {
-      this.view.scrollEnd();
-    });
-
-    keyReleases.put(KeyEvent.VK_SPACE, () -> {
-      if (playing) {
-        this.view.getThread1().suspend();
-        this.view.getThread2().suspend();
-      }
-      else {
-        this.view.getThread1().resume();
-        this.view.getThread2().resume();
-      }
-      playing = !playing;
-    });
+    if (type.equals("combined")) {
+      keyReleases.put(KeyEvent.VK_SPACE, () -> {
+        this.playing = !playing;
+      });
+    }
 
     KeyboardHandler kbd = new KeyboardHandler();
     kbd.setKeyPressedMap(new HashMap<>());
@@ -119,19 +129,60 @@ public class GUIController extends MusicController implements IMouseCallback {
   }
 
   /**
+   * Add a new Note to the model with the given paramaters. If the Note components are
+   * {@code null} and {@code showOption} is true, then delegate to the view to show an
+   * option pane requesting user input. If the Note components are not {@code null} and
+   * {@code showOption} is false, add the Note from the given input.
+   *
+   * @param pitchType  a String representation of the {@link PitchType} of the new Note
+   * @param start      the starting beat of the new Note
+   * @param duration   the duration of the new Note
+   * @param octave     the octave of the new Note
+   * @param showOption whether or not to show an option pane requesting the user's
+   *                   input on the fields of the new Note
+   */
+  public void addNote(String pitchType, int start, int duration, int octave,
+                      boolean showOption) {
+    if (showOption && pitchType == null && start == 0 && duration == 0 && octave == 0) {
+      view.showAddPrompt();
+    } else if (!showOption && pitchType != null) {
+      PitchType type = PitchType.valueOf(pitchType);
+      model.add(new Note(type, start, duration, octave));
+    } else {
+      throw new IllegalArgumentException("If showOption is true, the first four paramaters must" +
+          "be null. If showOption is false, they must have value.");
+    }
+  }
+
+  /**
    * Configures the view's mouse listener to a new {@link MouseHandler} that calls back
    * to this controller.
    */
   private void configureMouseListener() {
     MouseHandler mouse = new MouseHandler(this);
-    view.addMouse(mouse);
+    this.view.setMouseListener(mouse);
   }
 
   @Override
   public void check(int x, int y, boolean showOption) {
-    System.out.print("check");
-    if (x >= 1000 && x <= 1100 && y >= 75 && y <= 130) {
-      view.action();
+    try {
+      if (x > model.getNumBeats() * 30 || y > model.getNoteRange().size() * 24) {
+        return;
+      }
+      Note clicked = this.model.getNote(model.getNoteRange().size() - y / 22 - 1, x / 30);
+      if (clicked != null) {
+        MusicViewModel viewModel = new MusicViewModel(this.model);
+        if (showOption) {
+          if (this.view.doRemove()) {
+            model.remove(clicked);
+            this.view.reDrawRemove(viewModel);
+          }
+        } else {
+          model.remove(clicked);
+        }
+      }
+    } catch (IllegalArgumentException e) {
+      return;
     }
   }
 }

@@ -1,8 +1,8 @@
 package cs3500.music.controller;
 
 import cs3500.music.model.IMusicModel;
-import cs3500.music.provider.IMusicView;
-import cs3500.music.provider.ViewModel;
+import cs3500.music.model.MusicViewModel;
+import cs3500.music.view.IMusicView;
 
 /**
  * Represents the controller for the music editor. Implements the IMusicController interface.
@@ -13,7 +13,7 @@ public class MusicController implements IMusicController {
   private String type;
 
   MusicController() {
-    // default controller
+    // default constructor
   }
 
   public MusicController(IMusicModel model, String[] args) {
@@ -22,20 +22,17 @@ public class MusicController implements IMusicController {
   }
 
   @Override
-  public void start(String[] args) {
+  public void start(IMusicModel model, String[] args) {
     // if we want a gui view, delegate to the gui controller
-    if (args[0].equals("visual") || args[0].equals("composite")) {
+    if (args[0].equals("visual") || args[0].equals("combined")) {
       GUIController gui = new GUIController(model, args);
-      gui.start(args);
+      gui.start(model, args);
     } else {
       this.view = MusicCreator.create(args);
-      ModelAdapter adapter = new ModelAdapter(model);
-      ViewModel viewModel = new ViewModel(adapter);
-      try {
-        view.renderModel(viewModel);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+      this.model = model;
+      MusicViewModel viewModel = new MusicViewModel(model);
+      view.create(viewModel);
+      view.makeVisible();
     }
   }
 }
