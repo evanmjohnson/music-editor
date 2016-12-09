@@ -4,6 +4,7 @@ import cs3500.music.model.MusicModel;
 import cs3500.music.model.IMusicModel;
 import cs3500.music.model.PitchType;
 import cs3500.music.model.Note;
+import cs3500.music.model.Repeat;
 
 /**
  * Represents a MusicBuilder. Implements the CompositionBuilder interface paramaterized over
@@ -46,5 +47,11 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
       model.add(toAdd);
     }
     return this;
+  }
+
+  @Override
+  public CompositionBuilder<IMusicModel> addRepeat(int start, int end) {
+    Repeat repeat = new Repeat(start, end);
+    model.addRepeat(repeat);
   }
 }
