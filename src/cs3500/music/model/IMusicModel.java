@@ -15,12 +15,30 @@ public interface IMusicModel {
   void add(Note n);
 
   /**
+   * Adds the given repeat to the model.
+   * @param repeat the repeat to add
+   */
+  void addRepeat(Repeat repeat);
+
+  /**
    * Replace the first Note with the second Note.
    *
    * @param from The Note to delete from the model
    * @param to   The Note to add to the model
    */
   void replace(Note from, Note to);
+
+  /**
+   * Gets the list of beats that the repeats of this piece start at.
+   * @return a list of integers representing start beats of every repeat in this piece
+   */
+  List<Integer> getRepeatStarts();
+
+  /**
+   * Gets the list of beats that the repeats of this piece end at.
+   * @return a list of integers representing end beats of every repeat in this piece
+   */
+  List<Integer> getRepeatEnds();
 
   /**
    * Remove the given Note from the model, if it exists.

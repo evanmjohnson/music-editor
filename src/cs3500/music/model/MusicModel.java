@@ -14,6 +14,7 @@ public class MusicModel implements IMusicModel {
 
   private TreeMap<Integer, TreeSet<Note>> notes;
   private int tempo;
+  private List<Repeat> repeats;
 
   public MusicModel() {
     this.notes = new TreeMap<>();
@@ -43,9 +44,32 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
+  public void addRepeat(Repeat repeat) {
+    this.repeats.add(repeat);
+  }
+
+  @Override
   public void replace(Note from, Note to) {
     this.remove(from);
     this.add(to);
+  }
+
+  @Override
+  public List<Integer> getRepeatStarts() {
+    ArrayList<Integer> result = new ArrayList<>();
+    for (Repeat r : this.repeats) {
+      result.add(r.getStartBeat());
+    }
+    return result;
+  }
+
+  @Override
+  public List<Integer> getRepeatEnds() {
+    ArrayList<Integer> result = new ArrayList<>();
+    for (Repeat r : this.repeats) {
+      result.add(r.getEndBeat());
+    }
+    return result;
   }
 
   @Override

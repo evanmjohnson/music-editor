@@ -21,8 +21,23 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
+  public void addRepeat(Repeat repeat) {
+    throw cantMutate;
+  }
+
+  @Override
   public void replace(Note from, Note to) {
     throw cantMutate;
+  }
+
+  @Override
+  public List<Integer> getRepeatStarts() {
+    return model.getRepeatStarts();
+  }
+
+  @Override
+  public List<Integer> getRepeatEnds() {
+    return model.getRepeatEnds();
   }
 
   @Override
