@@ -83,8 +83,8 @@ public class CombinedView implements IMusicGUIView {
   }
 
   @Override
-  public void moveRedLine() {
-    gui.moveRedLine();
+  public void moveRedLine(int x) {
+    gui.moveRedLine(x);
   }
 
   @Override

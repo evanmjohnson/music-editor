@@ -76,10 +76,11 @@ public interface IMusicGUIView extends IMusicView {
   void setMouseListener(MouseListener mouse);
 
   /**
-   * Moves the red line tracking the beat over to the right by one. If the red line is approaching
+   * Moves the red line tracking the beat to the given baet. If the red line is approaching
    * the right side of the screen (within 25 pixels), scroll the frame to the right.
+   * @param x the x-value at which to move the red line to
    */
-  void moveRedLine();
+  void moveRedLine(int x);
 
   /**
    * Creates the red line at beat 0.

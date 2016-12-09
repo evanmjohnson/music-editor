@@ -46,6 +46,11 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
+  public List<Integer> getEveryRepeatBeat() {
+    return model.getEveryRepeatBeat();
+  }
+
+  @Override
   public void remove(Note n) throws IllegalArgumentException {
     throw cantMutate;
   }

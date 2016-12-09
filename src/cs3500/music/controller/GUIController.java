@@ -77,7 +77,7 @@ public class GUIController extends MusicController implements IMouseCallback {
             view.sendNotes(counter / 30);
           }
           counter++;
-          view.moveRedLine();
+          view.moveRedLine(counter);
           view.reDrawNotes(viewModel);
           if (counter % 30 == 0 && model.isRepeatHere(counter / 30)) {
             counter = model.getBeginningofRepeat(counter / 30);

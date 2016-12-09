@@ -33,11 +33,15 @@ public class NotesPanel extends JPanel {
    * @param numNotes the number of columns.
    */
 
-  public void setLines(int numBeats, int numNotes) {
+  public void setLines(int numBeats, int numNotes, List<Integer> repeats) {
     this.numberNotes = numNotes;
     // draws vertical lines
     for (int i = 0; i <= numBeats; i += 4) {
       lines.add(new Line(i, 0, i, numNotes));
+    }
+    // draws repeat lines
+    for (int r : repeats) {
+      lines.add(new Line(r, 0, r, numNotes, true));
     }
     // draw horizontal lines
     for (int j = 0; j <= numNotes; j++) {
@@ -55,9 +59,6 @@ public class NotesPanel extends JPanel {
    */
   public void setNotes(List<Integer> start, List<Integer> cont, int beat) {
     for (int i = 0; i <= this.numberNotes; i++) {
-      if (beat == 0) {
-        //System.out.println(start.size());
-      }
       if (start.contains(i)) {
         rects.add(new Rectangle(beat, (numberNotes - i) - 1, RECTANGLE_WIDTH,
             RECTANGLE_HEIGHT, Color.black));
@@ -93,9 +94,10 @@ public class NotesPanel extends JPanel {
 
   /**
    * Moves the red line over one pixel.
+   * @param x the x value at which to place the line
    */
-  void moveRedLine() {
-    this.redLine = new Line(redLine.x0 + 1, 0, redLine.x0 + 2, numberNotes);
+  void moveRedLine(int x) {
+    this.redLine = new Line(x, 0, x + 1, numberNotes);
   }
 
   @Override
@@ -106,6 +108,12 @@ public class NotesPanel extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
 
     for (Line l : lines) {
+      if (l.thick) {
+        g2d.setStroke(new BasicStroke(5));
+      }
+      else {
+        g2d.setStroke(new BasicStroke(1));
+      }
       g2d.drawLine(l.x0 * RECTANGLE_WIDTH, l.y0 * 22, l.x1 * RECTANGLE_WIDTH, l.y1 * 22);
     }
 

@@ -67,7 +67,8 @@ public class JFrameView extends JFrame implements IMusicGUIView {
    * @return the notes panel
    */
   private NotesPanel createNotes(MusicViewModel model) {
-    notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size());
+    notesPanel.setLines(model.getNumBeats(), model.getNoteRange().size(),
+        model.getEveryRepeatBeat());
     for (int i = 0; i < model.getNumBeats(); i++) {
       notesPanel.setNotes(model.notesStartAtThisBeat(i),
           model.notesContinueAtThisBeat(i), i);
@@ -184,12 +185,12 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
   @Override
-  public void moveRedLine() {
+  public void moveRedLine(int x) {
     int currentMaxPosition = this.scrollPane.getHorizontalScrollBar().getValue() + this.getWidth();
     if (currentMaxPosition <= this.notesPanel.getPosition()) {
       this.scrollRight();
     }
-    this.notesPanel.moveRedLine();
+    this.notesPanel.moveRedLine(x);
   }
 
   @Override

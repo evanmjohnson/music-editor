@@ -9,6 +9,7 @@ public final class Line {
   public final int y0;
   public final int x1;
   public final int y1;
+  public final boolean thick;
 
   /**
    * Constructs a line with the given points.
@@ -22,5 +23,22 @@ public final class Line {
     this.y0 = y0;
     this.x1 = x1;
     this.y1 = y1;
+    this.thick = false;
+  }
+
+  /**
+   * Constructs a line with the given points and thickness boolean.
+   * @param x0 The initial x position
+   * @param y0 The initial y position
+   * @param x1 The final x position
+   * @param y1 The final y position
+   * @param thick if this line is thicker than the rest or not
+   */
+  public Line(int x0, int y0, int x1, int y1, boolean thick) {
+    this.x0 = x0;
+    this.y0 = y0;
+    this.x1 = x1;
+    this.y1 = y1;
+    this.thick = thick;
   }
 }

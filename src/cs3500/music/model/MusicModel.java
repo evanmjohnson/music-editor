@@ -89,6 +89,18 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
+  public List<Integer> getEveryRepeatBeat() {
+    List<Integer> result = new ArrayList<>();
+    Iterator<Repeat> repeatIterator = repeats.iterator();
+    while (repeatIterator.hasNext()) {
+      Repeat r = repeatIterator.next();
+      result.add(r.getStartBeat());
+      result.add(r.getEndBeat());
+    }
+    return result;
+  }
+
+  @Override
   public void remove(Note n) throws IllegalArgumentException {
     for (int i = n.getStartBeat(); i < n.getStartBeat() + n.getDuration(); i++) {
       if (!notes.get(i).remove(n)) {

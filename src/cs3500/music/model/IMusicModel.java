@@ -50,6 +50,12 @@ public interface IMusicModel {
   boolean isRepeatHere(int beat);
 
   /**
+   * Gets a list of every beat that is associated with a repeat in this piece.
+   * @return the list of every start and end beat of every repeat in this piece
+   */
+  List<Integer> getEveryRepeatBeat();
+
+  /**
    * Remove the given Note from the model, if it exists.
    *
    * @param n The Note to remove
