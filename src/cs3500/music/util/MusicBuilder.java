@@ -53,5 +53,6 @@ public class MusicBuilder implements CompositionBuilder<IMusicModel> {
   public CompositionBuilder<IMusicModel> addRepeat(int start, int end) {
     Repeat repeat = new Repeat(start, end);
     model.addRepeat(repeat);
+    return this;
   }
 }

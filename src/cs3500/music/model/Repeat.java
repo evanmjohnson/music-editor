@@ -19,6 +19,7 @@ public class Repeat {
 
   /**
    * Gets the beat where this repeat starts.
+   *
    * @return the beat where this repeat starts
    */
   public int getStartBeat() {
@@ -27,6 +28,7 @@ public class Repeat {
 
   /**
    * Gets the beat where this repeat ends.
+   *
    * @return the beat where this repeat ends
    */
   public int getEndBeat() {

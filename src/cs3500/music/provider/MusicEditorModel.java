@@ -369,30 +369,4 @@ public class MusicEditorModel implements IMusicEditorModel {
       this.addNote(noteList.get(i));
     }
   }
-
-  public static final class Builder implements CompositionBuilder<IMusicEditorModel> {
-    private ArrayList<Note> nList = new ArrayList<Note>();
-    private int tempo = 200000;
-
-    @Override
-    public IMusicEditorModel build() {
-      return new MusicEditorModel(tempo, nList);
-    }
-
-    @Override
-    public CompositionBuilder<IMusicEditorModel> setTempo(int tempo) {
-      this.tempo = tempo;
-      return this;
-    }
-
-    @Override
-    public CompositionBuilder<IMusicEditorModel> addNote(int start, int end, int instrument,
-                                                         int pitch, int volume) {
-      if (start != end) {
-        this.nList.add(new Note(Pitch.noteValToPitch(pitch), Pitch.noteValToOctave(pitch),
-                instrument, volume, end - start, start));
-      }
-      return this;
-    }
-  }
 }

@@ -31,13 +31,18 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> getRepeatStarts() {
-    return model.getRepeatStarts();
+  public List<Repeat> getRepeats() {
+    return model.getRepeats();
   }
 
   @Override
-  public List<Integer> getRepeatEnds() {
-    return model.getRepeatEnds();
+  public int getBeginningofRepeat(int beat) {
+    return model.getBeginningofRepeat(beat);
+  }
+
+  @Override
+  public boolean isRepeatHere(int beat) {
+    return model.isRepeatHere(beat);
   }
 
   @Override

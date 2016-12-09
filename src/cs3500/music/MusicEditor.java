@@ -22,7 +22,7 @@ public class MusicEditor {
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     IMusicModel viewModel;
     args = new String[2];
-    args[0] = "console";
+    args[0] = "combined";
     args[1] = "/Users/evan/Downloads/code/mary-little-lamb.txt";
     viewModel = MusicReader.parseFile(new FileReader(args[1]), new MusicBuilder());
     MusicController controller = new MusicController(viewModel, args);

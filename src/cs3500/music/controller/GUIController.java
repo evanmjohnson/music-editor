@@ -4,12 +4,14 @@ import cs3500.music.model.IMusicModel;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
+import cs3500.music.model.Repeat;
 import cs3500.music.view.CombinedView;
 import cs3500.music.view.IMusicGUIView;
 import cs3500.music.view.JFrameView;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -66,6 +68,7 @@ public class GUIController extends MusicController implements IMouseCallback {
     this.configureMouseListener();
     Timer timer = new Timer();
     long period = (long) (model.getTempo() / 30000.0);
+    List<Repeat> repeats = model.getRepeats();
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
@@ -76,6 +79,9 @@ public class GUIController extends MusicController implements IMouseCallback {
           counter++;
           view.moveRedLine();
           view.reDrawNotes(viewModel);
+          if (counter % 30 == 0 && model.isRepeatHere(counter / 30)) {
+            counter = model.getBeginningofRepeat(counter / 30);
+          }
         }
       }
     }, 0, period);

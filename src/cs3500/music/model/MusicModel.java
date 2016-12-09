@@ -1,6 +1,7 @@
 package cs3500.music.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,6 +19,7 @@ public class MusicModel implements IMusicModel {
 
   public MusicModel() {
     this.notes = new TreeMap<>();
+    this.repeats = new ArrayList<>();
   }
 
   /**
@@ -55,21 +57,35 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
-  public List<Integer> getRepeatStarts() {
-    ArrayList<Integer> result = new ArrayList<>();
-    for (Repeat r : this.repeats) {
-      result.add(r.getStartBeat());
+  public List<Repeat> getRepeats() {
+    ArrayList<Repeat> result = new ArrayList<>();
+    result.addAll(this.repeats);
+    return result;
+  }
+
+
+  @Override
+  public int getBeginningofRepeat(int beat) {
+    int result = -1;
+    for (Repeat r : repeats) {
+      if (r.getEndBeat() == beat) {
+        result = r.getStartBeat();
+      }
     }
     return result;
   }
 
   @Override
-  public List<Integer> getRepeatEnds() {
-    ArrayList<Integer> result = new ArrayList<>();
-    for (Repeat r : this.repeats) {
-      result.add(r.getEndBeat());
+  public boolean isRepeatHere(int beat) {
+    Iterator<Repeat> repeatIterator = repeats.iterator();
+    while (repeatIterator.hasNext()) {
+      Repeat r = repeatIterator.next();
+      if (r.getEndBeat() == beat) {
+        repeatIterator.remove();
+        return true;
+      }
     }
-    return result;
+    return false;
   }
 
   @Override

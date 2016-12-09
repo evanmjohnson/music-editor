@@ -29,16 +29,25 @@ public interface IMusicModel {
   void replace(Note from, Note to);
 
   /**
-   * Gets the list of beats that the repeats of this piece start at.
-   * @return a list of integers representing start beats of every repeat in this piece
+   * Gets the list of repeats in this piece.
+   * @return a list of repeats in this piece
    */
-  List<Integer> getRepeatStarts();
+  List<Repeat> getRepeats();
 
   /**
-   * Gets the list of beats that the repeats of this piece end at.
-   * @return a list of integers representing end beats of every repeat in this piece
+   * Gets the beginning beat of a repeat, given that the given beat is at the end of a repeat
+   * in the piece.
+   * @param beat the beat at which a repeat ends
+   * @return the beat at which the given repeat starts at
    */
-  List<Integer> getRepeatEnds();
+  int getBeginningofRepeat(int beat);
+
+  /**
+   * Checks if there is a repeat at the given beat.
+   * @param beat the beat at which to check
+   * @return if there is a repeat at the given beat
+   */
+  boolean isRepeatHere(int beat);
 
   /**
    * Remove the given Note from the model, if it exists.
