@@ -11,7 +11,6 @@ import cs3500.music.view.JFrameView;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +24,7 @@ public class GUIController extends MusicController implements IMouseCallback {
   private String type;
   private boolean playing;
   private int counter;
+  private int repeatStart;
 
   /**
    * Constructs a new GUIController with the given paramaters.
@@ -68,19 +68,31 @@ public class GUIController extends MusicController implements IMouseCallback {
     this.configureMouseListener();
     Timer timer = new Timer();
     long period = (long) (model.getTempo() / 30000.0);
-    List<Repeat> repeats = model.getRepeats();
+    repeatStart = 0;
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
-        if (playing && counter <= model.getNumBeats() * 30) {
+         if (playing && counter<= model.getNumBeats() * 30) {
           if (counter % 30 == 0) {
             view.sendNotes(counter / 30);
           }
           counter++;
           view.moveRedLine(counter);
           view.reDrawNotes(viewModel);
-          if (counter % 30 == 0 && model.isRepeatHere(counter / 30)) {
-            counter = model.getBeginningofRepeat(counter / 30);
+          // check if there is a repeat here
+          if (counter % 30 == 0 && model.repeatEndsHere(counter / 30)) {
+            // if this repeat has endings, go to the next one
+            if (model.getRepeat(counter / 30).hasEndings()) {
+              counter = model.getNextEnding(counter / 30) * 30;
+            }
+            // if this repeat is an ending, go back to the beginning of the parent repeat
+            // or continue going on if this is the last ending
+            else if (model.getRepeat(counter / 30).hasParent()) {
+              counter = model.getBeginningofRepeat(counter / 30) * 30;
+            }
+            else {
+              counter =  model.getBeginningofRepeat(counter / 30) * 30;
+            }
           }
         }
       }
@@ -112,12 +124,40 @@ public class GUIController extends MusicController implements IMouseCallback {
 
     keyReleases.put(KeyEvent.VK_A, () -> {
       // because we want user input, we set the first four paramaters to null and the last to true.
-      this.addNote(null, 0, 0, 0, true);
       Note n = view.showAddPrompt();
       if (n != null) {
         model.add(n);
         MusicViewModel viewModel = new MusicViewModel(model);
         this.view.reDraw(viewModel);
+      }
+    });
+
+    keyReleases.put(KeyEvent.VK_R, () -> {
+      MusicViewModel viewModel = new MusicViewModel(model);
+      Repeat toAdd = view.showRepeatPrompt(viewModel);
+      boolean validAddition = true;
+      if (toAdd != null) {
+        for (Repeat r : model.getRepeats()) {
+          // if the new repeat is between
+          if (toAdd.getStartBeat() > r.getStartBeat() && toAdd.getStartBeat() < r.getEndBeat()) {
+            view.showInvalidRepeat();
+            validAddition = false;
+          }
+          else if (toAdd.getEndBeat() > r.getStartBeat()
+              && toAdd.getEndBeat() < r.getEndBeat()) {
+            view.showInvalidRepeat();
+            validAddition = false;
+          }
+        }
+        if (validAddition) {
+          if (toAdd.hasParent()) {
+            model.addEnding(toAdd);
+          }
+          else {
+            model.addRepeat(toAdd);
+          }
+          this.view.reDraw(viewModel);
+        }
       }
     });
 
@@ -167,6 +207,16 @@ public class GUIController extends MusicController implements IMouseCallback {
   private void configureMouseListener() {
     MouseHandler mouse = new MouseHandler(this);
     this.view.setMouseListener(mouse);
+  }
+
+  /**
+   * Adds a new {@link Repeat} to this piece with the given start and end beats. This method is
+   * used for testing and bypasses the user input portion of adding a repeat to the piece.
+   * @param start the start beat of the repeat
+   * @param end the end beat of the repeat
+   */
+  public void addRepeat(int start, int end) {
+    model.addRepeat(new Repeat(start, end));
   }
 
   @Override

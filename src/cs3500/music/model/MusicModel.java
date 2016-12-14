@@ -57,50 +57,6 @@ public class MusicModel implements IMusicModel {
   }
 
   @Override
-  public List<Repeat> getRepeats() {
-    ArrayList<Repeat> result = new ArrayList<>();
-    result.addAll(this.repeats);
-    return result;
-  }
-
-
-  @Override
-  public int getBeginningofRepeat(int beat) {
-    int result = -1;
-    for (Repeat r : repeats) {
-      if (r.getEndBeat() == beat) {
-        result = r.getStartBeat();
-      }
-    }
-    return result;
-  }
-
-  @Override
-  public boolean isRepeatHere(int beat) {
-    Iterator<Repeat> repeatIterator = repeats.iterator();
-    while (repeatIterator.hasNext()) {
-      Repeat r = repeatIterator.next();
-      if (r.getEndBeat() == beat) {
-        repeatIterator.remove();
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public List<Integer> getEveryRepeatBeat() {
-    List<Integer> result = new ArrayList<>();
-    Iterator<Repeat> repeatIterator = repeats.iterator();
-    while (repeatIterator.hasNext()) {
-      Repeat r = repeatIterator.next();
-      result.add(r.getStartBeat());
-      result.add(r.getEndBeat());
-    }
-    return result;
-  }
-
-  @Override
   public void remove(Note n) throws IllegalArgumentException {
     for (int i = n.getStartBeat(); i < n.getStartBeat() + n.getDuration(); i++) {
       if (!notes.get(i).remove(n)) {
@@ -157,6 +113,11 @@ public class MusicModel implements IMusicModel {
       }
     }
     return result;
+  }
+
+  @Override
+  public void addEnding(Repeat ending) {
+    this.repeats.get(this.repeats.size() - 1).addEnding(ending);
   }
 
   @Override
@@ -356,5 +317,137 @@ public class MusicModel implements IMusicModel {
     } else {
       throw new IllegalStateException("Tempo has not been set yet.");
     }
+  }
+
+  @Override
+  public List<Repeat> getRepeats() {
+    ArrayList<Repeat> result = new ArrayList<>();
+    result.addAll(this.repeats);
+    return result;
+  }
+
+  @Override
+  public Repeat getRepeat(int beat) {
+    for (Repeat r : repeats) {
+      if (r.getEndBeat() == beat) {
+        return r;
+      }
+      else if (r.getEndings().size() > 0) {
+        for (Repeat ending : r.getEndings()) {
+          if (ending.getEndBeat() == beat) {
+            return ending;
+          }
+        }
+      }
+    }
+    throw new IllegalArgumentException("No repeat at beat " + beat);
+  }
+
+  @Override
+  public int getBeginningofRepeat(int beat) {
+    int result = -1;
+    Iterator<Repeat> repeatIterator = repeats.iterator();
+    while (repeatIterator.hasNext()) {
+      Repeat r = repeatIterator.next();
+      // if r ends at the given beat, make result the start of r
+      if (r.getEndBeat() == beat) {
+        result = r.getStartBeat();
+        repeatIterator.remove();
+      }
+      // if r has endings, check all of them to see if one of them ends at the given beat
+      else if (r.getEndings() != null && r.getEndings().size() > 0) {
+        Iterator<Repeat> endingIterator = r.getEndings().iterator();
+        while (endingIterator.hasNext()) {
+          Repeat ending = endingIterator.next();
+          // if ending ends at this beat, remove it and make result the start beat of its parent
+          if (ending.getEndBeat() == beat) {
+            result = ending.getParent().getStartBeat();
+            endingIterator.remove();
+            // if this is the last ending after it is removed, then make result the end of
+            // ending + 1
+            if (r.getEndings().size() == 0) {
+              result = ending.getEndBeat() + 1;
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  @Override
+  public boolean repeatEndsHere(int beat) {
+    Iterator<Repeat> repeatIterator = repeats.iterator();
+    while (repeatIterator.hasNext()) {
+      Repeat r = repeatIterator.next();
+      if (r.getEndBeat() == beat) {
+        return true;
+      }
+      // if r has endings
+      else if (r.getEndings() != null && r.getEndings().size() > 0) {
+        for (Repeat ending : r.getEndings()) {
+          if (ending.getEndBeat() == beat) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public int getNextEnding(int beat) {
+    int result = 0;
+    Iterator<Repeat> repeatIterator = repeats.iterator();
+    while (repeatIterator.hasNext()) {
+      Repeat r = repeatIterator.next();
+      if (r.getEndBeat() == beat) {
+        result = r.getEndings().get(0).getStartBeat();
+      }
+    }
+    return result;
+  }
+
+  @Override
+  public int getParent(int beat) {
+    int result = 0;
+    Iterator<Repeat> repeatIterator = repeats.iterator();
+    // iterate over every repeat in this piece
+    while (repeatIterator.hasNext()) {
+      Repeat r = repeatIterator.next();
+      // if this repeat has endings, iterate over them
+      if (r.getEndings() != null) {
+        Iterator<Repeat> endingIterator = r.getEndings().iterator();
+        while (endingIterator.hasNext()) {
+          Repeat ending = endingIterator.next();
+          // if this ending's end beat matches the given beat, return its parent's start beat
+          if (ending.getEndBeat() == beat) {
+            result = ending.getParent().getStartBeat();
+            endingIterator.remove();
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  @Override
+  public List<List<Integer>> getEveryRepeatBeat() {
+    List<Integer> repeats = new ArrayList<>();
+    List<Integer> endings = new ArrayList<>();
+    for (Repeat r : this.repeats) {
+      repeats.add(r.getStartBeat());
+      repeats.add(r.getEndBeat());
+      if (r.getEndings() != null && r.getEndings().size() > 0) {
+        for (Repeat ending : r.getEndings()) {
+          endings.add(ending.getStartBeat());
+          endings.add(ending.getEndBeat());
+        }
+      }
+    }
+    List<List<Integer>> result = new ArrayList<>();
+    result.add(repeats);
+    result.add(endings);
+    return result;
   }
 }

@@ -41,13 +41,8 @@ public final class MusicViewModel implements IMusicModel {
   }
 
   @Override
-  public boolean isRepeatHere(int beat) {
-    return model.isRepeatHere(beat);
-  }
-
-  @Override
-  public List<Integer> getEveryRepeatBeat() {
-    return model.getEveryRepeatBeat();
+  public boolean repeatEndsHere(int beat) {
+    return model.repeatEndsHere(beat);
   }
 
   @Override
@@ -143,5 +138,30 @@ public final class MusicViewModel implements IMusicModel {
   @Override
   public List<Note> noteListContinueAt(int beat) {
     return model.noteListContinueAt(beat);
+  }
+
+  @Override
+  public void addEnding(Repeat ending) {
+    throw cantMutate;
+  }
+
+  @Override
+  public Repeat getRepeat(int beat) {
+    return model.getRepeat(beat);
+  }
+
+  @Override
+  public int getNextEnding(int beat) {
+    return model.getNextEnding(beat);
+  }
+
+  @Override
+  public int getParent(int beat) {
+    return model.getParent(beat);
+  }
+
+  @Override
+  public List<List<Integer>> getEveryRepeatBeat() {
+    return model.getEveryRepeatBeat();
   }
 }

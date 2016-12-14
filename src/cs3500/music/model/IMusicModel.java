@@ -43,17 +43,11 @@ public interface IMusicModel {
   int getBeginningofRepeat(int beat);
 
   /**
-   * Checks if there is a repeat at the given beat.
+   * Checks if a repeat ends at the given beat.
    * @param beat the beat at which to check
    * @return if there is a repeat at the given beat
    */
-  boolean isRepeatHere(int beat);
-
-  /**
-   * Gets a list of every beat that is associated with a repeat in this piece.
-   * @return the list of every start and end beat of every repeat in this piece
-   */
-  List<Integer> getEveryRepeatBeat();
+  boolean repeatEndsHere(int beat);
 
   /**
    * Remove the given Note from the model, if it exists.
@@ -201,4 +195,40 @@ public interface IMusicModel {
    * @return A {@code List<Note>} of the Notes that continue at the given beat
    */
   List<Note> noteListContinueAt(int beat);
+
+  /**
+   * Adds the given Repeat as an ending to the last Repeat in the piece
+   * @param ending the ending to add as a {@link Repeat}
+   */
+  void addEnding(Repeat ending);
+
+  /**
+   * Gets the repeat at the given beat, if there is one.
+   * @param beat the beat to get the repeat at
+   * @return the repeat at the given beat
+   */
+  Repeat getRepeat(int beat);
+
+  /**
+   * Gets the first beat of the next ending for the repeat that ends at the given beat.
+   * Then, delete that ending so it will not be played again.
+   * @param beat the beat at which to get the next ending of
+   * @return the starting beat of the next ending for the repeat that ends at the given beat
+   */
+  int getNextEnding(int beat);
+
+  /**
+   * Gets the starting beat of the parent of the repeat at the given beat.
+   * @param beat the beat at which an ending of the parent repeat stops at
+   * @return the start beat of the parent repeat that has an ending that ends at the given beat
+   */
+  int getParent(int beat);
+
+  /**
+   * Gets every single start and end beat of every repeat and ending in this piece. Returns one list
+   * of the repeat beats and one list of the ending beats.
+   * @return A {@code List<List<Integer>>} representing every start and end beat of repeats
+   *         in this piece in the first list, and every beat of every ending in the second list.
+   */
+  List<List<Integer>> getEveryRepeatBeat();
 }
