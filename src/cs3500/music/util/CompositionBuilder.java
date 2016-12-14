@@ -43,4 +43,12 @@ public interface CompositionBuilder<T> {
    * @return A CompositionBuilder with the repeat to be added.
    */
   CompositionBuilder<T> addRepeat(int start, int end);
+
+  /**
+   * Adds a new ending to the most recently add repeat in the piece.
+   * @param start the starting beat of the ending
+   * @param end the end beat of the ending
+   * @return A CompositionBuilder with the ending added to the most recent repeat.
+   */
+  CompositionBuilder<T> addEnding(int start, int end);
 }
