@@ -33,15 +33,20 @@ public class NotesPanel extends JPanel {
    * @param numNotes the number of columns.
    */
 
-  public void setLines(int numBeats, int numNotes, List<Integer> repeats) {
+  public void setLines(int numBeats, int numNotes, List<List<Integer>> repeats) {
     this.numberNotes = numNotes;
+//    Color blue = new Color(0, 51, 255);
     // draws vertical lines
     for (int i = 0; i <= numBeats; i += 4) {
       lines.add(new Line(i, 0, i, numNotes));
     }
     // draws repeat lines
-    for (int r : repeats) {
+    for (int r : repeats.get(0)) {
       lines.add(new Line(r, 0, r, numNotes, true));
+    }
+    // draws ending lines
+    for (int e : repeats.get(1)) {
+      lines.add(new Line(e, 0, e, numNotes, true, Color.blue));
     }
     // draw horizontal lines
     for (int j = 0; j <= numNotes; j++) {
@@ -114,6 +119,7 @@ public class NotesPanel extends JPanel {
       else {
         g2d.setStroke(new BasicStroke(1));
       }
+      g2d.setColor(l.color);
       g2d.drawLine(l.x0 * RECTANGLE_WIDTH, l.y0 * 22, l.x1 * RECTANGLE_WIDTH, l.y1 * 22);
     }
 

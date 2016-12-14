@@ -3,11 +3,13 @@ package cs3500.music.view;
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
 import cs3500.music.model.PitchType;
+import cs3500.music.model.Repeat;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -31,7 +33,6 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     this.setPreferredSize(new Dimension(1000, 1000));
     this.setLocation(200, 200);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
   }
 
   @Override
@@ -134,6 +135,37 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   }
 
   @Override
+  public Repeat showRepeatPrompt(MusicViewModel viewModel) {
+    // ask the user about the details of the note to add
+    Object startBeatObject = JOptionPane.showInputDialog(this,
+        "What is the start beat of the repeat you want to add?\n",
+        "Add a repeat", JOptionPane.QUESTION_MESSAGE, null, null, null);
+    Object endBeatObject = JOptionPane.showInputDialog(this,
+        "What is the end beat of the repeat?\n", "Add a repeat", JOptionPane.QUESTION_MESSAGE,
+        null, null, null);
+    int endingInt = JOptionPane.showConfirmDialog(this,
+        "Is this repeat an ending of the last repeat added?\n", "Add a repeat",
+        JOptionPane.YES_NO_OPTION);
+    if (startBeatObject == null || endBeatObject == null) {
+      return null;
+    }
+    Integer startBeat = Integer.parseInt((String) startBeatObject);
+    Integer endBeat = Integer.parseInt((String) endBeatObject);
+    boolean ending;
+    if (endingInt == JOptionPane.YES_OPTION) {
+      ending = true;
+    }
+    else {
+      ending = false;
+    }
+    if (ending) {
+      Repeat parent = viewModel.getRepeats().get(viewModel.getRepeats().size() - 1);
+      return new Repeat(startBeat, endBeat, parent);
+    }
+    return new Repeat(startBeat, endBeat);
+  }
+
+  @Override
   public void addListener(KeyListener kbd) {
     this.setFocusable(true);
     this.requestFocus();
@@ -190,6 +222,9 @@ public class JFrameView extends JFrame implements IMusicGUIView {
     if (currentMaxPosition <= this.notesPanel.getPosition()) {
       this.scrollRight();
     }
+    if (this.notesPanel.getPosition() <= this.scrollPane.getHorizontalScrollBar().getValue()) {
+      this.scrollPane.getHorizontalScrollBar().setValue(notesPanel.getPosition());
+    }
     this.notesPanel.moveRedLine(x);
   }
 
@@ -206,5 +241,13 @@ public class JFrameView extends JFrame implements IMusicGUIView {
   @Override
   public void sendNotes(int counter) {
     // this method is not used in this view
+  }
+
+  @Override
+  public void showInvalidRepeat() {
+    JOptionPane.showMessageDialog(this,
+        "This is not a legal repeat.",
+        "Repeat error",
+        JOptionPane.ERROR_MESSAGE);
   }
 }

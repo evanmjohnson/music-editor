@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
+import cs3500.music.model.Repeat;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -34,7 +35,7 @@ public class CombinedView implements IMusicGUIView {
 
   @Override
   public Note showAddPrompt() throws IllegalFormatException {
-    return null;
+    return gui.showAddPrompt();
   }
 
   @Override
@@ -105,5 +106,15 @@ public class CombinedView implements IMusicGUIView {
   @Override
   public void reDrawRemove(MusicViewModel model) {
     gui.reDrawRemove(model);
+  }
+
+  @Override
+  public Repeat showRepeatPrompt(MusicViewModel viewModel) {
+    return gui.showRepeatPrompt(viewModel);
+  }
+
+  @Override
+  public void showInvalidRepeat() {
+    gui.showInvalidRepeat();
   }
 }

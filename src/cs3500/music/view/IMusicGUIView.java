@@ -2,6 +2,7 @@ package cs3500.music.view;
 
 import cs3500.music.model.MusicViewModel;
 import cs3500.music.model.Note;
+import cs3500.music.model.Repeat;
 
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -99,4 +100,18 @@ public interface IMusicGUIView extends IMusicView {
    * @param model the model of notes to redraw
    */
   void reDrawRemove(MusicViewModel model);
+
+  /**
+   * Prompts the user to add a Repeat to the piece. Prompts the user for start beat, end beat,
+   * and if it is an ending of an already-existing repeat in the piece. If it is an ending,
+   * add that ending to the last repeat in the piece.
+   * @param viewModel the model of the piece
+   * @return the new repeat that the user inputted, or {@code null} if any inputs were null
+   */
+  Repeat showRepeatPrompt(MusicViewModel viewModel);
+
+  /**
+   * Shows the user a warning message that tells them the repeat they tried to add was not valid.
+   */
+  void showInvalidRepeat();
 }
