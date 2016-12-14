@@ -1,5 +1,6 @@
 package cs3500.music.tests;
 
+import cs3500.music.model.Repeat;
 import cs3500.music.view.ConsoleView;
 
 import org.junit.Test;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the public-facing behavoir of the music editor model.
@@ -38,6 +41,10 @@ public class TestMusicModel {
 
   StringBuffer out = new StringBuffer();
   ConsoleView console = new ConsoleView(out);
+
+  Repeat r = new Repeat(0, 5);
+  Repeat e = new Repeat(5, 7);
+  Repeat e2 = new Repeat(7, 10);
 
   /**
    * Start beat cannot be negative.
@@ -372,5 +379,77 @@ public class TestMusicModel {
     model.add(middleC);
     model.add(e5);
     model.getNote(2, 3);
+  }
+
+  @Test
+  public void testAddRepeat() {
+    model.addRepeat(new Repeat(0, 5));
+    assertEquals(1, model.getRepeats().size());
+  }
+
+  @Test
+  public void testGetRepeats() {
+    model.addRepeat(r);
+    assertEquals(r, model.getRepeats().get(0));
+  }
+
+  @Test
+  public void testGetRepeatAtBeat() {
+    model.addRepeat(r);
+    assertEquals(r, model.getRepeat(5));
+  }
+
+  @Test
+  public void testGetBeginningOfRepeat() {
+    model.addRepeat(r);
+    assertEquals(0, model.getBeginningofRepeat(5));
+  }
+
+  @Test
+  public void testRepeatEndsHereFalse() {
+    model.addRepeat(r);
+    assertFalse(model.repeatEndsHere(0));
+    assertFalse(model.repeatEndsHere(6));
+  }
+
+  @Test
+  public void testRepeatEndsHereTrue() {
+    model.addRepeat(r);
+    assertTrue(model.repeatEndsHere(5));
+  }
+
+  @Test
+  public void testGetNextEnding() {
+    model.addRepeat(r);
+    model.addEnding(e);
+    assertEquals(5, model.getNextEnding(5));
+  }
+
+  @Test
+  public void testGetParent() {
+    model.addRepeat(r);
+    model.addEnding(e);
+    assertEquals(0, model.getParent(7));
+  }
+
+  @Test
+  public void testGetEveryRepeatBeat() {
+    model.addRepeat(r);
+    model.addEnding(e);
+    model.addEnding(e2);
+    List<List<Integer>> expected = new ArrayList<>();
+    List<Integer> repeats = new ArrayList<>();
+    List<Integer> endings = new ArrayList<>();
+    int[] repeatsArr = {0, 5};
+    for (int i : repeatsArr) {
+      repeats.add(i);
+    }
+    int[] endingsArr = {5, 7, 7, 10};
+    for (int i : endingsArr) {
+      endings.add(i);
+    }
+    expected.add(repeats);
+    expected.add(endings);
+    assertEquals(expected, model.getEveryRepeatBeat());
   }
 }
